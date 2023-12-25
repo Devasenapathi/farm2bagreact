@@ -1,0 +1,64 @@
+.location-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.location-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.location-content label {
+  margin: 10px 10px 40px 10px;
+  font-size: 24px;
+}
+
+.location-content select {
+  width: 100%;
+  padding: 10px;
+  height: 50px;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #333;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.location-select option {
+  color: black;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-size: 24px;
+}
+
+.location-content button {
+  width: 75%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fffd01;
+  font-size: 24px;
+  outline: none;
+  border: none;
+  border-radius: 50px;
+}

@@ -1,0 +1,38 @@
+.categories {
+  padding: 3%;
+}
+.categories .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+    gap: 1rem;
+  }
+  .categories .box{
+    background: #fff;
+    box-shadow: var(--box-shadow);
+    border-radius: 0.5rem;
+    padding: 1rem 0rem;
+    text-align: center;
+    outline: var(--outline);
+    outline-offset: -1rem;
+
+  }
+  .categories .box:hover{
+    outline-offset: 0;
+    outline: var(--outline-hover);
+    border: 2px solid black;
+  }
+  .categories .box img{
+    height: 15rem;
+    margin: 1rem 0;
+  }
+  .categories .box h3{
+    font-size:2rem;
+    line-height:1.8;
+    color: var(--black);
+  }
+  .categories .box p{
+    color: var(--light-color);
+    list-style: 1.8;
+    font-size: 1.7rem;
+    padding: 1rem 0;
+  }
