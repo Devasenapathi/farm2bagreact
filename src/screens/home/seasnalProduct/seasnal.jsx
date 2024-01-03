@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './seasnal.css'
 import { farmItemService } from '../../../services/b2c_service'
-import { getCart, getLocationDetails, setCart } from '../../../utils/storage'
+import { getCart, getLocationDetails } from '../../../utils/storage'
+import { AddCart, RemoveCart } from '../../../services/cart_service'
 
 const Seasnal = ({ location }) => {
   const [farmItem, setFarmItem] = useState([])
+  const [cartData, setCartData] = useState()
   useEffect(() => {
+    setCartData(getCart())
     const data = {
       lat: getLocationDetails()[0] ? getLocationDetails()[0].lattitude : '',
       lng: getLocationDetails()[0] ? getLocationDetails()[0].longitude : '',
@@ -20,38 +23,42 @@ const Seasnal = ({ location }) => {
     }).catch((err) => { console.log(err, 'error on seasnol product fetching') })
   }, [location])
 
-  const AddCart = (data) => {
-    if (getCart().some(res => res._id ===data._id)) {
-      // const items = getCart()
-      // const addItem = { ...data, quantity: 1 }
-      // setCart([...items, addItem])
-    } else {
-      const items = getCart()
-      const addItem = { ...data, quantity: 1 }
-      setCart([...items, addItem])
+  const Add = (data) => {
+    const value = AddCart(data)
+    if (value) {
+      setCartData(getCart())
     }
   }
-
+  const Remove = (data) => {
+    const value = RemoveCart(data)
+    if (value) {
+      setCartData(getCart())
+    }
+  }
   return (
     <div>
       {farmItem &&
         <div>
-          <h3>Seasnal products</h3>
-          <div className="scrollable-container">
-            <div className="scrollable-content">
+          <div className="seasnol-container">
+          <h1>Seasnal products</h1>
+            <div className="seasnol-content">
               {farmItem.map((val, index) => {
                 return (
-                  <div className='item' key={index}>
-                    {val.image ? <img src={val.image} alt='' className='item-image'></img> : ''}
-                    <div className="product-details">
-                      <h2 className="product-name">{val.productName}</h2>
-                      <p className="product-price">₹{val.price}</p>
+                  <div className='seasnol-item' key={index}>
+                    {val.image ? <img src={val.image} alt='' className='seasnol-item-image'></img> : ''}
+                    <div className="seasnol-details">
+                      <h2 className="seasnol-product-name">{val.productName}</h2>
+                      <p className="seasnol-product-price">₹{val.price}</p>
                     </div>
-                    <h5>{getCart().find(item => item._id === val._id) !== undefined?getCart().find(item => item._id === val._id).quantity:''}</h5>
-                    <button onClick={() => AddCart(val)}>Add cart</button>
+                    {/* <CartButton state={{cartData:cartData,value:val,setCartData:setCartData()}}/> */}
+                    <div className='cart-button'>
+                      {cartData.find(item => item._id === val._id) !== undefined && cartData.find(item => item._id === val._id).quantity > 0 ? <button onClick={() => Remove(val)}>-</button> : ''}
+                      {cartData.find(item => item._id === val._id) !== undefined && cartData.find(item => item._id === val._id).quantity > 0 ? <h5>{cartData.find(item => item._id === val._id).quantity}</h5> : ''}
+                      <button onClick={() => Add(val)}>+</button>
+                    </div>
                   </div>
                 )
-              })  
+              })
               }
             </div>
           </div>

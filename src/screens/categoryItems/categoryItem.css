@@ -1,0 +1,36 @@
+.category-content {
+  width: auto;
+  height: auto;
+}
+.category-item {
+  margin: 2%;
+  border-radius: 25px;
+  background-color: #fffd01;
+  padding: 2% 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.category-item-image {
+  height: 100px;
+  width: 100px;
+  border-radius: 25px;
+}
+.category-details {
+  width: 50%;
+}
+.category-type {
+  height: 30px;
+  width: fit-content;
+  border-radius: 15px;
+  border: none;
+  background-color: rgb(241, 241, 241);
+  padding: 10px;
+  font-size: 18px;
+  margin: 5px 20px;
+}
+.category-main {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}

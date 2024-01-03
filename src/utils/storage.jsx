@@ -1,5 +1,5 @@
 export function setToken(data) {
-    sessionStorage.setItem('token', data)
+    sessionStorage.setItem('token', 'Bearer '+data)
 }
 
 export function getToken() {
@@ -14,6 +14,14 @@ export function getUserId() {
     return sessionStorage.getItem('userId')
 }
 
+export function setUserDetails(data) {
+    sessionStorage.setItem('userDetails', JSON.stringify(data))
+}
+
+export function getUserDetails() {
+    return JSON.parse(sessionStorage.getItem('userDetails'))
+}
+
 export function setLocationDetails(data) {
     sessionStorage.setItem('location', JSON.stringify(data))
 }
@@ -23,11 +31,11 @@ export function getLocationDetails() {
     return storedValue ? JSON.parse(storedValue) : []
 }
 
-export function setCart(data){
-    sessionStorage.setItem('cart',JSON.stringify(data))
+export function setCart(data) {
+    sessionStorage.setItem('cart', JSON.stringify(data))
 }
 
-export function getCart(){
-   const storedValue = sessionStorage.getItem('cart')
-   return storedValue? JSON.parse(storedValue):[]
+export function getCart() {
+    const storedValue = sessionStorage.getItem('cart')
+    return storedValue ? JSON.parse(storedValue) : []
 }

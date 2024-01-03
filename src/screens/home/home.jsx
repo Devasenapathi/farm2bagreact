@@ -6,6 +6,9 @@ import { getLocationDetails, getToken } from '../../utils/storage'
 import Login from '../login/login'
 import Location from '../landing/location'
 import Seasnal from './seasnalProduct/seasnal'
+import DailyFresh from './dailyFresh/dailyFresh'
+import Combobag from './comboBag/combobag'
+import CartButton from '../cart/cart_button'
 
 const Home = () => {
     const [loginVisible, setLoginVisible] = useState(false)
@@ -15,7 +18,7 @@ const Home = () => {
         if (getToken() === null || undefined) {
             setLoginVisible(true)
         }
-        if (getLocationDetails() === null || undefined) {
+        if (getLocationDetails() === null || undefined ||[]) {
             setLocationVisible(true)
         }
     }, [])
@@ -29,8 +32,11 @@ const Home = () => {
             {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
             <Navbar location={location} handleOpen={() => setLocationVisible(true)} />
             <Banner />
+            <DailyFresh location={location}/>
             <Categories />
+            <Combobag location={location}/>
             <Seasnal location={location}/>
+            <CartButton/>
         </div>
     )
 }

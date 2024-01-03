@@ -1,3 +1,20 @@
-.App{
+.App {
   width: 100%;
+}
+.cart-button {
+  width: 30%;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+}
+
+.cart-button button {
+  margin: auto;
+  height: 40px;
+  width: 40px;
+  border: none;
+  background-color: #1b8d;
+  outline: none;
+  font-size: 24px;
+  border-radius: 20px;
 }

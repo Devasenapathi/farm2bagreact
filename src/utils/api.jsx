@@ -7,3 +7,10 @@ export const FARMSAPI = BASE_URL + "b2c/farms"
 export const CATEGORYAPI = BASE_URL+"b2c/category"
 export const BANNERAPI = BASE_URL + "b2c/banner"
 export const FARMITEMAPI = BASE_URL + "b2c/item"
+export const DELIVERYAMOUNTAPI = BASE_URL + "b2c/deliveryAmount"
+
+//customer
+export const CUSTOMERADDRESSAPI = BASE_URL +'customer/getAll-address'
+
+//order
+export const SAVEORDERAPI = BASE_URL + 'order/save'

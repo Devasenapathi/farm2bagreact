@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "./login.css"
 import { loginService, verifyOtpService } from '../../services/login_service'
-import { setToken, setUserId } from '../../utils/storage'
+import { setToken, setUserDetails, setUserId } from '../../utils/storage'
 const Login = ({ handleClose }) => {
   const [mobileNumber, setMobileNumber] = useState()
   const [otp, setOtp] = useState()
@@ -11,6 +11,7 @@ const Login = ({ handleClose }) => {
     loginService(mobileNumber).then((res) => {
       if (res.status === 200) {
         setUserId(res.data.result._id)
+        setUserDetails(res.data.result)
         setResponse(res)
         setMobileNumber()
       } else {

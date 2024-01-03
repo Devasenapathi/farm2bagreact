@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { categoryService } from '../../../services/b2c_service'
 import "./categories.css"
+import { Link } from 'react-router-dom'
 
 const Categories = () => {
   const [category, setCategory] = useState([])
@@ -25,9 +26,13 @@ const Categories = () => {
         {
           category.map((val) => {
             return (
-              <div className="box" key={val._id}>
-                <img src={val.image} alt="" />
-                <h5>{val.categoryName}</h5>
+              <div  key={val._id}>
+                <Link to={'/category'} state={{state:val}}>
+                  <div className="box">
+                    <img src={val.image} alt="" />
+                    <h5>{val.categoryName}</h5>
+                  </div>
+                </Link>
               </div>
             );
           })

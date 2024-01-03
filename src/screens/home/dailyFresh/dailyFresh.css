@@ -1,15 +1,15 @@
-.seasnol-container {
+.daily-container {
     padding-left: 3%;
     overflow-x: auto;
     white-space: nowrap;
   }
   
-  .seasnol-content {
+  .daily-content {
     padding: 20px;
     display: flex;
   }
   
-  .seasnol-item {
+  .daily-item {
     flex: 0 0 auto;
     width: 400px; 
     height: auto;
@@ -23,12 +23,10 @@
     justify-content: center;
   }
   
-  .seasnol-item-image{
+  .daily-item-image{
     height: 150px;
     width: 200px;
     border: none;
     outline: none;
     border-radius: 25px;
   } 
-
-  
