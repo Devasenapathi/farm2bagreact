@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { farmItemService } from '../../../services/b2c_service'
-import { getCart, getLocationDetails } from '../../../utils/storage'
+import { getCart, getLocationDetails, getProductList } from '../../../utils/storage'
 import { AddCart, RemoveCart } from '../../../services/cart_service'
 import './combobag.css'
 
@@ -10,18 +10,7 @@ const Combobag = ({ location }) => {
     const [cartData, setCartData] = useState()
     useEffect(() => {
         setCartData(getCart())
-        const data = {
-            lat: getLocationDetails()[0] ? getLocationDetails()[0].lattitude : '',
-            lng: getLocationDetails()[0] ? getLocationDetails()[0].longitude : '',
-            pincode: getLocationDetails()[0] ? getLocationDetails()[0].pincode : ''
-        }
-        farmItemService(data).then((res) => {
-            if (res.status === 200) {
-                setFarmItem(res.data.result.filter((data) => data.productType === "ComboBag"))
-            } else {
-                console.log("Error on getting farmItem");
-            }
-        }).catch((err) => { console.log(err, 'error on seasnol product fetching') })
+        setFarmItem(getProductList()&&getProductList().filter((data) => data.productType === "ComboBag"))
     }, [location])
 
     const Add = (data) => {
@@ -48,7 +37,7 @@ const Combobag = ({ location }) => {
                                     <div className='combo-item' key={index}>
                                         {val.image ? <img src={val.image} alt='' className='combo-item-image'></img> : ''}
                                         <div className="combo-details">
-                                            <h4 className="combo-product-name">{val.productName}</h4>
+                                            <h6 className="combo-product-name">{val.productName}</h6>
                                             <p className="combo-product-price">₹{val.price}</p>
                                         </div>
                                         {/* <CartButton state={{cartData:cartData,value:val,setCartData:setCartData()}}/> */}

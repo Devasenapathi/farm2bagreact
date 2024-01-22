@@ -31,6 +31,14 @@ export function getLocationDetails() {
     return storedValue ? JSON.parse(storedValue) : []
 }
 
+export function setProductList(data){
+    sessionStorage.setItem('productList',JSON.stringify(data))
+}
+
+export function getProductList(){
+    return JSON.parse(sessionStorage.getItem('productList'))
+}
+
 export function setCart(data) {
     sessionStorage.setItem('cart', JSON.stringify(data))
 }
@@ -38,4 +46,9 @@ export function setCart(data) {
 export function getCart() {
     const storedValue = sessionStorage.getItem('cart')
     return storedValue ? JSON.parse(storedValue) : []
+}
+
+export function Logout(){
+    localStorage.clear()
+    sessionStorage.clear()
 }

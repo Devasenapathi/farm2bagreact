@@ -1,10 +1,10 @@
 .categories {
-  padding: 3%;
+  padding: 20px;
 }
 .categories .box-container{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 0.5fr));
+    gap: 0.5rem;
   }
   .categories .box{
     background: #fff;
@@ -19,20 +19,25 @@
   .categories .box:hover{
     outline-offset: 0;
     outline: var(--outline-hover);
-    border: 2px solid black;
+    border: 0.5px solid black;
   }
   .categories .box img{
-    height: 12rem;
-    margin: 1rem 0;
+    height: 8rem;
+    margin: 0;
   }
-  .categories .box h3{
-    font-size:2rem;
+  .categories .box h5{
+    font-size:0.8rem;
+    text-decoration: none;
+    color: black;
     line-height:1.8;
     color: var(--black);
+    height: 24px;
   }
-  .categories .box p{
-    color: var(--light-color);
-    list-style: 1.8;
-    font-size: 1.7rem;
-    padding: 1rem 0;
-  }
+
+  /* @media (max-width: 320px){
+    .categories .box-container{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(8rem, 0.5fr));
+      gap: 0.5rem;
+    }
+  } */

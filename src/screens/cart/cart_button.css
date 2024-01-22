@@ -2,14 +2,24 @@
   position: fixed;
   bottom: 16px;
   right: 16px;
+  display: grid;
+  place-items: center;
   z-index: 1000;
 }
 
 .bottom-cart {
-  padding: 10px 20px;
+  padding: 10px 10px;
   background-color: #3498db;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
+}
+.bottom-cart-value{
+  color: red;
+  font-size: 10px;
+  position: absolute;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  font-weight: bold;
 }

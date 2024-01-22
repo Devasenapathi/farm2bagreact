@@ -1,12 +1,17 @@
 .category-content {
   width: auto;
   height: auto;
+  padding: 1% 5%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 0.5fr));
+  gap: 0.5rem;
 }
 .category-item {
   margin: 2%;
   border-radius: 25px;
   background-color: #fffd01;
-  padding: 2% 5%;
+  padding: 5% 0;
+  flex-direction: column;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,10 +19,10 @@
 .category-item-image {
   height: 100px;
   width: 100px;
-  border-radius: 25px;
+  border-radius: 5px;
 }
 .category-details {
-  width: 50%;
+  width: 75%;
 }
 .category-type {
   height: 30px;
@@ -33,4 +38,9 @@
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
+}
+.category-dropdown {
+  background-color: transparent;
+  border: none;
+  outline: none;
 }

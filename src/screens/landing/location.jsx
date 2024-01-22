@@ -18,7 +18,7 @@ const Location = ({ locations, handleClose }) => {
     const handleSubmit = () => {
         handleClose()
         const locationDetails = location.filter((val)=>val.farmName === selectedLocation)
-        setLocationDetails(locationDetails)
+        setLocationDetails(locationDetails[0])
         locations(selectedLocation)
     }
     return (
@@ -26,6 +26,7 @@ const Location = ({ locations, handleClose }) => {
             <div className='location-content'>
                 <label>Location</label>
                 <select value={selectedLocation} className='location-select' onChange={(e) => setSelectedLocation(e.target.value)}>
+                    <option>select your location</option>
                     {location.map((val) => {
                         return (
                             <option key={val._id} value={val.farmName}>{val.farmName}</option>

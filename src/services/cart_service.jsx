@@ -32,7 +32,6 @@ export function RemoveCart(data) {
         }
         return true;
     } else {
-        console.log("aaaaaaaawwwwwwwwwwwwwwwww")
         const updatedCart = getCart().map((item, index) =>
             index === indexValue ? { ...item, quantity: item.quantity - 1 } : item
         );

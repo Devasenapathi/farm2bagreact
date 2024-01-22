@@ -62,3 +62,40 @@
   border: none;
   border-radius: 50px;
 }
+
+@media (max-width: 768px) {
+  .location-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  .location-content {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 75%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .location-content label{
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .location-content  select{
+    font-size: 16px;
+  }
+  .location-content button{
+    font-size: 16px;
+    height: 40px;
+  }
+}
