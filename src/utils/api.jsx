@@ -1,4 +1,4 @@
-const BASE_URL = 'http://192.168.1.20:8000/api/v1/'
+const BASE_URL = 'http://192.168.1.22:8000/api/v1/'
 // login
 export const LOGINAPI = BASE_URL + "login/customer-login"
 export const VERIFYOTP = BASE_URL + "login/verify-otp-customer"
@@ -14,3 +14,4 @@ export const CUSTOMERADDRESSAPI = BASE_URL +'customer/getAll-address'
 
 //order
 export const SAVEORDERAPI = BASE_URL + 'order/save'
+export const UPDATEORDERSAVEDAPI = BASE_URL + 'order/updateOrderStatus'

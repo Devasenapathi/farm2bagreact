@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  clearCart,
   getCart,
   getLocationDetails,
   getUserDetails,
@@ -8,16 +9,23 @@ import {
 import { IoIosCloseCircleOutline, IoIosAddCircleOutline } from "react-icons/io";
 import { AddCart, RemoveCart } from "../../services/cart_service";
 import { CustomerAddressService } from "../../services/customer_service";
+import { BiSolidOffer } from "react-icons/bi";
 import "./checkout.css";
-  
+import {
+  orderSaveService,
+  updateOrderStatusService,
+} from "../../services/order_service";
+import { useLocation } from "react-router-dom";
+
 const Checkout = () => {
+  const navigate = useLocation();
   const [cartItem, setCartItem] = useState([]);
   const [addressList, setAddressList] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState();
   const [addressVisible, setAddressVisible] = useState(false);
   // const [addAddressVisible, setAddAddressVisible] = useState(false);
   const [subTotal, setSubTotal] = useState();
-  const [deliveryAmount, setDeliveryAmount] = useState(30);
+  const [deliveryAmount, setDeliveryAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState();
   useEffect(() => {
@@ -54,7 +62,6 @@ const Checkout = () => {
     setAddressVisible(false);
   };
 
-  // useEffect(()=>{handleSubTotal},[cartItem])
 
   const Add = (data) => {
     const value = AddCart(data);
@@ -71,7 +78,33 @@ const Checkout = () => {
     }
   };
 
+  const initializeRazorpay = (option) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => {
+      const razorpay = new window.Razorpay(option);
+      razorpay.open();
+      razorpay.on('payment.failed', function(response){razorpayPaymentFailure(response)})
+    };
+    document.body.appendChild(script);
+  };
+
+  const initiateRazorpay = (data) => {
+    initializeRazorpay(data);
+  };
+
+  const razorpayPaymentFailure=()=>{
+    alert("payment failed")
+  }
+
   const saveOrder = () => {
+    console.log(getCart(), "getCart");
+    const cartData = getCart().map((element) => ({
+      ...element,
+      farmProductId: element._id,
+      productCategoryId: element.productCategoryId._id,
+    }));
     const orderDetails = {
       customerId: getUserId(),
       customerName: getUserDetails().customerName,
@@ -80,26 +113,76 @@ const Checkout = () => {
       farmName: getLocationDetails().farmName,
       farmCircleId: getLocationDetails().farmCircleId,
       itemQuantity: getCart().length,
-      orderAmount: total,
+      orderAmount: 1,
       discountType: discount,
       deliveryAddress: selectedAddress.fullAddress,
       deliveryAmount: deliveryAmount,
       gstAmount: 0,
-      netAmount: total,
-      paymentType: "online",
+      netAmount: 1,
+      paymentType: "Online",
       deliveryType: "Door Delivery",
       serviceStatus: "pending",
       orderStatus: "processing",
       remarks: "remarks",
       pincode: selectedAddress.pincode,
       area: selectedAddress.area,
-      orderData: getCart(),
+      orderData: cartData,
       deviceType: "Web",
       status: 1,
     };
 
-    // navigate('/billing')
+    orderSaveService(orderDetails)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data.result);
+          var options = {
+            key: "rzp_test_tX0j8ZDLLFTiM9", // Enter the Key ID generated from the Dashboard
+            amount: res.data.result.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR",
+            name: "Farm2bag",
+            description: "Test Transaction",
+            image: "https://example.com/your_logo",
+            order_id: res.data.result.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            handler: function (response) {
+              if (response) {
+                const details = {
+                  orderId: res.data.result.id,
+                  razorpay_order_id: response.razorpay_order_idd,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  paymentStatus: "success",
+                  orderStatus: "pending",
+                  razorpay_payment_message: "Payment Successfully",
+                };
+                updateOrderStatusService(details)
+                  .then((res) =>
+                    console.log(res, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                  )
+                  .catch((err) => console.log(err, "sssssssssssssssssssssss"));
+              } else {
+                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+              }
+            },
+            prefill: {
+              name: "Gaurav Kumar",
+              email: "gaurav.kumar@example.com",
+              contact: "9000090000",
+            },
+            notes: {
+              address: "Razorpay Corporate Office",
+            },
+            theme: {
+              color: "#3399cc",
+            },
+          };
+
+          initiateRazorpay(options);
+        }
+      })
+      .catch((err) => {
+        console.log(err, "error in order saving");
+      });
   };
+
   return (
     <div className="cartScreen">
       <div className="cart-top">
@@ -131,7 +214,9 @@ const Checkout = () => {
                       </div>
                       <div>
                         <div className="cart-product-name">
-                          <div><h5>{val.productName}</h5></div>
+                          <div>
+                            <h5>{val.productName}</h5>
+                          </div>
                           <h6>
                             {val.unit}
                             {val.unitValue}
@@ -180,6 +265,7 @@ const Checkout = () => {
         </div>
         <div className="cart-right">
           <div className="cart-coupons">
+            <BiSolidOffer size={30} color="blue" />
             <h5>Offers & Coupons Available</h5>
           </div>
           <div className="cart-calculation">
@@ -223,7 +309,8 @@ const Checkout = () => {
             </button>
             <hr />
             <div className="paymentButton">
-              <button>Continue to payment</button>
+              {/* <RazorpayButton/> */}
+              <button onClick={saveOrder}>Continue to payment</button>
             </div>
           </div>
         </div>
@@ -258,119 +345,6 @@ const Checkout = () => {
           </div>
         )}
       </div>
-      {/* <div className="cartAddress">
-        <button
-          className="address-button"
-          onClick={() => setAddAddressVisible(true)}
-        >
-          Add Address
-        </button>
-        <button
-          className="address-button"
-          onClick={() => setAddressVisible(true)}
-        >
-          Change Address
-        </button>
-        {addressVisible && (
-          <div className="addressSelect-overlay">
-            <div className="addressSelect-content">
-              <h5 onClick={() => setAddressVisible(false)}>close</h5>
-              <h3>Select the address</h3>
-              {addressList.map((val, index) => {
-                return (
-                  <div
-                    className="addressList"
-                    key={index}
-                    onClick={() => handleAddress(val)}
-                  >
-                    <h3>{val.addressType}</h3>
-                    <p>{val.fullAddress}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {addAddressVisible && (
-          <div className="addressSelect-overlay">
-            <div className="addressSelect-content">
-              <h5 onClick={() => setAddAddressVisible(false)}>close</h5>
-              
-            </div>
-          </div>
-        )}
-
-        {selectedAddress && (
-          <div>
-            <h3>{selectedAddress.addressType}</h3>
-            {selectedAddress.fullAddress}
-          </div>
-        )}
-      </div>
-      <div className="cart-Items">
-        {cartItem.map((val, index) => {
-          return (
-            <div className="category-item" key={index}>
-              {val.image ? (
-                <img
-                  src={val.image}
-                  alt=""
-                  className="category-item-image"
-                ></img>
-              ) : (
-                ""
-              )}
-              <div className="category-details">
-                <h4 className="category-product-name">{val.productName}</h4>
-                <p className="category-product-price">
-                  {val.unit} {val.unitValue} - ₹ {val.price}
-                </p>
-              </div>
-              <div className="cart-button">
-                {cartItem.find((item) => item._id === val._id) !== undefined &&
-                cartItem.find((item) => item._id === val._id).quantity > 0 ? (
-                  <button onClick={() => Remove(val)}>-</button>
-                ) : (
-                  ""
-                )}
-                {cartItem.find((item) => item._id === val._id) !== undefined &&
-                cartItem.find((item) => item._id === val._id).quantity > 0 ? (
-                  <h5>
-                    {cartItem.find((item) => item._id === val._id).quantity}
-                  </h5>
-                ) : (
-                  ""
-                )}
-                <button onClick={() => Add(val)}>+</button>
-              </div>
-            </div>
-          );
-        })}
-
-        <div className="cart-calculation">
-          <div className="cart-amount">
-            <p>SubTotal</p>
-            <p>{subTotal}</p>
-          </div>
-          <div className="cart-amount">
-            <p>Delivery Amount</p>
-            <p>{deliveryAmount}</p>
-          </div>
-          <div className="cart-amount">
-            <p>Discount</p>
-            <p>{discount}</p>
-          </div>
-          <hr />
-          <div className="cart-amount">
-            <p>Total</p>
-            <p>{total}</p>
-          </div>
-          <button className="place-order" onClick={saveOrder}>
-            Place Order
-          </button>
-        </div>
-      </div> */}
     </div>
   );
 };

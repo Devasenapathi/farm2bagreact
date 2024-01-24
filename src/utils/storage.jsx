@@ -48,6 +48,10 @@ export function getCart() {
     return storedValue ? JSON.parse(storedValue) : []
 }
 
+export function clearCart() {
+    sessionStorage.removeItem('cart')
+}
+
 export function Logout(){
     localStorage.clear()
     sessionStorage.clear()
