@@ -22,8 +22,7 @@
 .login-left {
   width: 60%;
   padding: 20px;
-  background: #fff700;
-  background-image: #fff700;
+  background-color: #F4C430;
   display: flex;
   flex-direction: column;
 }
@@ -39,7 +38,7 @@
   width: 100%;
 }
 .login-main input {
-  width: 89%;
+  width: 90%;
   padding: 12px 20px;
   border-radius: 50px;
   font-size: 16px;
@@ -50,7 +49,7 @@
   margin-top: 15px;
   width: 100%;
   padding: 12px 20px;
-  background-color: #008000;
+  background-color: #12AD2B;
   color: #fff;
   border-radius: 50px;
   font-weight: bold;
@@ -62,7 +61,7 @@
 .login-right {
   width: 40%;
   height: 100%;
-  background-color: #008000;
+  background-color: #12AD2B;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -88,6 +87,16 @@
   color: red;
   font-size: 12px;
   margin: 10px;
+}
+@media (max-width:1024px) {
+  .login-content {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    height: 70%;
+    display: flex;
+    border-radius: 1%;
+    overflow: hidden;
+  }
 }
 @media (max-width: 768px) {
   .login-overlay {

@@ -15,6 +15,7 @@ import DailyFresh from "./dailyFresh/dailyFresh";
 import Combobag from "./comboBag/combobag";
 import CartButton from "../cart/cart_button";
 import { farmItemService } from "../../services/b2c_service";
+import FooterScreen from "./footer/footer";
 
 const Home = () => {
   const [loginVisible, setLoginVisible] = useState(false);
@@ -58,6 +59,7 @@ const Home = () => {
   };
   return (
     <div>
+      <CartButton />
       {locationVisible && (
         <Location
           locations={updateLocation}
@@ -73,11 +75,13 @@ const Home = () => {
         handleOpen={() => setLocationVisible(true)}
       />
       <Banner />
-      <DailyFresh location={locationChanged} />
-      <Categories />
-      <Combobag location={locationChanged} />
-      <Seasnal location={locationChanged} />
-      {getCart().length > 0 && <CartButton />}
+      <div className="">
+        <DailyFresh location={locationChanged} />
+        <Categories />
+        <Combobag location={locationChanged} />
+        <Seasnal location={locationChanged} />
+        <FooterScreen />
+      </div>
     </div>
   );
 };

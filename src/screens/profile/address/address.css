@@ -1,0 +1,43 @@
+.addresses {
+  width: 100%;
+  height: 100%;
+}
+.addresses1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 2%;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+.addresses-right {
+  width: 2%;
+}
+.addresses-right button {
+  margin: 5px;
+  height: 35px;
+  width: 35px;
+  border-radius: 25px;
+  border: none;
+}
+.addresses-right-button1 {
+  background-color: #0165fc;
+}
+.addresses-right-button2 {
+  background-color: #e10600;
+}
+.updateAddress-content {
+  width: 50%;
+  height: 60%;
+  display: grid;
+  place-items: center;
+  background-color: #fff;
+  line-height: 0;
+}
+.updateAddress-content input {
+  width: 50%;
+  height: 50px;
+  font-size: 18px;
+  border-radius: 25px;
+}

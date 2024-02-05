@@ -1,0 +1,27 @@
+.footer {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  padding: 20px;
+}
+.footer-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2%;
+}
+.footer-content {
+  height: 250px;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.footer-icons{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.footer-content img{
+  width: 50%;
+}

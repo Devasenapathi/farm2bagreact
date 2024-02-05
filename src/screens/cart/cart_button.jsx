@@ -7,7 +7,7 @@ const CartButton = () => {
   const [cartValue, setCartValue] = useState(0)
   useEffect(()=>{
     setCartValue(getCart().length)
-  },[getCart()])
+  },[getCart().length])
   return (
     <div className="bottom-cart-button">
       <Link to={"/checkout"} className="bottom-cart">

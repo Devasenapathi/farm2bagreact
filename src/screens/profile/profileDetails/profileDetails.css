@@ -1,0 +1,25 @@
+.profileDetails{
+    padding: 5px;
+}
+.profileDetails2{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px;
+    justify-content: space-between;
+}
+.profileDetails2 input{
+    margin: 10px;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 25px;
+    padding: 0px 25px;
+}
+.profileDetails2 button{
+    margin: 10px;
+    height: 50px;
+    font-size: 18px;
+    background-color: #12AD2B;
+    border: none;
+    border-radius: 25px;
+}

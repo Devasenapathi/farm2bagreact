@@ -15,19 +15,23 @@ import {
   orderSaveService,
   updateOrderStatusService,
 } from "../../services/order_service";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import SuccessScreen from "../paymentStatus/success";
+import FailedScreen from "../paymentStatus/failed";
 
 const Checkout = () => {
-  const navigate = useLocation();
+  const navigate = useNavigate();
   const [cartItem, setCartItem] = useState([]);
   const [addressList, setAddressList] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState();
   const [addressVisible, setAddressVisible] = useState(false);
   // const [addAddressVisible, setAddAddressVisible] = useState(false);
   const [subTotal, setSubTotal] = useState();
-  const [deliveryAmount, setDeliveryAmount] = useState(0);
+  const [deliveryAmount, setDeliveryAmount] = useState(30);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState();
+  const [success, setSuccess] = useState(false);
+  const [failed, setFailed] = useState(false);
   useEffect(() => {
     handleSubTotal();
     setCartItem(getCart().filter((val) => val.quantity > 0));
@@ -62,7 +66,6 @@ const Checkout = () => {
     setAddressVisible(false);
   };
 
-
   const Add = (data) => {
     const value = AddCart(data);
     if (value) {
@@ -85,7 +88,10 @@ const Checkout = () => {
     script.onload = () => {
       const razorpay = new window.Razorpay(option);
       razorpay.open();
-      razorpay.on('payment.failed', function(response){razorpayPaymentFailure(response)})
+      razorpay.on("payment.failed", function (response) {
+        razorpay.close();
+        razorpayPaymentFailure();
+      });
     };
     document.body.appendChild(script);
   };
@@ -94,14 +100,22 @@ const Checkout = () => {
     initializeRazorpay(data);
   };
 
-  const razorpayPaymentFailure=()=>{
-    alert("payment failed")
-  }
+  const razorpayPaymentFailure = () => {
+    setFailed(true);
+    setTimeout(() => {
+      setFailed(false);
+    }, 5000);
+  };
 
   const saveOrder = () => {
-    console.log(getCart(), "getCart");
     const cartData = getCart().map((element) => ({
-      ...element,
+      perRate: 0,
+      quantity: element.quantity,
+      price: element.actualPrice,
+      totalAmount: element.price,
+      productName: element.productName,
+      unit: element.unit,
+      unitValue: element.unitValue,
       farmProductId: element._id,
       productCategoryId: element.productCategoryId._id,
     }));
@@ -113,12 +127,12 @@ const Checkout = () => {
       farmName: getLocationDetails().farmName,
       farmCircleId: getLocationDetails().farmCircleId,
       itemQuantity: getCart().length,
-      orderAmount: 1,
+      orderAmount: total,
       discountType: discount,
       deliveryAddress: selectedAddress.fullAddress,
       deliveryAmount: deliveryAmount,
       gstAmount: 0,
-      netAmount: 1,
+      netAmount: total,
       paymentType: "Online",
       deliveryType: "Door Delivery",
       serviceStatus: "pending",
@@ -136,13 +150,13 @@ const Checkout = () => {
         if (res.status === 200) {
           console.log(res.data.result);
           var options = {
-            key: "rzp_test_tX0j8ZDLLFTiM9", // Enter the Key ID generated from the Dashboard
-            amount: res.data.result.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            key: "rzp_test_tX0j8ZDLLFTiM9",
+            amount: res.data.result.amount,
             currency: "INR",
             name: "Farm2bag",
             description: "Test Transaction",
             image: "https://example.com/your_logo",
-            order_id: res.data.result.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            order_id: res.data.result.order_id,
             handler: function (response) {
               if (response) {
                 const details = {
@@ -154,18 +168,22 @@ const Checkout = () => {
                   razorpay_payment_message: "Payment Successfully",
                 };
                 updateOrderStatusService(details)
-                  .then((res) =>
-                    console.log(res, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                  )
-                  .catch((err) => console.log(err, "sssssssssssssssssssssss"));
+                  .then((res) => {
+                    if (res.status === 200) {
+                      setSuccess(true);
+                      clearCart();
+                      SuccessTimer();
+                    }
+                  })
+                  .catch((err) => console.log(err));
               } else {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+                console.log("eee");
               }
             },
             prefill: {
-              name: "Gaurav Kumar",
-              email: "gaurav.kumar@example.com",
-              contact: "9000090000",
+              name: "Deva",
+              email: "deva@gmail.com",
+              contact: "9943310204",
             },
             notes: {
               address: "Razorpay Corporate Office",
@@ -183,8 +201,17 @@ const Checkout = () => {
       });
   };
 
+  const SuccessTimer = () => {
+    setTimeout(() => {
+      setSuccess(false);
+      navigate("/");
+    }, 2000);
+  };
+
   return (
     <div className="cartScreen">
+      {success && <SuccessScreen />}
+      {failed && <FailedScreen />}
       <div className="cart-top">
         <div>
           <h3>Cart</h3>

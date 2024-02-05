@@ -15,7 +15,6 @@ const CategoryItem = () => {
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
-    console.log(getProductList());
     setSelectedCategory(location.state);
     categoryService()
       .then((res) => {
@@ -65,7 +64,8 @@ const CategoryItem = () => {
             <div
               className="category-type"
               style={{
-                backgroundColor: selectedCategory._id === val._id ? "#fffd01" : "",
+                backgroundColor:
+                  selectedCategory._id === val._id ? "#fffd01" : "",
               }}
               onClick={() => {
                 setSelectedCategory(val);

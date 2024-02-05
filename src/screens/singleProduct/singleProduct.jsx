@@ -88,25 +88,26 @@ const SingleProduct = () => {
       </div>
       {farmItem && (
         <div className="product-main">
-          <h3>Related products</h3>
+          <h3>Seasnal products</h3>
           <div className="product-content">
-              {farmItem.map((val, index) => {
-                return (
+            {farmItem.map((val, index) => {
+              return (
+                <div className="product-items">
                   <div className="product-item" key={index}>
                     {val.image ? (
                       <img
                         src={val.image}
                         alt=""
                         className="product-item-image"
-                       
+                        onClick={() => {
+                          // handleRouting(val);
+                        }}
                       ></img>
                     ) : (
                       ""
                     )}
                     <div className="product-details">
-                      <h4 className="product-name">
-                        {val.productName}
-                      </h4>
+                      <h4 className="product-name">{val.productName}</h4>
                       <p className="product-price">
                         {val.unit} {val.unitValue} - ₹ {val.price}
                       </p>
@@ -136,9 +137,10 @@ const SingleProduct = () => {
                       <button onClick={() => Add(val)}>+</button>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

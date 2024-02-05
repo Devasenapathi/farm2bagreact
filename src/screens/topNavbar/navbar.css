@@ -2,7 +2,7 @@
   margin: 0;
   width: auto;
   height: 100px;
-  background-color: #ffff3c;
+  background-color: #F4C430;
   padding: 0px 25px;
   display: flex;
   justify-content: space-between;
@@ -60,14 +60,16 @@
 .search-panel {
   height: auto;
   max-height: 50%;
-  width: auto;
+  margin-top: 1%;
+  padding-top: 1%;
+  width: 50%;
   padding: 10px 50px;
-  background-color: #fffd01;
+  background-color: #F4C430;
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
-  z-index: 1000;
+  z-index: 100;
   border-radius: 10px;
   overflow: auto;
   flex-direction: column;

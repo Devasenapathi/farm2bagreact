@@ -36,7 +36,7 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
   };
 
   const handleDropProfile = () => {
-    setDropdownVisible(!dropdownVisible);
+    navigate("/profile");
   };
 
   const handleLogout = () => {
@@ -124,13 +124,13 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
       </div>
       <h4 onClick={handleOpen}>{location}</h4>
       <input
-          type="text"
-          className="navbar_search_text"
-          value={productName}
-          name="search"
-          placeholder="Search"
-          onChange={(e) => setProductName(e.target.value)}
-        ></input>
+        type="text"
+        className="navbar_search_text"
+        value={productName}
+        name="search"
+        placeholder="Search"
+        onChange={(e) => setProductName(e.target.value)}
+      ></input>
       <div className="navbar_left">
         <div className="navbar_left_desktop">
           <div className="navbar-cart-button">
@@ -141,7 +141,7 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
           </div>
           <div className="profile" onClick={() => handleDropProfile()}>
             <MdAccountCircle size={30} />
-            {dropdownVisible && (
+            {/* {dropdownVisible && (
               <div className="dropdown">
                 <Link to={"/profile"}>
                   <div className="dropdown-item">
@@ -158,11 +158,11 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
                   <CiLogout /> Logout
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div className="navbar_left_mobile">
-        {/* <FaSearch size={20} /> */}
+          {/* <FaSearch size={20} /> */}
           <div className="navbar-cart-button">
             <Link to={"/checkout"} className="navbar-cart">
               <FaShoppingCart size={20} />
