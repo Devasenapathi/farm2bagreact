@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBagShopping } from "react-icons/fa6";
 import { RiCustomerService2Line } from "react-icons/ri";
 import { FaAddressCard } from "react-icons/fa";
@@ -11,7 +11,15 @@ import Wallet from "./wallet/wallet";
 import Address from "./address/address";
 import ProfileDetails from "./profileDetails/profileDetails";
 import CustomerSupport from "./customerSupport/customerSupport";
+import { useLocation } from "react-router-dom";
 const Profile = () => {
+  const location = useLocation()
+
+  useEffect(()=>{
+    if(location.state){
+      setVisible(location.state)
+    }
+  },[])
   const [visible, setVisible] = useState("orders");
 
   const handleChange = (e) => {

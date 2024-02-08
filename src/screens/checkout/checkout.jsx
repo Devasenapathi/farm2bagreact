@@ -3,6 +3,7 @@ import {
   clearCart,
   getCart,
   getLocationDetails,
+  getToken,
   getUserDetails,
   getUserId,
 } from "../../utils/storage";
@@ -18,13 +19,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import SuccessScreen from "../paymentStatus/success";
 import FailedScreen from "../paymentStatus/failed";
+import Login from "../login/login";
+import AddAddress from "../addAddress/addAddress";
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const [loginVisible, setLoginVisible] = useState(false);
   const [cartItem, setCartItem] = useState([]);
   const [addressList, setAddressList] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState();
   const [addressVisible, setAddressVisible] = useState(false);
+  const [addVisible, setAddVisible] = useState(false);
   // const [addAddressVisible, setAddAddressVisible] = useState(false);
   const [subTotal, setSubTotal] = useState();
   const [deliveryAmount, setDeliveryAmount] = useState(30);
@@ -34,7 +39,13 @@ const Checkout = () => {
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     handleSubTotal();
+    if (getToken() === null || undefined) {
+      setLoginVisible(true);
+    }
     setCartItem(getCart().filter((val) => val.quantity > 0));
+  }, []);
+
+  useEffect(() => {
     CustomerAddressService(getUserId())
       .then((res) => {
         if (res.status === 200) {
@@ -45,7 +56,7 @@ const Checkout = () => {
         }
       })
       .catch((err) => console.log(err, "error got"));
-  }, []);
+  }, [addVisible]);
 
   const handleSubTotal = () => {
     setSubTotal(
@@ -210,6 +221,7 @@ const Checkout = () => {
 
   return (
     <div className="cartScreen">
+      {loginVisible && <Login handleClose={() => setLoginVisible(false)}/>}
       {success && <SuccessScreen />}
       {failed && <FailedScreen />}
       <div className="cart-top">
@@ -343,6 +355,9 @@ const Checkout = () => {
         </div>
         {addressVisible && (
           <div className="addressSelect-overlay">
+            {addVisible && (
+              <AddAddress handleClose={() => setAddVisible(false)} />
+            )}
             <div className="addressSelect-content">
               <div className="address-top">
                 <h5>Select an address</h5>
@@ -351,23 +366,28 @@ const Checkout = () => {
                 </h5>
               </div>
               <hr />
-              <button className="addAddress">
+              <button
+                className="addAddress"
+                onClick={() => setAddVisible(true)}
+              >
                 <IoIosAddCircleOutline size={30} color="red" />
                 Add Address
               </button>
               <hr />
-              {addressList.map((val, index) => {
-                return (
-                  <div
-                    className="addressList"
-                    key={index}
-                    onClick={() => handleAddress(val)}
-                  >
-                    <h4>{val.addressType}</h4>
-                    <p>{val.fullAddress}</p>
-                  </div>
-                );
-              })}
+              <div className="addressbox">
+                {addressList.map((val, index) => {
+                  return (
+                    <div
+                      className="addressList"
+                      key={index}
+                      onClick={() => handleAddress(val)}
+                    >
+                      <h4>{val.addressType}</h4>
+                      <p>{val.fullAddress}</p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}

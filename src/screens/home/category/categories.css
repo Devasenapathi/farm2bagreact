@@ -3,7 +3,7 @@
 }
 .categories .box-container{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 0.5fr));
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 0.5fr));
     gap: 0.5rem;
   }
   .categories .box{
@@ -15,6 +15,10 @@
     outline: var(--outline);
     outline-offset: -1rem;
 
+  }
+  .box-image{
+    height: 90%;
+    width: 80%;
   }
   .categories .box:hover{
     outline-offset: 0;

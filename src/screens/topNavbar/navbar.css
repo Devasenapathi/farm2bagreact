@@ -160,6 +160,12 @@
 .navbar_search_text{
   display: none;
 }
+.instantBanner{
+  width: 100%;
+  height: 50px;
+  display: grid;
+  place-items: center;
+}
 /* Mobile styles */
 @media (max-width: 768px) {
   .navbar_search_text{

@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { CustomerAddressService } from "../../../services/customer_service";
-import { getUserId } from "../../../utils/storage";
+import {
+  CustomerAddressService,
+  updateAddressService,
+} from "../../../services/customer_service";
+import { getLocationDetails, getUserId } from "../../../utils/storage";
 import { MdEditSquare } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
+import { IoCloseCircle } from "react-icons/io5";
+
 import "./address.css";
 
 const Address = () => {
   const [addressList, setAddressList] = useState([]);
   const [updateVisible, setUpdateVisible] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState();
   useEffect(() => {
+    getAddress();
+  }, []);
+
+  const getAddress = () => {
     CustomerAddressService(getUserId())
       .then((res) => {
         if (res.status === 200) {
@@ -18,11 +28,29 @@ const Address = () => {
         }
       })
       .catch((err) => console.log(err, "error got"));
-  }, []);
+  };
 
-  const handleAddress = (value) => {};
+  const handleAddress = (value) => {
+    setSelectedAddress(value);
+  };
 
   const handleDelete = (value) => {};
+
+  const handleChanges = (e) => {
+    setSelectedAddress({ ...selectedAddress, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = () => {
+    const value = {...selectedAddress,"fullAddress":selectedAddress.doorNo+','+selectedAddress.area+','+getLocationDetails().district+'-'+selectedAddress.pincode}
+    updateAddressService(value)
+      .then((res) => {
+        if (res.status === 200) {
+          setUpdateVisible(!updateVisible);
+          getAddress();
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="addresses">
       {addressList.map((val, index) => {
@@ -36,6 +64,7 @@ const Address = () => {
               <button
                 className="addresses-right-button1"
                 onClick={() => {
+                  handleAddress(val);
                   setUpdateVisible(!updateVisible);
                 }}
               >
@@ -56,10 +85,79 @@ const Address = () => {
       {updateVisible && (
         <div className="overlay">
           <div className="updateAddress-content">
-            <input type="text" />
-            <input type="text" />
-            <input type="text" />
-            <button>Update</button>
+            <div className="closeBtn">
+              <IoCloseCircle
+                size={30}
+                onClick={() => setUpdateVisible(!updateVisible)}
+              />
+            </div>
+            <div className="updateAddress-content1">
+              <h3>Edit Address</h3>
+              {/* <label htmlFor="">Mobile Number</label>
+            <input type="text" placeholder="Enter Mobile" /> */}
+              <label htmlFor="doorNo">Door No</label>
+              <input
+                type="text"
+                id="doorNo"
+                name="doorNo"
+                value={selectedAddress.doorNo}
+                placeholder="Enter Door No"
+                onChange={(e) => handleChanges(e)}
+              />
+              <label htmlFor="area">Area</label>
+              <input
+                type="text"
+                id="area"
+                name="area"
+                value={selectedAddress.area}
+                placeholder="Enter Area"
+                onChange={(e) => handleChanges(e)}
+              />
+              {/* <label htmlFor="">District</label>
+            <input type="text" placeholder="Enter District" /> */}
+              <label htmlFor="pincode">Pincode</label>
+              <input
+                type="Number"
+                id="pincode"
+                name="pincode"
+                value={selectedAddress.pincode}
+                placeholder="Enter Pincode"
+                onChange={(e) => handleChanges(e)}
+              />
+              <label htmlFor="landmark">Landmark</label>
+              <input
+                type="text"
+                id="landmark"
+                name="landmark"
+                value={selectedAddress.landmark}
+                placeholder="Enter Landmark"
+                onChange={(e) => handleChanges(e)}
+              />
+              <p>Address Type</p>
+              <div className="updateAddress-type">
+                <input
+                  type="radio"
+                  name="addressType"
+                  id="home"
+                  value="Home"
+                  checked={selectedAddress.addressType === "Home"}
+                  onChange={(e) => handleChanges(e)}
+                />
+                <label htmlFor="home">Home</label>
+              </div>
+              <div className="updateAddress-type">
+                <input
+                  type="radio"
+                  name="addressType"
+                  value="Work"
+                  id="home"
+                  checked={selectedAddress.addressType === "Work"}
+                  onChange={(e) => handleChanges(e)}
+                />
+                <label htmlFor="home">Work</label>
+              </div>
+              <button onClick={handleUpdate}>Update</button>
+            </div>
           </div>
         </div>
       )}

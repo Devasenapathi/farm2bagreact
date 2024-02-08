@@ -20,7 +20,13 @@
     align-items: center;
     justify-content: space-between;
 }
-/* .wallet-left-sub button{
+.wallet-left-sub button{
     margin-left: 20px;
-    height: 20px;
-} */
+    height: auto;
+    border: none;
+    color: #fff;
+    padding: 5px;
+    background-color: #ff5650;
+    font-size: large;
+    border-radius: 5px;
+}

@@ -3,12 +3,9 @@ import Banner from "./banner/banner";
 import Categories from "./category/categories";
 import Navbar from "../topNavbar/navbar";
 import {
-  getCart,
   getLocationDetails,
-  getToken,
   setProductList,
 } from "../../utils/storage";
-import Login from "../login/login";
 import Location from "../landing/location";
 import Seasnal from "./seasnalProduct/seasnal";
 import DailyFresh from "./dailyFresh/dailyFresh";
@@ -16,16 +13,13 @@ import Combobag from "./comboBag/combobag";
 import CartButton from "../cart/cart_button";
 import { farmItemService } from "../../services/b2c_service";
 import FooterScreen from "./footer/footer";
+import Instant from "./instantDelivery.jsx/instant";
 
 const Home = () => {
-  const [loginVisible, setLoginVisible] = useState(false);
   const [locationVisible, setLocationVisible] = useState(false);
   const [location, setLocation] = useState();
   const [locationChanged, setLocationChanged] = useState(false);
   useEffect(() => {
-    if (getToken() === null || undefined) {
-      setLoginVisible(true);
-    }
     if (getLocationDetails().length === 0) {
       setLocationVisible(true);
     } else {
@@ -68,12 +62,12 @@ const Home = () => {
           }}
         />
       )}
-      {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
       <Navbar
         location={location}
         locationChanged={locationChanged}
         handleOpen={() => setLocationVisible(true)}
       />
+      {/* <Instant/> */}
       <Banner />
       <div className="">
         <DailyFresh location={locationChanged} />

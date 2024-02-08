@@ -3,6 +3,10 @@
   padding: 0;
   height: auto;
   padding: 20px;
+  background-color: #12AD2B;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
 }
 .footer-main{
     display: flex;
@@ -24,4 +28,7 @@
 }
 .footer-content img{
   width: 50%;
+}
+.footer-p{
+  cursor: pointer;
 }

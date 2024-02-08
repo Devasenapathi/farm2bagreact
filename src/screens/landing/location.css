@@ -16,8 +16,7 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  width: 100%;
+  width: 300px;
   display: grid;
   place-items: center;
 }
@@ -31,8 +30,8 @@
   width: 100%;
   padding: 10px;
   height: 50px;
-  font-size: 24px;
-  margin-bottom: 30px;
+  font-size: 18px;
+  margin-bottom: 20px;
   color: #333;
   border: none;
   border-bottom: 1px solid black;
@@ -52,15 +51,15 @@
 
 .location-content button {
   width: 75%;
-  height: 50px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fffd01;
+  background-color: #F4C430;
   font-size: 24px;
   outline: none;
   border: none;
-  border-radius: 50px;
+  border-radius: 5px;
 }
 
 @media (max-width: 768px) {

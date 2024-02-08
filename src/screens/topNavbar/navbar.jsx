@@ -3,13 +3,15 @@ import { FaShoppingCart } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 import "./navbar.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Logout, getCart, getProductList } from "../../utils/storage";
+import { Logout, getCart, getProductList, getToken } from "../../utils/storage";
 import { AddCart, RemoveCart } from "../../services/cart_service";
 import { CiLogout } from "react-icons/ci";
 import { FaSearch } from "react-icons/fa";
+import Login from "../login/login";
 
 const Navbar = ({ location, locationChanged, handleOpen }) => {
   const navigate = useNavigate();
+  const [loginVisible, setLoginVisible] = useState(false);
   const [farmItem, setFarmItem] = useState([]);
   const [cartData, setCartData] = useState([]);
   const [productName, setProductName] = useState("");
@@ -44,6 +46,7 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
   };
   return (
     <div className="navbar_main">
+      {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
       <div className="navbar_logo">
         <h4>Farm2bag</h4>
       </div>
@@ -139,9 +142,12 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
             </Link>
             <div className="navbar-cart-value">{getCart().length}</div>
           </div>
-          <div className="profile" onClick={() => handleDropProfile()}>
-            <MdAccountCircle size={30} />
-            {/* {dropdownVisible && (
+          {getToken() == null || undefined ? (
+            <h4 onClick={() => setLoginVisible(!loginVisible)}>Login</h4>
+          ) : (
+            <div className="profile" onClick={() => handleDropProfile()}>
+              <MdAccountCircle size={30} />
+              {/* {dropdownVisible && (
               <div className="dropdown">
                 <Link to={"/profile"}>
                   <div className="dropdown-item">
@@ -159,7 +165,8 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
                 </div>
               </div>
             )} */}
-          </div>
+            </div>
+          )}
         </div>
         <div className="navbar_left_mobile">
           {/* <FaSearch size={20} /> */}

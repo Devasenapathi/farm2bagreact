@@ -8,7 +8,6 @@ const Orders = () => {
   useEffect(() => {
     orderListService(getUserId())
       .then((res) => {
-        console.log(res.data);
         setOrdersList(res.data.result);
         // if (res.statusCode === 200) {
         //     console.log("hello world")

@@ -28,7 +28,7 @@ const Categories = () => {
             <div key={val._id}>
               <Link to={"/category"} state={val}>
                 <div className="box">
-                  <img src={val.image} alt="" />
+                  <img src={val.image} alt="" className="box-image" />
                   <h5>{val.categoryName}</h5>
                 </div>
               </Link>
