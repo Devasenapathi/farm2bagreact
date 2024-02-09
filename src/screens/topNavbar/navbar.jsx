@@ -140,7 +140,7 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
             <Link to={"/checkout"} className="navbar-cart">
               <FaShoppingCart size={30} />
             </Link>
-            <div className="navbar-cart-value">{getCart().length}</div>
+            {/* <div className="navbar-cart-value">{getCart().length}</div> */}
           </div>
           {getToken() == null || undefined ? (
             <h4 onClick={() => setLoginVisible(!loginVisible)}>Login</h4>

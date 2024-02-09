@@ -1,5 +1,5 @@
 .cartScreen {
-  background-color: #d4d4d4;
+  background-color: #f5f0f0;
   width: auto;
   display: flex;
   flex-direction: column;
@@ -27,12 +27,12 @@
   width: 60%;
   margin-right: 1%;
   height: 50%;
-  background-color: #d4d4d4;
+  /* background-color: #f5f0f0; */
 }
 .cart-right {
   width: 40%;
   height: 100vh;
-  background-color: #d4d4d4;
+  /* background-color: #d4d4d4; */
 }
 .cart-left-child1 {
   border-radius: 10px;

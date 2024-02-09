@@ -65,7 +65,7 @@ const CategoryItem = () => {
               className="category-type"
               style={{
                 backgroundColor:
-                  selectedCategory._id === val._id ? "#fffd01" : "",
+                  selectedCategory._id === val._id ? "#F4C430" : "",
               }}
               onClick={() => {
                 setSelectedCategory(val);

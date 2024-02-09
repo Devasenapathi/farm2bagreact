@@ -13,7 +13,7 @@ const CartButton = () => {
       <Link to={"/checkout"} className="bottom-cart">
         <FaShoppingCart size={25} />
       </Link>
-      <div className="bottom-cart-value">{cartValue}</div>
+      {/* <div className="bottom-cart-value">{cartValue}</div> */}
     </div>
   );
 };

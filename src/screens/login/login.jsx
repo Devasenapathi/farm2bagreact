@@ -11,7 +11,7 @@ import appStore from "../../assets/appstore.png";
 const Login = ({ handleClose }) => {
   const [user, setUser] = useState({
     customerName: "",
-    mobile: 0,
+    mobile: '',
     email: "",
     codType: true,
     deliveryChargeType: false,
@@ -33,11 +33,11 @@ const Login = ({ handleClose }) => {
     setUser({ ...user, [value.target.name]: value.target.value });
   };
 
-  const handleOtpValue = (value, type) => {
+  const handleOtpValue = (e, type) => {
     if (error) {
       setError();
     }
-    setOtp({ otp: value, type: type });
+    setOtp({ otp: e.target.value, type: type });
   };
 
   const handleSignup = () => {
@@ -72,7 +72,6 @@ const Login = ({ handleClose }) => {
   };
 
   const handleOtp = () => {
-    console.log(otp,'kkkkkkkkkk')
     verifyOtpService(otp)
       .then((res) => {
         if (res.status === 200) {
@@ -107,7 +106,7 @@ const Login = ({ handleClose }) => {
                     id="otp"
                     placeholder="Enter OTP"
                     value={otp.otp}
-                    onChange={(e) => handleOtpValue(e.target.value, 2)}
+                    onChange={(e) => handleOtpValue(e, 2)}
                   ></input>
                 </div>
               ) : (
@@ -181,8 +180,8 @@ const Login = ({ handleClose }) => {
                     name="otp"
                     id="otp"
                     placeholder="Enter OTP"
-                    value={otp.opt}
-                    onChange={(e) => handleOtpValue(e.target.value, 1)}
+                    value={otp.otp}
+                    onChange={(e) => handleOtpValue(e,1)}
                   ></input>
                 </div>
               ) : (
@@ -191,7 +190,7 @@ const Login = ({ handleClose }) => {
                     type="text"
                     name="mobile"
                     id="mobile"
-                    placeholder="Enter mobile"
+                    placeholder="Enter Mobilenumber"
                     value={user.mobile}
                     onChange={(e) => handleMobileValue(e)}
                   ></input>

@@ -56,7 +56,7 @@ const Checkout = () => {
         }
       })
       .catch((err) => console.log(err, "error got"));
-  }, [addVisible]);
+  }, [addVisible,loginVisible]);
 
   const handleSubTotal = () => {
     setSubTotal(
@@ -161,7 +161,7 @@ const Checkout = () => {
         if (res.status === 200) {
           console.log(res.data.result);
           var options = {
-            key: "rzp_test_tX0j8ZDLLFTiM9",
+            key: "rzp_live_12DDyorrzl797Z",
             amount: res.data.result.amount,
             currency: "INR",
             name: "Farm2bag",
@@ -228,9 +228,9 @@ const Checkout = () => {
         <div>
           <h3>Cart</h3>
         </div>
-        <div>
+        {/* <div>
           <button>Empty Cart</button>
-        </div>
+        </div> */}
       </div>
       <div className="cart-bottom">
         <div className="cart-left">
@@ -303,10 +303,10 @@ const Checkout = () => {
           </div> */}
         </div>
         <div className="cart-right">
-          <div className="cart-coupons">
+          {/* <div className="cart-coupons">
             <BiSolidOffer size={30} color="blue" />
             <h5>Offers & Coupons Available</h5>
-          </div>
+          </div> */}
           <div className="cart-calculation">
             <table>
               <tr>
