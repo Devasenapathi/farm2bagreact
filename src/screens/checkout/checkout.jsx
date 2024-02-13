@@ -165,7 +165,7 @@ const Checkout = () => {
             amount: res.data.result.amount,
             currency: "INR",
             name: "Farm2bag",
-            description: "Test Transaction",
+            description: "Buy Organic products",
             image: "https://example.com/your_logo",
             order_id: res.data.result.order_id,
             handler: function (response) {
@@ -192,9 +192,9 @@ const Checkout = () => {
               }
             },
             prefill: {
-              name: "Deva",
-              email: "deva@gmail.com",
-              contact: "9943310204",
+              name: getUserDetails().customerName,
+              email: getUserDetails().email,
+              contact: getUserDetails().mobile,
             },
             notes: {
               address: "Razorpay Corporate Office",

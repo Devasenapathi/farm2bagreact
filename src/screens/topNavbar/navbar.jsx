@@ -38,7 +38,11 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
   };
 
   const handleDropProfile = () => {
-    navigate("/profile");
+    if (getToken() === null || undefined) {
+      setLoginVisible(true);
+    } else {
+      navigate("/profile");
+    }
   };
 
   const handleLogout = () => {
@@ -125,7 +129,7 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
           </div>
         )}
       </div>
-      <h4>Farm2bag</h4>
+      <h4 onClick={handleOpen}>{location}</h4>
       <div className="navbar_mobile_search">
         <input
           type="text"
@@ -207,32 +211,20 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
             <Link to={"/checkout"} className="navbar-cart">
               <FaShoppingCart size={30} />
             </Link>
-            {/* <div className="navbar-cart-value">{getCart().length}</div> */}
           </div>
-          {getToken() == null || undefined ? (
-            <h4 onClick={() => setLoginVisible(!loginVisible)}>Login</h4>
-          ) : (
-            <div className="profile" onClick={() => handleDropProfile()}>
-              <MdAccountCircle size={30} />
-            </div>
-          )}
+          <div className="profile" onClick={() => handleDropProfile()}>
+            <MdAccountCircle size={30} />
+          </div>
         </div>
         <div className="navbar_left_mobile">
-          <h4 onClick={handleOpen}>{location}</h4>
-          {/* <FaSearch size={20} /> */}
-          {/* <div className="navbar-cart-button">
+          <div className="navbar-cart-button">
             <Link to={"/checkout"} className="navbar-cart">
               <FaShoppingCart size={20} />
             </Link>
-            <div className="navbar-cart-value">{getCart().length}</div>
-          </div> */}
-          {getToken() == null || undefined ? (
-            <h4 onClick={() => setLoginVisible(!loginVisible)}>Login</h4>
-          ) : (
-            <div className="profile" onClick={() => handleDropProfile()}>
-              <MdAccountCircle size={20} />
-            </div>
-          )}
+          </div>
+          <div className="profile" onClick={() => handleDropProfile()}>
+            <MdAccountCircle size={20} />
+          </div>
         </div>
       </div>
     </div>
