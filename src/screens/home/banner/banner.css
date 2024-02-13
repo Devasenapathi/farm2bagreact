@@ -1,3 +1,16 @@
 .banner_carousel{
     height: 25%;
 }
+.banner_main{
+    width: auto;
+}
+
+/* @media (max-width: 426px){
+    .banner_main{
+        width: 487px;
+    }
+    .banner_carousel{
+      width: 487px;
+    }
+  }
+   */

@@ -10,6 +10,11 @@ import LastOrders from "./screens/orders/lastOrders";
 import Terms from "./screens/termsOfUse/terms";
 import PrivacyPolicy from "./screens/privacyPolicy/privacyPolicy";
 import Aboutus from "./screens/aboutUs/aboutUs";
+import Orders from "./screens/profile/orders/orders";
+import Wallet from "./screens/profile/wallet/wallet";
+import Address from "./screens/profile/address/address";
+import ProfileDetails from "./screens/profile/profileDetails/profileDetails";
+import CustomerSupport from "./screens/profile/customerSupport/customerSupport";
 
 function App() {
   return (
@@ -26,6 +31,11 @@ function App() {
           <Route path="/terms" element={<Terms />}></Route>
           <Route path="/privacy" element={<PrivacyPolicy />}></Route>
           <Route path="/aboutus" element={<Aboutus />}></Route>
+          <Route path="/previous_orders" element={<Orders />} />
+          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/addresses" element={<Address />} />
+          <Route path="/profileDetails" element={<ProfileDetails />}></Route>
+          <Route path="/customer" element={<CustomerSupport />}></Route>
         </Routes>
       </Router>
     </div>

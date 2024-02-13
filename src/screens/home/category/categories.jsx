@@ -19,9 +19,9 @@ const Categories = () => {
   }, []);
   return (
     <section className="categories" id="categories">
-      <h1 className="heading">
+      <h3 className="heading">
         products <span>categories</span>
-      </h1>
+      </h3>
       <div className="box-container">
         {category.map((val) => {
           return (

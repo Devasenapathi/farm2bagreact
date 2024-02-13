@@ -37,11 +37,11 @@ const DailyFresh = ({ location }) => {
     <div>
       {farmItem && (
         <div className="product-main">
-          <h3>DailyFresh</h3>
-          {/* <div className="product-container"> */}
-            <div className="product-content">
-              {farmItem.map((val, index) => {
-                return (
+          <h3>Daily Fresh</h3>
+          <div className="product-content">
+            {farmItem.map((val, index) => {
+              return (
+                <div className="product-items">
                   <div className="product-item" key={index}>
                     {val.image ? (
                       <img
@@ -56,9 +56,9 @@ const DailyFresh = ({ location }) => {
                       ""
                     )}
                     <div className="product-details">
-                      <h4 className="product-name">
-                        {val.productName}
-                      </h4>
+                      <h4 className="product-name" onClick={() => {
+                          handleRouting(val);
+                        }}>{val.productName}</h4>
                       <p className="product-price">
                         {val.unit} {val.unitValue} - ₹ {val.price}
                       </p>
@@ -88,10 +88,10 @@ const DailyFresh = ({ location }) => {
                       <button onClick={() => Add(val)}>+</button>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          {/* </div> */}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

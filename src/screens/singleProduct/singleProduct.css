@@ -1,5 +1,5 @@
 .singleProduct {
-  padding: 10px 5%;
+  padding: 10px 0%;
   width: 90vw;
 }
 
@@ -43,7 +43,7 @@
   }
 
   .singleProduct-image {
-    margin-right: 20px;
+    margin-right: 10px;
     margin-bottom: 0;
   }
 
@@ -59,7 +59,7 @@
   }
 
   .singleProduct-image {
-    margin-right: 20px;
+    margin-right: 10px;
     margin-bottom: 0;
   }
 

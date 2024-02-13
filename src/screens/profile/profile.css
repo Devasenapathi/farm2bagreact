@@ -1,54 +1,88 @@
 /* customer support css is included here */
-.customerSupport1{
-    padding: 2%;
+.customerSupport1 {
+  padding: 2%;
 }
-.profileScreen{
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-    display: grid;
-    place-items: center;
+.profileScreen {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
 }
-.profileScreen-main{
-    height: 90%;
-    width: 85%;
+.profileScreen-main {
+  height: 90%;
+  width: 85%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  display: flex;
+}
+.profileScreen-left {
+  display: flex;
+  flex-direction: column;
+  flex: 0.2;
+  background-color: #12ad2b;
+  color: #fff;
+}
+.profileScreen-left1 {
+  padding-left: 5%;
+}
+.profileScreen-leftSub {
+  line-height: 2px;
+}
+.profileScreen-left hr {
+  outline: none;
+  border: none;
+  background-color: #fff;
+  width: 90%;
+  height: 1.5px;
+}
+.profileScreen-left2 ul {
+  line-height: 50px;
+  list-style: none;
+  font-weight: bold;
+}
+.profileScreen-left3 {
+  display: flex;
+  justify-content: center;
+}
+.profileScreen-right {
+  flex: 0.8;
+}
+.profileScreen-mobile-left2{
+  display: none;
+}
+
+@media (max-width: 426px) {
+  .profileScreen-main {
+    height: 80%;
+    width: 90%;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: auto;
     background-color: white;
-    display: flex;
-}
-.profileScreen-left{
+    display: block;
+  }
+  .profileScreen-left {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    flex: 0.2;
-    background-color: #12AD2B;
+    flex: 1;
+    background-color: #12ad2b;
     color: #fff;
-}
-.profileScreen-left1{
-    padding-left: 5%;
-}
-.profileScreen-leftSub{
-    line-height: 2px;
-}
-.profileScreen-left hr{
-    outline: none;
-    border: none;
-    background-color: #fff;
-    width: 90%;
-    height: 1.5px;
-}
-.profileScreen-left2 ul{
+  }
+  .profileScreen-left2 {
+    display: none;
+  }
+  .profileScreen-mobile-left2 {
+    display: block;
+  }
+  .profileScreen-mobile-left2 ul {
     line-height: 50px;
     list-style: none;
     font-weight: bold;
+  }
+  .profileScreen-right{
+    display: none;
+  }
 }
-.profileScreen-left3{
-    display: flex;
-    justify-content: center;
-}
-.profileScreen-right{
-    flex: 0.8;
-}
-
-

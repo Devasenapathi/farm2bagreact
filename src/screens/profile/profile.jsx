@@ -11,16 +11,19 @@ import Wallet from "./wallet/wallet";
 import Address from "./address/address";
 import ProfileDetails from "./profileDetails/profileDetails";
 import CustomerSupport from "./customerSupport/customerSupport";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 const Profile = () => {
-  const location = useLocation()
-
-  useEffect(()=>{
-    if(location.state){
-      setVisible(location.state)
-    }
-  },[])
+  const navigate = useNavigate()
+  const location = useLocation();
   const [visible, setVisible] = useState("orders");
+
+
+  useEffect(() => {
+    if (location.state) {
+      setVisible(location.state);
+    }
+  },[]);
 
   const handleChange = (e) => {
     setVisible(e);
@@ -28,6 +31,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     Logout();
+    navigate('/')
   };
 
   return (
@@ -57,6 +61,25 @@ const Profile = () => {
                 <CgProfile /> Profile
               </li>
               <li onClick={() => handleChange("customer")}>
+                <RiCustomerService2Line /> Customer Support
+              </li>
+            </ul>
+          </div>
+          <div className="profileScreen-mobile-left2">
+            <ul>
+              <li onClick={() => navigate('/previous_orders')}>
+                <FaBagShopping /> Orders
+              </li>
+              <li onClick={() => navigate('/wallet')}>
+                <IoWalletOutline /> Wallet
+              </li>
+              <li onClick={() => navigate('/addresses')}>
+                <FaAddressCard /> Addresses
+              </li>
+              <li onClick={() => navigate('/profileDetails')}>
+                <CgProfile /> Profile
+              </li>
+              <li onClick={() => navigate('/customer')}>
                 <RiCustomerService2Line /> Customer Support
               </li>
             </ul>

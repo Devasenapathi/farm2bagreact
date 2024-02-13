@@ -3,6 +3,7 @@ import "./addAddress.css";
 import { IoCloseCircle } from "react-icons/io5";
 import { getLocationDetails } from "../../utils/storage";
 import { saveAddressService } from "../../services/customer_service";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const AddAddress = ({ handleClose }) => {
   const [address, setAddress] = useState({
@@ -30,7 +31,8 @@ const AddAddress = ({ handleClose }) => {
     <div className="overlay">
       <div className="addAddress-content">
         <div className="closeBtn">
-          <IoCloseCircle size={30} onClick={handleClose} />
+          {/* <IoCloseCircle size={30} onClick={handleClose} /> */}
+          <IoIosCloseCircleOutline size={20} onClick={handleClose}/>
         </div>
         <div className="addAddress-content1">
           <h3>Edit Address</h3>

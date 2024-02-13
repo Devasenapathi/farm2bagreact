@@ -56,7 +56,14 @@ const Seasnal = ({ location }) => {
                       ""
                     )}
                     <div className="product-details">
-                      <h4 className="product-name">{val.productName}</h4>
+                      <h4
+                        className="product-name"
+                        onClick={() => {
+                          handleRouting(val);
+                        }}
+                      >
+                        {val.productName}
+                      </h4>
                       <p className="product-price">
                         {val.unit} {val.unitValue} - ₹ {val.price}
                       </p>

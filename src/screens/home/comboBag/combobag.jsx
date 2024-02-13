@@ -28,9 +28,8 @@ const Combobag = ({ location }) => {
     return (
         <div>
             {farmItem &&
-                <div>
                     <div className="combo-container">
-                        <h1>ComboBag</h1>
+                        <h3>ComboBag</h3>
                         <div className="combo-content">
                             {farmItem.map((val, index) => {
                                 return (
@@ -52,7 +51,6 @@ const Combobag = ({ location }) => {
                             }
                         </div>
                     </div>
-                </div>
             }
         </div>
     )

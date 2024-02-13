@@ -125,15 +125,82 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
           </div>
         )}
       </div>
-      <h4 onClick={handleOpen}>{location}</h4>
-      <input
-        type="text"
-        className="navbar_search_text"
-        value={productName}
-        name="search"
-        placeholder="Search"
-        onChange={(e) => setProductName(e.target.value)}
-      ></input>
+      <h4>Farm2bag</h4>
+      <div className="navbar_mobile_search">
+        <input
+          type="text"
+          className="navbar_search_text"
+          value={productName}
+          name="search"
+          placeholder="Search"
+          onChange={(e) => setProductName(e.target.value)}
+        ></input>
+        {productName.length > 0 && (
+          <div className="mobile_search-panel">
+            {farmItem &&
+              farmItem
+                .filter((item) => {
+                  return (
+                    item.productName
+                      .toLowerCase()
+                      .indexOf(productName.toLowerCase()) > -1
+                  );
+                })
+                .map((val, index) => {
+                  return (
+                    <div className="search-item" key={index}>
+                      {val.image ? (
+                        <img
+                          src={val.image}
+                          alt=""
+                          className="search-item-image"
+                        ></img>
+                      ) : (
+                        ""
+                      )}
+                      <div
+                        className="search-details"
+                        onClick={() => {
+                          handleRouting(val);
+                        }}
+                      >
+                        <h6 className="search-product-name">
+                          {val.productName}
+                        </h6>
+                        <p className="search-product-price">
+                          {val.unit} {val.unitValue} - ₹ {val.price}
+                        </p>
+                      </div>
+                      <div className="cart-button">
+                        {cartData.find((item) => item._id === val._id) !==
+                          undefined &&
+                        cartData.find((item) => item._id === val._id).quantity >
+                          0 ? (
+                          <button onClick={() => Remove(val)}>-</button>
+                        ) : (
+                          ""
+                        )}
+                        {cartData.find((item) => item._id === val._id) !==
+                          undefined &&
+                        cartData.find((item) => item._id === val._id).quantity >
+                          0 ? (
+                          <h5>
+                            {
+                              cartData.find((item) => item._id === val._id)
+                                .quantity
+                            }
+                          </h5>
+                        ) : (
+                          ""
+                        )}
+                        <button onClick={() => Add(val)}>+</button>
+                      </div>
+                    </div>
+                  );
+                })}
+          </div>
+        )}
+      </div>
       <div className="navbar_left">
         <div className="navbar_left_desktop">
           <div className="navbar-cart-button">
@@ -147,56 +214,25 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
           ) : (
             <div className="profile" onClick={() => handleDropProfile()}>
               <MdAccountCircle size={30} />
-              {/* {dropdownVisible && (
-              <div className="dropdown">
-                <Link to={"/profile"}>
-                  <div className="dropdown-item">
-                    <MdAccountCircle />
-                    Profile
-                  </div>
-                </Link>
-                <Link to={"/orders"}>
-                  <div className="dropdown-item">
-                    <FaShoppingCart /> Orders
-                  </div>
-                </Link>
-                <div className="dropdown-item" onClick={handleLogout}>
-                  <CiLogout /> Logout
-                </div>
-              </div>
-            )} */}
             </div>
           )}
         </div>
         <div className="navbar_left_mobile">
+          <h4 onClick={handleOpen}>{location}</h4>
           {/* <FaSearch size={20} /> */}
-          <div className="navbar-cart-button">
+          {/* <div className="navbar-cart-button">
             <Link to={"/checkout"} className="navbar-cart">
               <FaShoppingCart size={20} />
             </Link>
             <div className="navbar-cart-value">{getCart().length}</div>
-          </div>
-          <div className="profile" onClick={() => handleDropProfile()}>
-            <MdAccountCircle size={20} />
-            {dropdownVisible && (
-              <div className="dropdown">
-                <Link to={"/profile"}>
-                  <div className="dropdown-item">
-                    <MdAccountCircle />
-                    Profile
-                  </div>
-                </Link>
-                <Link to={"/orders"}>
-                  <div className="dropdown-item">
-                    <FaShoppingCart /> Orders
-                  </div>
-                </Link>
-                <div className="dropdown-item" onClick={handleLogout}>
-                  <CiLogout /> Logout
-                </div>
-              </div>
-            )}
-          </div>
+          </div> */}
+          {getToken() == null || undefined ? (
+            <h4 onClick={() => setLoginVisible(!loginVisible)}>Login</h4>
+          ) : (
+            <div className="profile" onClick={() => handleDropProfile()}>
+              <MdAccountCircle size={20} />
+            </div>
+          )}
         </div>
       </div>
     </div>

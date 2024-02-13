@@ -88,7 +88,7 @@ const SingleProduct = () => {
       </div>
       {farmItem && (
         <div className="product-main">
-          <h3>Seasnal products</h3>
+          <h3>Related products</h3>
           <div className="product-content">
             {farmItem.map((val, index) => {
               return (

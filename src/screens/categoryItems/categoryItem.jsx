@@ -90,6 +90,9 @@ const CategoryItem = () => {
                         src={val.image}
                         alt=""
                         className="category-item-image"
+                        onClick={() => {
+                          handleRouting(val);
+                        }}
                       ></img>
                     ) : (
                       ""

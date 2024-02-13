@@ -46,7 +46,7 @@ const ProfileDetails = () => {
 
   return (
     <div className="profileDetails">
-      <ToastSuccess/>
+      {/* <ToastSuccess/> */}
       <div className="profileDetails1">
         <h2>Profile Details</h2>
         <div className="profileDetails2">

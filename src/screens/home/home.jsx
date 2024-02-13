@@ -69,7 +69,7 @@ const Home = () => {
       />
       {/* <Instant/> */}
       <Banner />
-      <div className="">
+      <div className="home_main">
         <DailyFresh location={locationChanged} />
         <Categories />
         <Combobag location={locationChanged} />
