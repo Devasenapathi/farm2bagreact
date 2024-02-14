@@ -1,7 +1,10 @@
+.category-container h3{
+  padding: 0% 3%;
+}
 .category-content {
   width: auto;
   height: auto;
-  padding: 1% 5%;
+  padding: 1% 3%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 0.5fr));
   gap: 0.5rem;
