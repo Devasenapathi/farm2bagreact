@@ -56,7 +56,7 @@ const Checkout = () => {
         }
       })
       .catch((err) => console.log(err, "error got"));
-  }, [addVisible,loginVisible]);
+  }, [addVisible, loginVisible]);
 
   const handleSubTotal = () => {
     setSubTotal(
@@ -221,7 +221,7 @@ const Checkout = () => {
 
   return (
     <div className="cartScreen">
-      {loginVisible && <Login handleClose={() => setLoginVisible(false)}/>}
+      {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
       {success && <SuccessScreen />}
       {failed && <FailedScreen />}
       <div className="cart-top">
@@ -347,9 +347,9 @@ const Checkout = () => {
               Change Address
             </button>
             <hr />
-            <div className="paymentButton">
+            <div className="paymentButton" onClick={saveOrder}>
               {/* <RazorpayButton/> */}
-              <button onClick={saveOrder}>Continue to payment</button>
+              <button>Continue to payment</button>
             </div>
           </div>
         </div>
