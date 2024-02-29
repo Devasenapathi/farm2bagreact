@@ -63,7 +63,7 @@ const Checkout = () => {
       getCart()
         .filter((val) => val.quantity > 0)
         .reduce((acc, val) => {
-          return acc + val.price * val.quantity;
+          return acc + val.price;
         }, 0)
     );
   };
