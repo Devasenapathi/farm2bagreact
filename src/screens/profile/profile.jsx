@@ -6,27 +6,12 @@ import { CgProfile } from "react-icons/cg";
 import { IoWalletOutline } from "react-icons/io5";
 import "./profile.css";
 import { Logout, getUserDetails } from "../../utils/storage";
-import Orders from "./orders/orders";
-import Wallet from "./wallet/wallet";
-import Address from "./address/address";
-import ProfileDetails from "./profileDetails/profileDetails";
-import CustomerSupport from "./customerSupport/customerSupport";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 const Profile = () => {
   const navigate = useNavigate()
-  const location = useLocation();
-  const [visible, setVisible] = useState("orders");
-
-
-  useEffect(() => {
-    if (location.state) {
-      setVisible(location.state);
-    }
-  },[]);
 
   const handleChange = (e) => {
-    setVisible(e);
+    navigate(e)
   };
 
   const handleLogout = () => {
@@ -48,19 +33,19 @@ const Profile = () => {
           <hr />
           <div className="profileScreen-left2">
             <ul>
-              <li onClick={() => handleChange("orders")}>
+              <li onClick={() => handleChange("/profile/orders")}>
                 <FaBagShopping /> Orders
               </li>
-              <li onClick={() => handleChange("wallet")}>
+              <li onClick={() => handleChange("/profile/wallet")}>
                 <IoWalletOutline /> Wallet
               </li>
-              <li onClick={() => handleChange("address")}>
+              <li onClick={() => handleChange("/profile/address")}>
                 <FaAddressCard /> Addresses
               </li>
-              <li onClick={() => handleChange("profile")}>
+              <li onClick={() => handleChange("/profile/profile")}>
                 <CgProfile /> Profile
               </li>
-              <li onClick={() => handleChange("customer")}>
+              <li onClick={() => handleChange("/profile/customer")}>
                 <RiCustomerService2Line /> Customer Support
               </li>
             </ul>
@@ -90,11 +75,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="profileScreen-right">
-          {visible === "orders" && <Orders />}
-          {visible === "wallet" && <Wallet />}
-          {visible === "address" && <Address />}
-          {visible === "profile" && <ProfileDetails />}
-          {visible === "customer" && <CustomerSupport />}
+          <Outlet/>
         </div>
       </div>
     </div>

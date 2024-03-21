@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   ADDADDRESSAPI,
   CUSTOMERADDRESSAPI,
+  DELETEUSERAPI,
   GETCUSTOMERAPI,
   UPDATEADDRESSAPI,
   UPDATECUSTOMERAPI,
@@ -49,6 +50,16 @@ export function saveAddressService(data) {
 }
 export function updateAddressService(data) {
   return axios.patch(UPDATEADDRESSAPI, data, {
+    headers: {
+      Authorization: BASE_AUTH,
+      "Content-Type": "application/json",
+      Token: getToken(),
+    },
+  });
+}
+
+export function customerDeleteService(data) {
+  return axios.put(DELETEUSERAPI, data, {
     headers: {
       Authorization: BASE_AUTH,
       "Content-Type": "application/json",

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./profileDetails.css";
-import { getUserDetails } from "../../../utils/storage";
+import { Logout, getUserDetails } from "../../../utils/storage";
 import {
+  customerDeleteService,
   getCustomerService,
   updateCustomerService,
 } from "../../../services/customer_service";
 import ToastSuccess from "../../../helpers/toastSuccess";
+import { useNavigate } from "react-router-dom";
 
 const ProfileDetails = () => {
+  const navigate = useNavigate()
   const [user, setUser] = useState({
     customerName: "",
     email: "",
@@ -44,11 +47,23 @@ const ProfileDetails = () => {
       });
   };
 
+  const handleDelete = () =>{
+    customerDeleteService({_id:getUserDetails()._id}).then((res)=>{
+      if(res.status === 200){
+        Logout();
+        navigate('/')
+      }
+    }).catch((err)=>{console.log(err,'handle delete')})
+  }
+
   return (
     <div className="profileDetails">
       {/* <ToastSuccess/> */}
       <div className="profileDetails1">
-        <h2>Profile Details</h2>
+        <div className="profileDetails0">
+        <h2>Profile</h2>
+        <button onClick={handleDelete}>Delete Account</button>
+        </div>
         <div className="profileDetails2">
           <input
             type="text"

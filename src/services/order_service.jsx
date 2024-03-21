@@ -23,7 +23,7 @@ export function updateOrderStatusService(data) {
   });
 }
 
-export function orderListService(data) {
+export function orderListService() {
   return axios.get(ORDER_LISTAPI, {
     headers: {
       Authorization: BASE_AUTH,
