@@ -21,6 +21,7 @@ import SuccessScreen from "../paymentStatus/success";
 import FailedScreen from "../paymentStatus/failed";
 import Login from "../login/login";
 import AddAddress from "../addAddress/addAddress";
+import { Box, CircularProgress } from "@mui/material";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const Checkout = () => {
   const [total, setTotal] = useState();
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [loader, setLoader] = useState(false)
   useEffect(() => {
     handleSubTotal();
     if (getToken() === null || undefined) {
@@ -119,6 +121,7 @@ const Checkout = () => {
   };
 
   const saveOrder = () => {
+    setLoader(true)
     const cartData = getCart().map((element) => ({
       perRate: 0,
       quantity: element.quantity,
@@ -205,6 +208,7 @@ const Checkout = () => {
           };
 
           initiateRazorpay(options);
+          setLoader(false)
         }
       })
       .catch((err) => {
@@ -221,6 +225,8 @@ const Checkout = () => {
 
   return (
     <div className="cartScreen">
+      {/* <Box sx={{ display: 'flex' }}> */}
+      {/* </Box> */}
       {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
       {success && <SuccessScreen />}
       {failed && <FailedScreen />}
@@ -268,7 +274,7 @@ const Checkout = () => {
                       <div className="cart-button">
                         {cartItem.find((item) => item._id === val._id) !==
                           undefined &&
-                        cartItem.find((item) => item._id === val._id).quantity >
+                          cartItem.find((item) => item._id === val._id).quantity >
                           0 ? (
                           <button onClick={() => Remove(val)}>-</button>
                         ) : (
@@ -276,7 +282,7 @@ const Checkout = () => {
                         )}
                         {cartItem.find((item) => item._id === val._id) !==
                           undefined &&
-                        cartItem.find((item) => item._id === val._id).quantity >
+                          cartItem.find((item) => item._id === val._id).quantity >
                           0 ? (
                           <h5>
                             {
@@ -347,9 +353,9 @@ const Checkout = () => {
               Change Address
             </button>
             <hr />
-            <div className="paymentButton" onClick={saveOrder}>
+            <div className="paymentButton" >
               {/* <RazorpayButton/> */}
-              <button>Continue to payment</button>
+              {loader ? <CircularProgress color="inherit" size={25} /> : <button onClick={saveOrder}>Continue to payment</button>}
             </div>
           </div>
         </div>

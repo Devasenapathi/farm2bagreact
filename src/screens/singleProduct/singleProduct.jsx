@@ -3,6 +3,7 @@ import { getCart, getProductList } from "../../utils/storage";
 import { AddCart, RemoveCart } from "../../services/cart_service";
 import "./singleProduct.css";
 import { useLocation } from "react-router-dom";
+import CartButton from "../cart/cart_button";
 const SingleProduct = () => {
   const location = useLocation();
   const [farmItem, setFarmItem] = useState([]);
@@ -143,6 +144,7 @@ const SingleProduct = () => {
           </div>
         </div>
       )}
+      <CartButton/>
     </div>
   );
 };
