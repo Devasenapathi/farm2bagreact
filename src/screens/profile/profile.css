@@ -28,6 +28,11 @@
 .profileScreen-left1 {
   padding-left: 5%;
 }
+.profileScreen-left1 h3{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .profileScreen-leftSub {
   line-height: 2px;
 }

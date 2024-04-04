@@ -8,6 +8,7 @@ import { AddCart, RemoveCart } from "../../services/cart_service";
 import { CiLogout } from "react-icons/ci";
 import { FaSearch } from "react-icons/fa";
 import Login from "../login/login";
+import { CircularProgress, Snackbar } from "@mui/material";
 
 const Navbar = ({ location, locationChanged, handleOpen }) => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
   const [cartData, setCartData] = useState([]);
   const [productName, setProductName] = useState("");
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [open, setOpen] = useState()
 
   useEffect(() => {
     setFarmItem(getProductList());
@@ -41,13 +43,23 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
     if (getToken() === null || undefined) {
       setLoginVisible(true);
     } else {
-      navigate("/profile");
+      navigate("/profile/orders");
     }
   };
 
-  const handleLogout = () => {
-    Logout();
+  const handleNavigate = () => {
+    if(getToken()){
+      if (getCart().length > 0) {
+        navigate('/checkout')
+      } else {
+        setOpen(true)
+      }
+    }else{
+      setLoginVisible(true)
+    }
   };
+
+
   return (
     <div className="navbar_main">
       {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
@@ -129,7 +141,7 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
           </div>
         )}
       </div>
-      <h4 onClick={handleOpen}>{location}</h4>
+      {location?<h4 onClick={handleOpen}>{location}</h4>:<CircularProgress size={12} color="success" />}
       <div className="navbar_mobile_search">
         <input
           type="text"
@@ -208,9 +220,9 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
       <div className="navbar_left">
         <div className="navbar_left_desktop">
           <div className="navbar-cart-button">
-            <Link to={"/checkout"} className="navbar-cart">
+            <div onClick={()=>handleNavigate()} className="navbar-cart">
               <FaShoppingCart size={30} />
-            </Link>
+            </div>
           </div>
           <div className="profile" onClick={() => handleDropProfile()}>
             <MdAccountCircle size={30} />
@@ -227,6 +239,14 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
           </div>
         </div>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={()=>setOpen(false)}
+        message="Cart is Empty"
+        anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+        key={"bottom" + "center"}
+      />
     </div>
   );
 };

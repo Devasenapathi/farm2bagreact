@@ -7,7 +7,7 @@ import {
   getUserDetails,
   getUserId,
 } from "../../utils/storage";
-import { IoIosCloseCircleOutline, IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosCloseCircleOutline, IoIosAddCircleOutline, IoMdArrowRoundBack } from "react-icons/io";
 import { AddCart, RemoveCart } from "../../services/cart_service";
 import { CustomerAddressService } from "../../services/customer_service";
 import { BiSolidOffer } from "react-icons/bi";
@@ -223,20 +223,25 @@ const Checkout = () => {
     }, 2000);
   };
 
+  const handleCart = () =>{
+    clearCart()
+    setCartItem([])
+    navigate('/')
+  }
+
   return (
     <div className="cartScreen">
-      {/* <Box sx={{ display: 'flex' }}> */}
-      {/* </Box> */}
       {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
       {success && <SuccessScreen />}
       {failed && <FailedScreen />}
       <div className="cart-top">
-        <div>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          <IoMdArrowRoundBack size={30} onClick={()=>navigate(-1)}/>
           <h3>Cart</h3>
         </div>
-        {/* <div>
-          <button>Empty Cart</button>
-        </div> */}
+        <div>
+          <button onClick={()=>handleCart()}>Empty Cart</button>
+        </div>
       </div>
       <div className="cart-bottom">
         <div className="cart-left">

@@ -76,6 +76,10 @@
   border-radius: 50%;
   background-color: white;
 }
+.login-right-image img{
+  height: 100%;
+  width: 85%;
+}
 .login-right-logo {
   line-height: 0%;
   width: 75%;
@@ -88,6 +92,9 @@
   color: red;
   font-size: 12px;
   margin: 10px;
+}
+.closebtn{
+  background-color: #12AD2B;
 }
 @media (max-width:1024px) {
   .login-content {

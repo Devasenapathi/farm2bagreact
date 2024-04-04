@@ -30,7 +30,7 @@ const Seasnal = ({ location }) => {
   };
 
   const handleRouting = (data) => {
-    navigate("/product", { state: data });
+    navigate(`/product/${data._id}`, { state: data });
   };
 
   return (

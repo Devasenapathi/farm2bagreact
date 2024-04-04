@@ -56,20 +56,20 @@
   margin-left: 5px;
   font-weight: bold;
 }
-
+.mobile_search-panel{
+  display: none;
+}
 .search-panel {
   height: auto;
-  max-height: 50%;
+  max-height: 75%;
   margin-top: 1%;
-  /* padding-top: 1%; */
-  width: 25%;
-  padding: 5% 1% 0% 2%;
-  background-color: #F4C430;
+  width: 40%;
+  background-color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  z-index: 1;
+  z-index: 1000;
   border-radius: 10px;
   overflow-x: scroll;
   scrollbar-width: thin;

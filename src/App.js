@@ -25,7 +25,7 @@ function App() {
           <Route path="/category" element={<CategoryItem />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/billing" element={<Billing />}></Route>
-          <Route path="/product" element={<SingleProduct />}></Route>
+          <Route path="/product/:id" element={<SingleProduct />}></Route>
           <Route path="/profile" element={<Profile />}>
             <Route path="orders" element={<Orders />}></Route>
             <Route path="wallet" element={<Wallet />}></Route>

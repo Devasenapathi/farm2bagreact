@@ -13,7 +13,7 @@ import Combobag from "./comboBag/combobag";
 import CartButton from "../cart/cart_button";
 import { farmItemService } from "../../services/b2c_service";
 import FooterScreen from "./footer/footer";
-import Instant from "./instantDelivery.jsx/instant";
+import { Box, Skeleton, Stack, Typography } from "@mui/material";
 
 const Home = () => {
   const [locationVisible, setLocationVisible] = useState(false);
@@ -67,15 +67,41 @@ const Home = () => {
         locationChanged={locationChanged}
         handleOpen={() => setLocationVisible(true)}
       />
-      {/* <Instant/> */}
-      <Banner />
-      <div className="home_main">
-        <DailyFresh location={locationChanged} />
-        <Categories />
-        <Combobag location={locationChanged} />
-        <Seasnal location={locationChanged} />
-        <FooterScreen />
-      </div>
+      {location ? <div><Banner />
+        <div className="home_main">
+          <DailyFresh location={locationChanged} />
+          <Categories />
+          <Combobag location={locationChanged} />
+          <Seasnal location={locationChanged} />
+          <FooterScreen />
+        </div>
+      </div> :
+        <Stack
+          sx={{
+            bgcolor: '#fff',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Skeleton
+            sx={{ bgcolor: 'grey.200', width: '100%', height: '400px' }}
+            variant="rectangular"
+          />
+          <Skeleton sx={{ bgcolor: 'grey.200' }} width="50%" height="50px">
+            <Typography>.</Typography>
+          </Skeleton>
+          <Skeleton sx={{ bgcolor: 'grey.300' }} width="60%" height="50px">
+            <Typography>.</Typography>
+          </Skeleton>
+          <Skeleton sx={{ bgcolor: 'grey.200' }} width="50%" height="50px">
+            <Typography>.</Typography>
+          </Skeleton>
+          <Skeleton sx={{ bgcolor: 'grey.300' }} width="60%" height="50px">
+            <Typography>.</Typography>
+          </Skeleton>
+        </Stack>
+      }
     </div>
   );
 };

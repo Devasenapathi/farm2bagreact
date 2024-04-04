@@ -5,6 +5,7 @@ import appStore from "../../../assets/appstore.png";
 
 import "./footer.css";
 import { useNavigate } from "react-router-dom";
+import { redirectToAppStore, redirectToPlayStore } from "../../../helpers/appRedirection";
 
 const FooterScreen = () => {
   const navigate = useNavigate();
@@ -25,20 +26,20 @@ const FooterScreen = () => {
         </div>
         <div className="footer-content">
           <div>
-            <p className="footer-p" onClick={()=>navigate('/terms')}>Privacy Policy</p>
-            <p className="footer-p" onClick={()=>navigate('/privacy')}>Terms of use</p>
+            <p className="footer-p" onClick={() => navigate('/terms')}>Privacy Policy</p>
+            <p className="footer-p" onClick={() => navigate('/privacy')}>Terms of use</p>
           </div>
         </div>
         <div className="footer-content">
           <div>
-            <p className="footer-p" onClick={()=>{navigate('/profile',{state:"customer"})}}>Contact us</p>
-            <p className="footer-p" onClick={()=>navigate('/aboutus')}>About us</p>
+            <p className="footer-p" onClick={() => { navigate('/profile', { state: "customer" }) }}>Contact us</p>
+            <p className="footer-p" onClick={() => navigate('/aboutus')}>About us</p>
           </div>
         </div>
         <div className="footer-content">
           <p>Download the App</p>
-          <img src={googlePlay} alt="img" />
-          <img src={appStore} alt="img" />
+          <img src={googlePlay} alt="img" onClick={redirectToPlayStore} />
+          <img src={appStore} alt="img" onClick={redirectToAppStore} />
         </div>
         <div className="footer-content">
           <div>

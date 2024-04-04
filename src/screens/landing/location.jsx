@@ -6,23 +6,79 @@ import { setLocationDetails } from '../../utils/storage'
 const Location = ({ locations, handleClose }) => {
     const [location, setLocation] = useState([])
     const [selectedLocation, setSelectedLocation] = useState()
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
+        var hubList;
         farmsService().then((res) => {
             if (res.status === 200) {
+                hubList = res.data.result;
                 setLocation(res.data.result)
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            setLatitude(position.coords.latitude);
+                            setLongitude(position.coords.longitude);
+                            setError(null);
+                            if (position.coords) {
+                                fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyDrxIN5pCE5TTrjdLWMq7VlMCxsj8FGD6k`)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.results && data.results.length > 0) {
+                                            const addressComponents = data.results[0].address_components;
+
+                                            for (const component of addressComponents) {
+                                                if (component.types.includes("locality")) {
+                                                    const locality = component.long_name;
+                                                    if (hubList && locality) {
+                                                        handleLocation(hubList, locality)
+                                                    }
+                                                    setSelectedLocation(locality)
+                                                    setError(null);
+                                                    break;
+                                                }
+                                            }
+                                            setError(null);
+                                        } else {
+                                            setError('No address found for the coordinates.');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        setError('Error fetching address: ' + error.message);
+                                    });
+                            }
+                        },
+                        (error) => {
+                            setError(error.message);
+                        }
+                    );
+                } else {
+                    setError('Geolocation is not supported by this browser.');
+                }
             } else {
                 console.log("Error on farms loading");
             }
         }).catch((err) => { console.log(err, 'error on farms') })
     }, [])
-    const handleSubmit = () => {
+
+    const handleLocation = (hubList, locality) => {
+        const locationDetails = hubList.filter((val) => val.farmName === locality)
+        setLocationDetails(locationDetails[0])
+        locations(locality)
         handleClose()
-        const locationDetails = location.filter((val)=>val.farmName === selectedLocation)
+    }
+
+    const handleSubmit = () => {
+        const locationDetails = location.filter((val) => val.farmName === selectedLocation)
         setLocationDetails(locationDetails[0])
         locations(selectedLocation)
+        handleClose()
     }
+
     return (
-        (<div className='location-overlay'>
+        error ? <div className='location-overlay' >
             <div className='location-content'>
                 <label>Location</label>
                 <select value={selectedLocation} className='location-select' onChange={(e) => setSelectedLocation(e.target.value)}>
@@ -36,7 +92,7 @@ const Location = ({ locations, handleClose }) => {
                 </select>
                 <button onClick={handleSubmit}>confirm</button>
             </div>
-        </div>)
+        </div> : ''
     );
 }
 

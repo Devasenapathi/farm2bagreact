@@ -1,5 +1,7 @@
 .App {
   width: 100%;
+  height: auto;
+  min-height: 100vh;
   background-color: #f6f6f6;
   font-family: "Comfortaa";
 }

@@ -7,10 +7,17 @@
   justify-content: center;
 }
 .cart-top {
-  width: 60%;
+  position: sticky;
+  top: 0;
+  width: 75%;
+  height: 10%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 1%;
+  border-radius: 10px;
 }
 .cart-top button {
   color: red;
@@ -19,7 +26,8 @@
   border: 0.5px solid red;
 }
 .cart-bottom {
-  width: 60%;
+  width: 75%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
 }

@@ -9,6 +9,11 @@
   grid-template-columns: repeat(auto-fit, minmax(16rem, 0.5fr));
   gap: 0.5rem;
 }
+.category-container h3{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .category-item {
   margin: 2%;
   border-radius: 25px;

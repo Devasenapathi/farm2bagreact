@@ -14,7 +14,6 @@
     text-align: center;
     outline: var(--outline);
     outline-offset: -1rem;
-
   }
   .box-image{
     height: 90%;
@@ -25,20 +24,21 @@
     outline: var(--outline-hover);
     border: 0.5px solid black;
   }
-  .categories .box img{
+  .box img{
     height: 8rem;
     margin: 0;
   }
-  .categories .box h5{
+  .box h5{
     font-size:0.8rem;
     text-decoration: none;
     color: black;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     line-height:1.8;
-    color: var(--black);
     height: 24px;
   }
 
-  
 @media (max-width: 426px){
   .categories{
     padding: 10px;

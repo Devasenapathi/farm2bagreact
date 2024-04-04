@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CATEGORYAPI, DELIVERYAMOUNTAPI, FARMITEMAPI, FARMSAPI } from "../utils/api";
+import { CATEGORYAPI, DELIVERYAMOUNTAPI, FARMITEMAPI, FARMSAPI, ITEMDETAILSAPI } from "../utils/api";
 import { BASE_AUTH } from "../utils/base_auth";
 import { getToken } from "../utils/storage";
 
@@ -30,8 +30,17 @@ export function farmItemService(data) {
     })
 }
 
+export function itemDetailsService(data) {
+    return axios.post(ITEMDETAILSAPI, data, {
+        headers: {
+            Authorization: BASE_AUTH,
+            "Content-Type": "application/json"
+        }
+    })
+}
+
 export function deliveryAmountSerice(data) {
-    return axios.post(DELIVERYAMOUNTAPI,data, {
+    return axios.post(DELIVERYAMOUNTAPI, data, {
         headers: {
             Authorization: BASE_AUTH,
             "Content-Type": "application/json",

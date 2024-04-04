@@ -23,3 +23,15 @@
   margin-left: 5px;
   font-weight: bold;
 }
+.cartError{
+  position: fixed;
+  right: 61px;
+  bottom: 30px;
+  display: grid;
+  place-items: center;
+  width: 20%;
+  background-color: red;
+  border-radius: 5px;
+  color: white;
+  z-index: 1000;
+}

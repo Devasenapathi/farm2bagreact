@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import "./login.css";
 import {
   loginService,
+  resentOtpService,
   signupService,
   verifyOtpService,
 } from "../../services/login_service";
-import { setToken, setUserDetails, setUserId } from "../../utils/storage";
+import { getUserId, setToken, setUserDetails, setUserId } from "../../utils/storage";
 import googlePlay from "../../assets/google_play.png";
 import appStore from "../../assets/appstore.png";
+import logo from '../../assets/logo.png';
+import { IoMdClose } from "react-icons/io";
+import { redirectToAppStore, redirectToPlayStore } from "../../helpers/appRedirection";
+
+
 const Login = ({ handleClose }) => {
   const [user, setUser] = useState({
     customerName: "",
@@ -84,6 +90,16 @@ const Login = ({ handleClose }) => {
       .catch((err) => setError("Invalid OTP"));
   };
 
+  const handleResend = () => {
+    resentOtpService(getUserId()).then((res) => {
+      if (res.status === 200) {
+        console.log("ddddddddddddd")
+      } else {
+        console.log("ërror")
+      }
+    }).catch((err) => { console.log(err) })
+  }
+
   return (
     <div className="login-overlay">
       {signupVisible ? (
@@ -152,7 +168,9 @@ const Login = ({ handleClose }) => {
             </div>
           </div>
           <div className="login-right">
-            <div className="login-right-image"></div>
+            <div className="login-right-image">
+              <img src={logo} alt="img" />
+            </div>
             <h4>Order faster and easier</h4>
             <p>with farm2bag app</p>
             <div className="login-right-logo">
@@ -181,7 +199,7 @@ const Login = ({ handleClose }) => {
                     id="otp"
                     placeholder="Enter OTP"
                     value={otp.otp}
-                    onChange={(e) => handleOtpValue(e,1)}
+                    onChange={(e) => handleOtpValue(e, 1)}
                   ></input>
                 </div>
               ) : (
@@ -197,6 +215,7 @@ const Login = ({ handleClose }) => {
                 </div>
               )}
               {error && <span>{error}</span>}
+              {response && <div onClick={() => handleResend()}>Resend OTP?</div>}
               <button onClick={response ? handleOtp : handleMobile}>
                 {response ? "Verify OTP" : "Continue"}
               </button>
@@ -212,13 +231,19 @@ const Login = ({ handleClose }) => {
             </p>
           </div>
           <div className="login-right">
-            <div className="login-right-image"></div>
+
+            <div className="login-right-image">
+              <img src={logo} alt="img" />
+            </div>
             <h4>Order faster and easier</h4>
             <p>with farm2bag app</p>
             <div className="login-right-logo">
-              <img src={googlePlay} alt="img" />
-              <img src={appStore} alt="img" />
+              <img src={googlePlay} alt="img" onClick={redirectToPlayStore} />
+              <img src={appStore} alt="img" onClick={redirectToAppStore} />
             </div>
+          </div>
+          <div className="closebtn">
+            <IoMdClose size={30} color="white" onClick={() => handleClose()} />
           </div>
         </div>
       )}

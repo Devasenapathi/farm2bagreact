@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGINAPI, SIGNUPAPI, VERIFYOTP } from "../utils/api";
+import { LOGINAPI, RESENDOTP, SIGNUPAPI, VERIFYOTP } from "../utils/api";
 import { getUserId } from "../utils/storage";
 import { BASE_AUTH } from "../utils/base_auth";
 
@@ -36,4 +36,13 @@ export function signupService(data) {
       "Content-Type": "application/json",
     },
   });
+}
+
+export function resentOtpService(data) {
+  return axios.post(RESENDOTP, data, {
+    headers: {
+      Authorization: BASE_AUTH,
+      "Content-Type": "application/json",
+    },
+  })
 }

@@ -7,6 +7,7 @@ import { IoWalletOutline } from "react-icons/io5";
 import "./profile.css";
 import { Logout, getUserDetails } from "../../utils/storage";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
 const Profile = () => {
   const navigate = useNavigate()
 
@@ -24,7 +25,7 @@ const Profile = () => {
       <div className="profileScreen-main">
         <div className="profileScreen-left">
           <div className="profileScreen-left1">
-            <h3>My Account</h3>
+            <h3> <IoMdArrowRoundBack size={30} onClick={() => navigate(-1)} /> My Account</h3>
             <div className="profileScreen-leftSub">
               <h5>{getUserDetails().customerName}</h5>
               <h5>+91 {getUserDetails().mobile}</h5>
@@ -75,7 +76,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="profileScreen-right">
-          <Outlet/>
+          <Outlet />
         </div>
       </div>
     </div>

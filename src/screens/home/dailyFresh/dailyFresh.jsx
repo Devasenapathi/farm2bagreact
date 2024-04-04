@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getCart, getProductList } from "../../../utils/storage";
 import { AddCart, RemoveCart } from "../../../services/cart_service";
 import { useNavigate } from "react-router-dom";
+import CartButton from "../../cart/cart_button";
 
 const DailyFresh = ({ location }) => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const DailyFresh = ({ location }) => {
   };
 
   const handleRouting = (data) => {
-    navigate("/product", { state: data });
+    navigate(`/product/${data._id}`, { state: data });
   };
 
   return (

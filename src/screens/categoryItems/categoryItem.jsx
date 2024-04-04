@@ -5,6 +5,7 @@ import { AddCart, RemoveCart } from "../../services/cart_service";
 import "./categoryItem.css";
 import CartButton from "../cart/cart_button";
 import { useLocation, useNavigate } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const CategoryItem = () => {
   const navigate = useNavigate();
@@ -32,11 +33,11 @@ const CategoryItem = () => {
     setFarmItem(
       selectedCategory
         ? getProductList().filter(
-            (data) => data.productCategoryId._id === selectedCategory._id
-          )
+          (data) => data.productCategoryId._id === selectedCategory._id
+        )
         : getProductList().filter(
-            (data) => data.productCategoryId._id === location.state._id
-          )
+          (data) => data.productCategoryId._id === location.state._id
+        )
     );
   }, [selectedCategory]);
 
@@ -54,7 +55,7 @@ const CategoryItem = () => {
   };
 
   const handleRouting = (data) => {
-    navigate("/product", { state: data });
+    navigate(`/product/${data._id}`, { state: data });
   };
   return (
     <div>
@@ -80,7 +81,7 @@ const CategoryItem = () => {
       {farmItem && (
         <div>
           <div className="category-container">
-            {selectedCategory && <h3>{selectedCategory.categoryName}</h3>}
+            {selectedCategory && <h3><IoMdArrowRoundBack size={30} onClick={() => navigate(-1)} />{selectedCategory.categoryName}</h3>}
             <div className="category-content">
               {farmItem.map((val, index) => {
                 return (
@@ -113,7 +114,7 @@ const CategoryItem = () => {
                     <div className="cart-button">
                       {cartData.find((item) => item._id === val._id) !==
                         undefined &&
-                      cartData.find((item) => item._id === val._id).quantity >
+                        cartData.find((item) => item._id === val._id).quantity >
                         0 ? (
                         <button onClick={() => Remove(val)}>-</button>
                       ) : (
@@ -121,7 +122,7 @@ const CategoryItem = () => {
                       )}
                       {cartData.find((item) => item._id === val._id) !==
                         undefined &&
-                      cartData.find((item) => item._id === val._id).quantity >
+                        cartData.find((item) => item._id === val._id).quantity >
                         0 ? (
                         <h5>
                           {

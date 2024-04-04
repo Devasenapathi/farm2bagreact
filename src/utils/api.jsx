@@ -3,12 +3,14 @@ const BASE_URL = "https://f2b.farm2bag.com/api/v1/";
 // login
 export const LOGINAPI = BASE_URL + "login/customer-login";
 export const VERIFYOTP = BASE_URL + "login/verify-otp-customer";
+export const RESENDOTP = BASE_URL + "login/resent-otp";
 //b2c
 export const FARMSAPI = BASE_URL + "b2c/farms";
 export const CATEGORYAPI = BASE_URL + "b2c/category";
 export const BANNERAPI = BASE_URL + "b2c/banner";
 export const FARMITEMAPI = BASE_URL + "b2c/item";
 export const DELIVERYAMOUNTAPI = BASE_URL + "b2c/deliveryAmount";
+export const ITEMDETAILSAPI = BASE_URL + "b2c/getItemDetailsById";
 
 //customer
 export const SIGNUPAPI = BASE_URL + "customer/signup";
