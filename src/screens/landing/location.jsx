@@ -35,11 +35,10 @@ const Location = ({ locations, handleClose }) => {
                                                     if (hubList && locality) {
                                                         handleLocation(hubList, locality)
                                                     }
-                                                    setSelectedLocation(locality)
                                                     break;
                                                 }
                                             }
-                                            setError(null);
+                                            // setError(null);
                                         } else {
                                             setError('No address found for the coordinates.');
                                         }
@@ -67,6 +66,7 @@ const Location = ({ locations, handleClose }) => {
         if (locality === "Chennai") {
             const locationDetails = hubList.filter((val) => val.farmName === locality)
             setLocationDetails(locationDetails[0])
+            setSelectedLocation(locality)
             locations(locality)
             handleClose()
             setError(null);
