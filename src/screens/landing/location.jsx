@@ -64,10 +64,14 @@ const Location = ({ locations, handleClose }) => {
     }, [])
 
     const handleLocation = (hubList, locality) => {
-        const locationDetails = hubList.filter((val) => val.farmName === locality)
-        setLocationDetails(locationDetails[0])
-        locations(locality)
-        handleClose()
+        if (locality === "Chennai") {
+            const locationDetails = hubList.filter((val) => val.farmName === locality)
+            setLocationDetails(locationDetails[0])
+            locations(locality)
+            handleClose()
+        }else{
+            setError("oppen")
+        }
     }
 
     const handleSubmit = () => {
