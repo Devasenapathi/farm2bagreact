@@ -53,7 +53,7 @@ const Location = ({ locations, handleClose }) => {
                         }
                     );
                 } else {
-                    setError('Geolocation is not supported by this browser.');
+                    setError('Location is not supported by this browser.');
                 }
             } else {
                 console.log("Error on farms loading");
@@ -70,8 +70,8 @@ const Location = ({ locations, handleClose }) => {
             locations(locality)
             handleClose()
             setError(null);
-        }else{
-            setError("oppen")
+        } else {
+            setError("No Service is been provided in your location")
         }
     }
 
@@ -85,6 +85,7 @@ const Location = ({ locations, handleClose }) => {
     return (
         error ? <div className='location-overlay' >
             <div className='location-content'>
+                <h4 style={{color:"red"}}>{error}</h4>
                 <label>Location</label>
                 <select value={selectedLocation} className='location-select' onChange={(e) => setSelectedLocation(e.target.value)}>
                     <option>select your location</option>
