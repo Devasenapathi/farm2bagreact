@@ -63,6 +63,7 @@ const Location = ({ locations, handleClose }) => {
     }, [])
 
     const handleLocation = (hubList, locality) => {
+        console.log(locality)
         if (locality === "Chennai") {
             const locationDetails = hubList.filter((val) => val.farmName === locality)
             setLocationDetails(locationDetails[0])
