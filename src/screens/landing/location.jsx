@@ -36,7 +36,6 @@ const Location = ({ locations, handleClose }) => {
                                                         handleLocation(hubList, locality)
                                                     }
                                                     setSelectedLocation(locality)
-                                                    setError(null);
                                                     break;
                                                 }
                                             }
@@ -69,6 +68,7 @@ const Location = ({ locations, handleClose }) => {
             setLocationDetails(locationDetails[0])
             locations(locality)
             handleClose()
+            setError(null);
         }else{
             setError("oppen")
         }
