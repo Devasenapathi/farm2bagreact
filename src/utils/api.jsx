@@ -1,4 +1,4 @@
-const BASE_URL = "https://f2b.farm2bag.com/api/v1/";
+const BASE_URL = "https://app.farm2bag.com/api/v1/";
 // const BASE_URL = "http://192.168.1.12:3000/api/v1/";
 // login
 export const LOGINAPI = BASE_URL + "login/customer-login";

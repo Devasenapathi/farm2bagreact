@@ -122,98 +122,102 @@ const Checkout = () => {
 
   const saveOrder = () => {
     setLoader(true)
-    const cartData = getCart().map((element) => ({
-      perRate: 0,
-      quantity: element.quantity,
-      price: element.actualPrice,
-      totalAmount: element.price,
-      productName: element.productName,
-      unit: element.unit,
-      unitValue: element.unitValue,
-      farmProductId: element._id,
-      productCategoryId: element.productCategoryId._id,
-    }));
-    const orderDetails = {
-      customerId: getUserId(),
-      customerName: getUserDetails().customerName,
-      mobile: getUserDetails().mobile,
-      farmId: getLocationDetails()._id,
-      farmName: getLocationDetails().farmName,
-      farmCircleId: getLocationDetails().farmCircleId,
-      itemQuantity: getCart().length,
-      orderAmount: total,
-      discountType: discount,
-      deliveryAddress: selectedAddress.fullAddress,
-      deliveryAmount: deliveryAmount,
-      gstAmount: 0,
-      netAmount: total,
-      paymentType: "Online",
-      deliveryType: "Door Delivery",
-      serviceStatus: "pending",
-      orderStatus: "processing",
-      remarks: "remarks",
-      pincode: selectedAddress.pincode,
-      area: selectedAddress.area,
-      orderData: cartData,
-      deviceType: "Web",
-      status: 1,
-    };
+    if (selectedAddress && selectedAddress.fullAddress) {
+      const cartData = getCart().map((element) => ({
+        perRate: 0,
+        quantity: element.quantity,
+        price: element.actualPrice,
+        totalAmount: element.price,
+        productName: element.productName,
+        unit: element.unit,
+        unitValue: element.unitValue,
+        farmProductId: element._id,
+        productCategoryId: element.productCategoryId._id,
+      }));
+      const orderDetails = {
+        customerId: getUserId(),
+        customerName: getUserDetails().customerName,
+        mobile: getUserDetails().mobile,
+        farmId: getLocationDetails()._id,
+        farmName: getLocationDetails().farmName,
+        farmCircleId: getLocationDetails().farmCircleId,
+        itemQuantity: getCart().length,
+        orderAmount: total,
+        discountType: discount,
+        deliveryAddress: selectedAddress.fullAddress,
+        deliveryAmount: deliveryAmount,
+        gstAmount: 0,
+        netAmount: total,
+        paymentType: "Online",
+        deliveryType: "Door Delivery",
+        serviceStatus: "pending",
+        orderStatus: "processing",
+        remarks: "remarks",
+        pincode: selectedAddress.pincode,
+        area: selectedAddress.area,
+        orderData: cartData,
+        deviceType: "Web",
+        status: 1,
+      };
 
-    orderSaveService(orderDetails)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res.data.result);
-          var options = {
-            key: "rzp_live_12DDyorrzl797Z",
-            amount: res.data.result.amount,
-            currency: "INR",
-            name: "Farm2bag",
-            description: "Buy Organic products",
-            image: "https://example.com/your_logo",
-            order_id: res.data.result.order_id,
-            handler: function (response) {
-              if (response) {
-                const details = {
-                  orderId: res.data.result.id,
-                  razorpay_order_id: response.razorpay_order_idd,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  paymentStatus: "success",
-                  orderStatus: "pending",
-                  razorpay_payment_message: "Payment Successfully",
-                };
-                updateOrderStatusService(details)
-                  .then((res) => {
-                    if (res.status === 200) {
-                      setSuccess(true);
-                      clearCart();
-                      SuccessTimer();
-                    }
-                  })
-                  .catch((err) => console.log(err));
-              } else {
-                console.log("eee");
-              }
-            },
-            prefill: {
-              name: getUserDetails().customerName,
-              email: getUserDetails().email,
-              contact: getUserDetails().mobile,
-            },
-            notes: {
-              address: "Razorpay Corporate Office",
-            },
-            theme: {
-              color: "#3399cc",
-            },
-          };
+      orderSaveService(orderDetails)
+        .then((res) => {
+          if (res.status === 200) {
+            console.log(res.data.result);
+            var options = {
+              key: "rzp_live_12DDyorrzl797Z",
+              amount: res.data.result.amount,
+              currency: "INR",
+              name: "Farm2bag",
+              description: "Buy Organic products",
+              image: "https://example.com/your_logo",
+              order_id: res.data.result.order_id,
+              handler: function (response) {
+                if (response) {
+                  const details = {
+                    orderId: res.data.result.id,
+                    razorpay_order_id: response.razorpay_order_idd,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    paymentStatus: "success",
+                    orderStatus: "pending",
+                    razorpay_payment_message: "Payment Successfully",
+                  };
+                  updateOrderStatusService(details)
+                    .then((res) => {
+                      if (res.status === 200) {
+                        setSuccess(true);
+                        clearCart();
+                        SuccessTimer();
+                      }
+                    })
+                    .catch((err) => console.log(err));
+                } else {
+                  console.log("eee");
+                }
+              },
+              prefill: {
+                name: getUserDetails().customerName,
+                email: getUserDetails().email,
+                contact: getUserDetails().mobile,
+              },
+              notes: {
+                address: "Razorpay Corporate Office",
+              },
+              theme: {
+                color: "#3399cc",
+              },
+            };
 
-          initiateRazorpay(options);
-          setLoader(false)
-        }
-      })
-      .catch((err) => {
-        console.log(err, "error in order saving");
-      });
+            initiateRazorpay(options);
+            setLoader(false)
+          }
+        })
+        .catch((err) => {
+          console.log(err, "error in order saving");
+        });
+    } else {
+      setLoader(false)
+    }
   };
 
   const SuccessTimer = () => {
@@ -223,7 +227,7 @@ const Checkout = () => {
     }, 2000);
   };
 
-  const handleCart = () =>{
+  const handleCart = () => {
     clearCart()
     setCartItem([])
     navigate('/')
@@ -235,12 +239,12 @@ const Checkout = () => {
       {success && <SuccessScreen />}
       {failed && <FailedScreen />}
       <div className="cart-top">
-        <div style={{display:"flex",alignItems:"center",gap:10}}>
-          <IoMdArrowRoundBack size={30} onClick={()=>navigate(-1)}/>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <IoMdArrowRoundBack size={30} onClick={() => navigate(-1)} />
           <h3>Cart</h3>
         </div>
         <div>
-          <button onClick={()=>handleCart()}>Empty Cart</button>
+          <button onClick={() => handleCart()}>Empty Cart</button>
         </div>
       </div>
       <div className="cart-bottom">
@@ -341,7 +345,7 @@ const Checkout = () => {
             </table>
           </div>
           <div className="cartAddress">
-            {selectedAddress && (
+            {selectedAddress && selectedAddress.fullAddress && (
               <div className="cartAddressView">
                 <p>
                   <span style={{ fontWeight: "bold" }}>
@@ -355,7 +359,7 @@ const Checkout = () => {
               className="address-button"
               onClick={() => setAddressVisible(true)}
             >
-              Change Address
+              {selectedAddress && selectedAddress.fullAddress ? "Change Address" : "Select Address"}
             </button>
             <hr />
             <div className="paymentButton" >
