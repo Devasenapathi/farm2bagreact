@@ -21,7 +21,7 @@ import SuccessScreen from "../paymentStatus/success";
 import FailedScreen from "../paymentStatus/failed";
 import Login from "../login/login";
 import AddAddress from "../addAddress/addAddress";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Snackbar } from "@mui/material";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -39,6 +39,8 @@ const Checkout = () => {
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [loader, setLoader] = useState(false)
+  const [open, setOpen] = useState(false)
+
   useEffect(() => {
     handleSubTotal();
     if (getToken() === null || undefined) {
@@ -123,6 +125,17 @@ const Checkout = () => {
   const saveOrder = () => {
     setLoader(true)
     if (selectedAddress && selectedAddress.fullAddress) {
+      const address = {
+        addressType:selectedAddress.addressType,
+        fullAddress:selectedAddress.fullAddress,
+        address:selectedAddress.fullAddress,
+        doorNo:selectedAddress.doorNo,
+        landmark:selectedAddress.landmark,
+        latitude:selectedAddress.latitude,
+        longitude:selectedAddress.longitude,
+        pincode:selectedAddress.latitude,
+        area:selectedAddress.area,
+      }
       const cartData = getCart().map((element) => ({
         perRate: 0,
         quantity: element.quantity,
@@ -144,7 +157,7 @@ const Checkout = () => {
         itemQuantity: getCart().length,
         orderAmount: total,
         discountType: discount,
-        deliveryAddress: selectedAddress.fullAddress,
+        deliveryAddress: address,
         deliveryAmount: deliveryAmount,
         gstAmount: 0,
         netAmount: total,
@@ -217,6 +230,7 @@ const Checkout = () => {
         });
     } else {
       setLoader(false)
+      setOpen(true)
     }
   };
 
@@ -407,6 +421,14 @@ const Checkout = () => {
           </div>
         )}
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={()=>setOpen(false)}
+        message="Select the address"
+        anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+        key={"bottom" + "center"}
+      />
     </div>
   );
 };

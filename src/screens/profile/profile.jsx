@@ -37,9 +37,9 @@ const Profile = () => {
               <li onClick={() => handleChange("/profile/orders")}>
                 <FaBagShopping /> Orders
               </li>
-              <li onClick={() => handleChange("/profile/wallet")}>
+              {/* <li onClick={() => handleChange("/profile/wallet")}>
                 <IoWalletOutline /> Wallet
-              </li>
+              </li> */}
               <li onClick={() => handleChange("/profile/address")}>
                 <FaAddressCard /> Addresses
               </li>
@@ -56,9 +56,9 @@ const Profile = () => {
               <li onClick={() => navigate('/previous_orders')}>
                 <FaBagShopping /> Orders
               </li>
-              <li onClick={() => navigate('/wallet')}>
+              {/* <li onClick={() => navigate('/wallet')}>
                 <IoWalletOutline /> Wallet
-              </li>
+              </li> */}
               <li onClick={() => navigate('/addresses')}>
                 <FaAddressCard /> Addresses
               </li>

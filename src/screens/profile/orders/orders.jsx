@@ -28,7 +28,7 @@ const Orders = () => {
             {/* <h1>{index+1}</h1> */}
             <div className="orderListSub">
               <h4>#{value.orderId}</h4>
-              {value.orderStatus==='delivered'&&<button onClick={()=>handleReorder(value)}>Re-order</button>}
+              {/* {value.orderStatus==='delivered'&&<button onClick={()=>handleReorder(value)}>Re-order</button>} */}
             </div>
             <div className="orderListSub">
               <h4>Date</h4>
