@@ -64,7 +64,7 @@ const Checkout = () => {
           const distanceInMeters = response.rows[0].elements[0].distance.value;
           // Convert distance from meters to kilometers or miles as needed
           const distanceInKm = distanceInMeters / 1000;
-          if(distanceInKm<10){
+          if(distanceInKm<5){
             var time = date.toLocaleTimeString();
             if(time>'07:00:00' && time<'18:00:00'){
               setInstantVisible(true)
