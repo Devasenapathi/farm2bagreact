@@ -21,7 +21,7 @@ import SuccessScreen from "../paymentStatus/success";
 import FailedScreen from "../paymentStatus/failed";
 import Login from "../login/login";
 import AddAddress from "../addAddress/addAddress";
-import { Box, CircularProgress, Snackbar } from "@mui/material";
+import { Box, CircularProgress, Snackbar, Switch } from "@mui/material";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -40,12 +40,49 @@ const Checkout = () => {
   const [failed, setFailed] = useState(false);
   const [loader, setLoader] = useState(false)
   const [open, setOpen] = useState(false)
+  const [instantVisible, setInstantVisible] = useState(false)
+  const [instantEnabled, setInstantEnabled] = useState(false)
+
+  var date = new Date();
 
   useEffect(() => {
-    handleSubTotal();
-    if (getToken() === null || undefined) {
-      setLoginVisible(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+            console.log(position.coords)
+            const origin = new window.google.maps.LatLng(12.9269658, 80.2221044 );
+            const destination = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            const service = new window.google.maps.DistanceMatrixService();
+    service.getDistanceMatrix(
+      {
+        origins: [origin],
+        destinations: [destination],
+        travelMode: 'DRIVING',
+      },
+      (response, status) => {
+        if (status === 'OK') {
+          const distanceInMeters = response.rows[0].elements[0].distance.value;
+          // Convert distance from meters to kilometers or miles as needed
+          const distanceInKm = distanceInMeters / 1000;
+          if(distanceInKm<10){
+            var time = date.toLocaleTimeString();
+            if(time>'07:00:00' && time<'18:00:00'){
+              setInstantVisible(true)
+            }else{
+              setInstantEnabled(false)
+            }
+            
+          }
+          // setDistance(distanceInKm);
+        } else {
+          // Handle error
+          console.error('Error:', status);
+        }
+      }
+    );
+        })
     }
+    handleSubTotal();
     setCartItem(getCart().filter((val) => val.quantity > 0));
   }, []);
 
@@ -170,7 +207,7 @@ const Checkout = () => {
         area: selectedAddress.area,
         orderData: cartData,
         deviceType: "Web",
-        status: 1,
+        status: instantEnabled?2:1,
       };
 
       orderSaveService(orderDetails)
@@ -245,6 +282,15 @@ const Checkout = () => {
     clearCart()
     setCartItem([])
     navigate('/')
+  }
+
+  const instantDelivery=()=>{
+    setInstantEnabled(!instantEnabled)
+    if(!instantEnabled){
+      setDeliveryAmount(deliveryAmount+15)
+    }else(
+      setDeliveryAmount(deliveryAmount-15)
+    )
   }
 
   return (
@@ -375,6 +421,13 @@ const Checkout = () => {
             >
               {selectedAddress && selectedAddress.fullAddress ? "Change Address" : "Select Address"}
             </button>
+            {instantVisible&&<div className="instant">
+              <div className="instant1">
+              <h4>Instant Delivery</h4>
+              <h6>Get your order within 30 mins</h6>
+              </div>
+              <Switch onChange={()=>instantDelivery()} color="secondary" />
+            </div>}
             <hr />
             <div className="paymentButton" >
               {/* <RazorpayButton/> */}
