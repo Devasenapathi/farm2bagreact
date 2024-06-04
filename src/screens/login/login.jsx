@@ -10,7 +10,8 @@ import { getUserId, setToken, setUserDetails, setUserId } from "../../utils/stor
 import googlePlay from "../../assets/google_play.png";
 import appStore from "../../assets/appstore.png";
 import logo from '../../assets/logo.png';
-import { IoMdClose } from "react-icons/io";
+// import { IoMdClose } from "react-icons/io";
+import { IoMdCloseCircle } from "react-icons/io";
 import { redirectToAppStore, redirectToPlayStore } from "../../helpers/appRedirection";
 
 
@@ -49,7 +50,6 @@ const Login = ({ handleClose }) => {
   const handleSignup = () => {
     signupService(user)
       .then((res) => {
-        console.log(res.data);
         if (res.data.statusCode === 200) {
           setUserId(res.data.result._id);
           setUserDetails(res.data.result);
@@ -59,7 +59,7 @@ const Login = ({ handleClose }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.response.data.message)
       });
   };
 
@@ -93,9 +93,9 @@ const Login = ({ handleClose }) => {
   const handleResend = () => {
     resentOtpService(getUserId()).then((res) => {
       if (res.status === 200) {
-        console.log("ddddddddddddd")
+        console.log("")
       } else {
-        console.log("ërror")
+        console.log("")
       }
     }).catch((err) => { console.log(err) })
   }
@@ -117,9 +117,10 @@ const Login = ({ handleClose }) => {
               {response ? (
                 <div>
                   <input
-                    type="text"
+                    type="Number"
                     name="otp"
                     id="otp"
+                    maxLength="6"
                     placeholder="Enter OTP"
                     value={otp.otp}
                     onChange={(e) => handleOtpValue(e, 2)}
@@ -128,9 +129,10 @@ const Login = ({ handleClose }) => {
               ) : (
                 <div>
                   <input
-                    type="text"
+                    type="Number"
                     name="mobile"
                     id="mobile"
+                    maxLength="10"
                     placeholder="Enter mobile"
                     value={user.mobile}
                     onChange={(e) => handleMobileValue(e)}
@@ -178,6 +180,10 @@ const Login = ({ handleClose }) => {
               <img src={appStore} alt="img" />
             </div>
           </div>
+          <div className="closebtn">
+            {/* <IoMdClose size={30} color="white" onClick={() => handleClose()} /> */}
+            <IoMdCloseCircle size={30} color="black" onClick={() => handleClose()}/>
+          </div>
         </div>
       ) : (
         <div className="login-content">
@@ -194,9 +200,10 @@ const Login = ({ handleClose }) => {
               {response ? (
                 <div>
                   <input
-                    type="text"
+                    type="Number"
                     name="otp"
                     id="otp"
+                    maxLength="6"
                     placeholder="Enter OTP"
                     value={otp.otp}
                     onChange={(e) => handleOtpValue(e, 1)}
@@ -205,9 +212,10 @@ const Login = ({ handleClose }) => {
               ) : (
                 <div>
                   <input
-                    type="text"
+                    type="Number"
                     name="mobile"
                     id="mobile"
+                    maxLength="10"
                     placeholder="Enter Mobilenumber"
                     value={user.mobile}
                     onChange={(e) => handleMobileValue(e)}
@@ -243,7 +251,8 @@ const Login = ({ handleClose }) => {
             </div>
           </div>
           <div className="closebtn">
-            <IoMdClose size={30} color="white" onClick={() => handleClose()} />
+            {/* <IoMdClose size={30} color="white" onClick={() => handleClose()} /> */}
+            <IoMdCloseCircle size={30} color="black" onClick={() => handleClose()}/>
           </div>
         </div>
       )}

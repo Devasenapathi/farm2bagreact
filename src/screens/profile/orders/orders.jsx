@@ -16,10 +16,6 @@ const Orders = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleReorder = (e) =>{
-    console.log(e,'aaaaaaaaaaaaaaaaaaaaaa')
-  }
-
   return (
     <div className="orders">
       {ordersList.map((value, index) => {

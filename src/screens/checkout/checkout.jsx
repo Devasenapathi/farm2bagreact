@@ -14,6 +14,7 @@ import { BiSolidOffer } from "react-icons/bi";
 import "./checkout.css";
 import {
   orderSaveService,
+  razorpayWebhooks,
   updateOrderStatusService,
 } from "../../services/order_service";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +50,6 @@ const Checkout = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-            console.log(position.coords)
             const origin = new window.google.maps.LatLng(12.9269658, 80.2221044 );
             const destination = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
             const service = new window.google.maps.DistanceMatrixService();
@@ -65,6 +65,7 @@ const Checkout = () => {
           // Convert distance from meters to kilometers or miles as needed
           const distanceInKm = distanceInMeters / 1000;
           if(distanceInKm<5){
+            setDeliveryAmount(0)
             var time = date.toLocaleTimeString();
             if(time>'07:00:00' && time<'18:00:00'){
               setInstantVisible(true)
@@ -142,7 +143,17 @@ const Checkout = () => {
       razorpay.open();
       razorpay.on("payment.failed", function (response) {
         razorpay.close();
-        razorpayPaymentFailure();
+        razorpayWebhooks({"pay_id":response.error.metadata.payment_id}).then((result)=>{if(result.data.result==="failed"){
+          razorpayPaymentFailure();
+        }else{
+          setSuccess(true);
+          clearCart();
+          SuccessTimer();
+        }})
+        .catch((err)=>{
+          razorpayPaymentFailure();
+        })
+        
       });
     };
     document.body.appendChild(script);
@@ -213,9 +224,9 @@ const Checkout = () => {
       orderSaveService(orderDetails)
         .then((res) => {
           if (res.status === 200) {
-            console.log(res.data.result);
             var options = {
-              key: "rzp_live_12DDyorrzl797Z",
+              // key: "rzp_live_12DDyorrzl797Z",
+              key:"rzp_test_7Qw2FOyDt5iKX7",
               amount: res.data.result.amount,
               currency: "INR",
               name: "Farm2bag",
@@ -242,7 +253,7 @@ const Checkout = () => {
                     })
                     .catch((err) => console.log(err));
                 } else {
-                  console.log("eee");
+                  razorpayPaymentFailure()
                 }
               },
               prefill: {

@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   ADDADDRESSAPI,
   CUSTOMERADDRESSAPI,
+  DELETEADDRESS,
   DELETEUSERAPI,
   GETCUSTOMERAPI,
   UPDATEADDRESSAPI,
@@ -66,4 +67,14 @@ export function customerDeleteService(data) {
       Token: getToken(),
     },
   });
+}
+
+export function deleteAddress(data){
+  return axios.put(DELETEADDRESS,data,{
+    headers: {
+      Authorization: BASE_AUTH,
+      "Content-Type": "application/json",
+      Token: getToken(),
+    },
+  })
 }

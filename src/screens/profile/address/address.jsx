@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
   CustomerAddressService,
+  deleteAddress,
   updateAddressService,
 } from "../../../services/customer_service";
 import { getLocationDetails, getUserId } from "../../../utils/storage";
 import { MdEditSquare } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { IoCloseCircle } from "react-icons/io5";
+import { Snackbar } from "@mui/material";
 
 import "./address.css";
 
@@ -14,6 +16,7 @@ const Address = () => {
   const [addressList, setAddressList] = useState([]);
   const [updateVisible, setUpdateVisible] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState();
+  const [open,setOpen] = useState(false)
   useEffect(() => {
     getAddress();
   }, []);
@@ -34,7 +37,14 @@ const Address = () => {
     setSelectedAddress(value);
   };
 
-  const handleDelete = (value) => {};
+  const handleDelete = (value) => {
+    deleteAddress({"customerId":value._id,"_id":value._id}).then((res)=>{
+      if(res.status === 200){
+        setOpen(true)
+        getAddress()
+      }
+    }).catch((err)=>{console.log(err)})
+  };
 
   const handleChanges = (e) => {
     setSelectedAddress({ ...selectedAddress, [e.target.name]: e.target.value });
@@ -53,6 +63,14 @@ const Address = () => {
   };
   return (
     <div className="addresses">
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={()=>setOpen(false)}
+        message="Address Deleted successfully"
+        anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+        key={"bottom" + "center"}
+      />
       {addressList.map((val, index) => {
         return (
           <div className="addresses1">

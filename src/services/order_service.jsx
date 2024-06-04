@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ORDER_LISTAPI, SAVEORDERAPI, UPDATEORDERSAVEDAPI } from "../utils/api";
+import { ORDER_LISTAPI, RAZORPAYWEBHOOKSAPI, SAVEORDERAPI, UPDATEORDERSAVEDAPI } from "../utils/api";
 import { BASE_AUTH } from "../utils/base_auth";
 import { getToken } from "../utils/storage";
 
@@ -31,4 +31,16 @@ export function orderListService() {
       Token: getToken(),
     },
   });
+}
+
+export function razorpayWebhooks(data){
+  return axios.post(RAZORPAYWEBHOOKSAPI,data
+  //   ,{
+  //   headers: {
+  //     Authorization: BASE_AUTH,
+  //     "Content-Type": "application/json",
+  //     Token: getToken(),
+  //   },
+  // }
+)
 }
