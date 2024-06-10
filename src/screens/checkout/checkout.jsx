@@ -105,7 +105,7 @@ const Checkout = () => {
       getCart()
         .filter((val) => val.quantity > 0)
         .reduce((acc, val) => {
-          return acc + val.price;
+          return acc + (val.offer>0?Math.round(val.price - val.price*val.offer/100):val.price);
         }, 0)
     );
   };
@@ -346,7 +346,7 @@ const Checkout = () => {
                             {val.unitValue}
                           </h6>
                         </div>
-                        <h4>₹{val.price}</h4>
+                        <h4>₹{val.offer>0?Math.round(val.price - val.price*val.offer/100):val.price}</h4>
                       </div>
                     </div>
                     <div className="cart-items-right">

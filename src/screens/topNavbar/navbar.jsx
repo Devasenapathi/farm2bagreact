@@ -67,80 +67,51 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
         <h4>Farm2bag</h4>
       </div>
       <div className="navbar_searchbox">
-        <input
-          type="text"
-          className="navbar_text"
-          value={productName}
-          name="search"
-          placeholder="Search"
-          onChange={(e) => setProductName(e.target.value)}
-        ></input>
-        {productName.length > 0 && (
-          <div className="search-panel">
-            {farmItem &&
-              farmItem
-                .filter((item) => {
-                  return (
-                    item.productName
-                      .toLowerCase()
-                      .indexOf(productName.toLowerCase()) > -1
-                  );
-                })
-                .map((val, index) => {
-                  return (
+    <input
+        type="text"
+        className="navbar_text"
+        value={productName}
+        name="search"
+        placeholder="Search"
+        onChange={(e) => setProductName(e.target.value)}
+    />
+    {productName.length > 0 && (
+        <div className="search-panel">
+            {farmItem
+                .filter((item) =>
+                    item.productName.toLowerCase().includes(productName.toLowerCase())
+                )
+                .map((val, index) => (
                     <div className="search-item" key={index}>
-                      {val.image ? (
-                        <img
-                          src={val.image}
-                          alt=""
-                          className="search-item-image"
-                        ></img>
-                      ) : (
-                        ""
-                      )}
-                      <div
-                        className="search-details"
-                        onClick={() => {
-                          handleRouting(val);
-                        }}
-                      >
-                        <h6 className="search-product-name">
-                          {val.productName}
-                        </h6>
-                        <p className="search-product-price">
-                          {val.unit} {val.unitValue} - ₹ {val.price}
-                        </p>
-                      </div>
-                      <div className="cart-button">
-                        {cartData.find((item) => item._id === val._id) !==
-                          undefined &&
-                        cartData.find((item) => item._id === val._id).quantity >
-                          0 ? (
-                          <button onClick={() => Remove(val)}>-</button>
-                        ) : (
-                          ""
+                        {val.image && (
+                            <img src={val.image} alt="" className="search-item-image" />
                         )}
-                        {cartData.find((item) => item._id === val._id) !==
-                          undefined &&
-                        cartData.find((item) => item._id === val._id).quantity >
-                          0 ? (
-                          <h5>
-                            {
-                              cartData.find((item) => item._id === val._id)
-                                .quantity
-                            }
-                          </h5>
-                        ) : (
-                          ""
-                        )}
-                        <button onClick={() => Add(val)}>+</button>
-                      </div>
+                        <div
+                            className="search-details"
+                            onClick={() => {
+                                handleRouting(val);
+                            }}
+                        >
+                            <h6 className="search-product-name">{val.productName}</h6>
+                            <p className="search-product-price">
+                                {val.unit} {val.unitValue} - ₹ {val.price}
+                            </p>
+                        </div>
+                        <div className="cart-button">
+                            {cartData.find((item) => item._id === val._id)?.quantity > 0 && (
+                                <>
+                                    <button onClick={() => Remove(val)}>-</button>
+                                    <h5>{cartData.find((item) => item._id === val._id).quantity}</h5>
+                                </>
+                            )}
+                            <button onClick={() => Add(val)}>+</button>
+                        </div>
                     </div>
-                  );
-                })}
-          </div>
-        )}
-      </div>
+                ))}
+        </div>
+    )}
+</div>
+
       {location?<h4 onClick={handleOpen}>{location}</h4>:<CircularProgress size={12} color="success" />}
       <div className="navbar_mobile_search">
         <input

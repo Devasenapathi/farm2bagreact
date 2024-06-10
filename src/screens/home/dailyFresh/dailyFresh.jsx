@@ -61,7 +61,7 @@ const DailyFresh = ({ location }) => {
                           handleRouting(val);
                         }}>{val.productName}</h4>
                       <p className="product-price">
-                        {val.unit} {val.unitValue} - ₹ {val.price}
+                        {val.unit} {val.unitValue} - ₹ {val.offer>0?Math.round(val.price - val.price*val.offer/100):val.price}
                       </p>
                     </div>
                     <div className="cart-button">
