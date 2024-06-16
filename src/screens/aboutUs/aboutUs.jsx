@@ -2,7 +2,7 @@ import React from "react";
 
 const Aboutus = () => {
   return (
-    <div className="container">
+    <div className="terms-container">
       <div>
         <div>
           <h3 style={{ "text-align": "center" }}>About Us</h3>

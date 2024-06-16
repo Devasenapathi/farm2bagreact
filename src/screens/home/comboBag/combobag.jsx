@@ -33,8 +33,7 @@ const Combobag = ({ location }) => {
         navigate(`/product/${data._id}`)
     }
     return (
-        <div>
-            {farmItem &&
+            farmItem &&
                 <div className="combo-container">
                     <h3>ComboBag</h3>
                     <div className="combo-content">
@@ -58,8 +57,6 @@ const Combobag = ({ location }) => {
                         }
                     </div>
                 </div>
-            }
-        </div>
     )
 }
 

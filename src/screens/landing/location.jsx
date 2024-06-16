@@ -27,10 +27,12 @@ const Location = ({ locations, handleClose }) => {
                                     .then(response => response.json())
                                     .then(data => {
                                         if (data.results && data.results.length > 0) {
+                                            console.log(data.results[0].address_components,'xxxxxxxxxxxxxxxxxxxxx')
                                             const addressComponents = data.results[0].address_components;
 
                                             for (const component of addressComponents) {
                                                 if (component.types.includes("locality")) {
+                                                    console.log(component.long_name,'gggggggggggggggggggggg')
                                                     const locality = component.long_name;
                                                     if (hubList && locality) {
                                                         handleLocation(hubList, locality)
@@ -74,11 +76,19 @@ const Location = ({ locations, handleClose }) => {
         }
     }
 
+    useEffect(()=>{
+        setError("Thanks for providing your location")
+    },[selectedLocation])
+
     const handleSubmit = () => {
-        const locationDetails = location.filter((val) => val.farmName === selectedLocation)
+        if(selectedLocation){
+            const locationDetails = location.filter((val) => val.farmName === selectedLocation)
         setLocationDetails(locationDetails[0])
         locations(selectedLocation)
         handleClose()
+        }else{
+            setError("Select your location")
+        }
     }
 
     return (
@@ -87,7 +97,7 @@ const Location = ({ locations, handleClose }) => {
                 <h4 style={{color:"red"}}>{error}</h4>
                 <label>Location</label>
                 <select value={selectedLocation} className='location-select' onChange={(e) => setSelectedLocation(e.target.value)}>
-                    <option>select your location</option>
+                    <option disabled>select your location</option>
                     {location.map((val) => {
                         return (
                             <option key={val._id} value={val.farmName}>{val.farmName}</option>

@@ -111,6 +111,9 @@ const Checkout = () => {
   };
 
   useEffect(() => {
+    if(getCart().length<=0){
+      navigate('/')
+    }
     setTotal(subTotal + discount + deliveryAmount);
   }, [subTotal, discount, deliveryAmount]);
 
@@ -467,7 +470,7 @@ const Checkout = () => {
               </button>
               <hr />
               <div className="addressbox">
-                {addressList.map((val, index) => {
+                {addressList.slice().reverse().map((val, index) => {
                   return (
                     <div
                       className="addressList"

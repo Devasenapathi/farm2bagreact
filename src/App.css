@@ -70,7 +70,7 @@ input[type=number] {
   padding-left: 20px;
 }
 *::-webkit-scrollbar {
-  width: 8px;
+  width: 0px;
 }
 .product-content {
   display: flex;

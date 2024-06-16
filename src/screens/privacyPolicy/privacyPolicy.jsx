@@ -4,7 +4,7 @@ import '../termsOfUse/terms.css'
 const PrivacyPolicy = () => {
   return (
     <div className="terms-container">
-      <div style={{ "margin-top": "50px" }}>
+      <div style={{ "margin-top": "0px" }}>
         <div>
           <h4 style={{ "text-align": "center" }}>Privacy Policy</h4>
           <p>

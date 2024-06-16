@@ -105,6 +105,9 @@ const Login = ({ handleClose }) => {
       {signupVisible ? (
         <div className="login-content">
           <div className="login-left">
+          <div className="closebtn1">
+            <IoMdCloseCircle size={30} color="black" onClick={() => handleClose()}/>
+          </div>
             <div className="login-logo">
               <h1>Farm2bag Signup</h1>
               {response ? (
@@ -181,13 +184,15 @@ const Login = ({ handleClose }) => {
             </div>
           </div>
           <div className="closebtn">
-            {/* <IoMdClose size={30} color="white" onClick={() => handleClose()} /> */}
             <IoMdCloseCircle size={30} color="black" onClick={() => handleClose()}/>
           </div>
         </div>
       ) : (
         <div className="login-content">
           <div className="login-left">
+          <div className="closebtn1">
+            <IoMdCloseCircle size={30} color="black" onClick={() => handleClose()}/>
+          </div>
             <div className="login-logo">
               <h1>Farm2bag</h1>
               {response ? (

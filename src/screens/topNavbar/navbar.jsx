@@ -201,9 +201,9 @@ const Navbar = ({ location, locationChanged, handleOpen }) => {
         </div>
         <div className="navbar_left_mobile">
           <div className="navbar-cart-button">
-            <Link to={"/checkout"} className="navbar-cart">
+            <div onClick={()=>handleNavigate()} className="navbar-cart">
               <FaShoppingCart size={20} />
-            </Link>
+            </div>
           </div>
           <div className="profile" onClick={() => handleDropProfile()}>
             <MdAccountCircle size={20} />

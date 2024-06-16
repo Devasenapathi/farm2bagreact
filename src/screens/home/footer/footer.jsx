@@ -26,13 +26,13 @@ const FooterScreen = () => {
         </div>
         <div className="footer-content">
           <div>
-            <p className="footer-p" onClick={() => navigate('/terms')}>Privacy Policy</p>
-            <p className="footer-p" onClick={() => navigate('/privacy')}>Terms of use</p>
+            <p className="footer-p" onClick={() => navigate('/privacy')}>Privacy Policy</p>
+            <p className="footer-p" onClick={() => navigate('/terms')}>Terms of use</p>
           </div>
         </div>
         <div className="footer-content">
           <div>
-            <p className="footer-p" onClick={() => { navigate('/profile', { state: "customer" }) }}>Contact us</p>
+            <p className="footer-p" onClick={() => { navigate('/profile/customer', { state: "customer" }) }}>Contact us</p>
             <p className="footer-p" onClick={() => navigate('/aboutus')}>About us</p>
           </div>
         </div>

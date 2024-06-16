@@ -44,7 +44,7 @@
 }
 .category-main {
   display: flex;
-  overflow-x: auto;
+  overflow-y: auto;
   white-space: nowrap;
 }
 .category-dropdown {

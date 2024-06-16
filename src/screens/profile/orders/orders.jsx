@@ -40,7 +40,7 @@ const Orders = () => {
             </div>
             <div className="orderListSub">
               <h4>Order Status</h4>
-              <p>₹{value.orderStatus}</p>
+              <p>{value.orderStatus}</p>
             </div>
           </div>
         );

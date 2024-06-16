@@ -96,6 +96,9 @@
 .closebtn{
   background-color: #12AD2B;
 }
+.closebtn1{
+  display: none;
+}
 @media (max-width:1024px) {
   .login-content {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -107,6 +110,13 @@
   }
 }
 @media (max-width: 768px) {
+  .closebtn{
+    display: none;
+  }
+  .closebtn1{
+    display: flex;
+    justify-content: end;
+  }
   .login-overlay {
     display: flex;
     justify-content: center;
@@ -158,6 +168,13 @@
 }
 
 @media (max-width: 426px) {
+  .closebtn{
+    display: none;
+  }
+  .closebtn1{
+    display: flex;
+    justify-content: end;
+  }
   .login-overlay {
     display: flex;
     justify-content: center;
