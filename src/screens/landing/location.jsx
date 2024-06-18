@@ -16,47 +16,46 @@ const Location = ({ locations, handleClose }) => {
             if (res.status === 200) {
                 hubList = res.data.result;
                 setLocation(res.data.result)
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            setLatitude(position.coords.latitude);
-                            setLongitude(position.coords.longitude);
-                            setError(null);
-                            if (position.coords) {
-                                fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyDrxIN5pCE5TTrjdLWMq7VlMCxsj8FGD6k`)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        if (data.results && data.results.length > 0) {
-                                            console.log(data.results[0].address_components,'xxxxxxxxxxxxxxxxxxxxx')
-                                            const addressComponents = data.results[0].address_components;
+                // if (navigator.geolocation) {
+                //     navigator.geolocation.getCurrentPosition(
+                //         (position) => {
+                //             setLatitude(position.coords.latitude);
+                //             setLongitude(position.coords.longitude);
+                //             setError(null);
+                //             if (position.coords) {
+                //                 fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyDrxIN5pCE5TTrjdLWMq7VlMCxsj8FGD6k`)
+                //                     .then(response => response.json())
+                //                     .then(data => {
+                //                         if (data.results && data.results.length > 0) {
+                //                             const addressComponents = data.results[0].address_components;
 
-                                            for (const component of addressComponents) {
-                                                if (component.types.includes("locality")) {
-                                                    console.log(component.long_name,'gggggggggggggggggggggg')
-                                                    const locality = component.long_name;
-                                                    if (hubList && locality) {
-                                                        handleLocation(hubList, locality)
-                                                    }
-                                                    break;
-                                                }
-                                            }
-                                            // setError(null);
-                                        } else {
-                                            setError('No address found for the coordinates.');
-                                        }
-                                    })
-                                    .catch(error => {
-                                        setError('Error fetching address: ' + error.message);
-                                    });
-                            }
-                        },
-                        (error) => {
-                            setError(error.message);
-                        }
-                    );
-                } else {
-                    setError('Location is not supported by this browser.');
-                }
+                //                             for (const component of addressComponents) {
+                //                                 if (component.types.includes("locality")) {
+                //                                     const locality = component.long_name;
+                //                                     if (hubList && locality) {
+                //                                         handleLocation(hubList, locality)
+                //                                     }
+                //                                     break;
+                //                                 }
+                //                             }
+                //                             // setError(null);
+                //                         } else {
+                //                             setError('No address found for the coordinates.');
+                //                         }
+                //                     })
+                //                     .catch(error => {
+                //                         setError('Error fetching address: ' + error.message);
+                //                     });
+                //             }
+                //         },
+                //         (error) => {
+                //             setError(error.message);
+                //         }
+                //     );
+                // } 
+                // else {
+                //     setError('Location is not supported by this browser.');
+                // }
             } else {
                 console.log("Error on farms loading");
             }
@@ -97,7 +96,7 @@ const Location = ({ locations, handleClose }) => {
                 <h4 style={{color:"red"}}>{error}</h4>
                 <label>Location</label>
                 <select value={selectedLocation} className='location-select' onChange={(e) => setSelectedLocation(e.target.value)}>
-                    <option disabled>select your location</option>
+                    <option disabled selected>select your location</option>
                     {location.map((val) => {
                         return (
                             <option key={val._id} value={val.farmName}>{val.farmName}</option>

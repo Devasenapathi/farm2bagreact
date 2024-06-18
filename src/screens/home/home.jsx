@@ -4,6 +4,7 @@ import Categories from "./category/categories";
 import Navbar from "../topNavbar/navbar";
 import {
   getLocationDetails,
+  getProductList,
   setProductList,
 } from "../../utils/storage";
 import Location from "../landing/location";
@@ -67,7 +68,7 @@ const Home = () => {
         locationChanged={locationChanged}
         handleOpen={() => setLocationVisible(true)}
       />
-      {location ? <div><Banner />
+      {getProductList()&&getProductList().length>0 ? <div><Banner />
         <div className="home_main">
           <DailyFresh location={locationChanged} />
           <Categories />
