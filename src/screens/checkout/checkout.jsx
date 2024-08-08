@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef} from "react";
 import {
   clearCart,
   getCart,
@@ -10,7 +10,7 @@ import {
 import { IoIosCloseCircleOutline, IoIosAddCircleOutline, IoMdArrowRoundBack } from "react-icons/io";
 import { AddCart, RemoveCart } from "../../services/cart_service";
 import { CustomerAddressService } from "../../services/customer_service";
-import { BiSolidOffer } from "react-icons/bi";
+import { BiBorderAll, BiSolidOffer } from "react-icons/bi";
 import "./checkout.css";
 import {
   orderSaveService,
@@ -23,9 +23,13 @@ import FailedScreen from "../paymentStatus/failed";
 import Login from "../login/login";
 import AddAddress from "../addAddress/addAddress";
 import { Box, CircularProgress, Snackbar, Switch } from "@mui/material";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { FaCalendarAlt } from 'react-icons/fa'; 
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState(null); // State to store selected date
   const [loginVisible, setLoginVisible] = useState(false);
   const [cartItem, setCartItem] = useState([]);
   const [addressList, setAddressList] = useState([]);
@@ -37,50 +41,79 @@ const Checkout = () => {
   const [deliveryAmount, setDeliveryAmount] = useState(30);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState();
+  const [error, setError] = useState();
   const [success, setSuccess] = useState(false);
   const [failed, setFailed] = useState(false);
   const [loader, setLoader] = useState(false)
   const [open, setOpen] = useState(false)
   const [instantVisible, setInstantVisible] = useState(false)
   const [instantEnabled, setInstantEnabled] = useState(false)
+  const [dateVisible, setDateVisible] = useState(false)
 
   var date = new Date();
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const CustomInput = forwardRef(({ value, onClick }, ref) => (
+    <div className="custom-input" onClick={onClick} ref={ref}>
+      <input value={value} readOnly />
+      <FaCalendarAlt className="calendar-icon" />
+    </div>
+  ));
+
+  // Calculate minimum and maximum times
+  const now = new Date();
+  const minTime = new Date();
+  minTime.setHours(6, 45);
+
+  const maxTime = new Date();
+  maxTime.setHours(18, 0);
+
   useEffect(() => {
+    setSelectedDate(new Date(new Date().setDate(new Date().getDate() + 1)))
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-            const origin = new window.google.maps.LatLng(12.9269658, 80.2221044 );
-            const destination = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            const service = new window.google.maps.DistanceMatrixService();
-    service.getDistanceMatrix(
-      {
-        origins: [origin],
-        destinations: [destination],
-        travelMode: 'DRIVING',
-      },
-      (response, status) => {
-        if (status === 'OK') {
-          const distanceInMeters = response.rows[0].elements[0].distance.value;
-          // Convert distance from meters to kilometers or miles as needed
-          const distanceInKm = distanceInMeters / 1000;
-          if(distanceInKm<5){
-            setDeliveryAmount(0)
-            var time = date.toLocaleTimeString();
-            if(time>'07:00:00' && time<'18:00:00'){
-              setInstantVisible(true)
-            }else{
-              setInstantEnabled(false)
+          const origin = new window.google.maps.LatLng(12.9269658, 80.2221044);
+          const destination = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          const service = new window.google.maps.DistanceMatrixService();
+          service.getDistanceMatrix(
+            {
+              origins: [origin],
+              destinations: [destination],
+              travelMode: 'DRIVING',
+            },
+            (response, status) => {
+              if (status === 'OK') {
+                const distanceInMeters = response.rows[0].elements[0].distance.value;
+                // Convert distance from meters to kilometers or miles as needed
+                const distanceInKm = distanceInMeters / 1000;
+                if (distanceInKm < 3) {
+                  setDeliveryAmount(0)
+                  var time = date.toLocaleTimeString();
+                  if (time > '07:00:00' && time < '08:00:00') {
+                    setInstantVisible(true)
+                  } else {
+                    setInstantVisible(false)
+                  }
+                }else if(distanceInKm >3 && distanceInKm <5){
+                  setDeliveryAmount(10)
+                }else if(distanceInKm>5 && distanceInKm <10){
+                  setDeliveryAmount(20)
+                }else if(distanceInKm>10 && distanceInKm <20){
+                  setDeliveryAmount(30)
+                }else{
+                  setDeliveryAmount(45)
+                }
+                // setDistance(distanceInKm);
+              } else {
+                // Handle error
+                console.error('Error:', status);
+              }
             }
-            
-          }
-          // setDistance(distanceInKm);
-        } else {
-          // Handle error
-          console.error('Error:', status);
-        }
-      }
-    );
+          );
         })
     }
     handleSubTotal();
@@ -105,13 +138,13 @@ const Checkout = () => {
       getCart()
         .filter((val) => val.quantity > 0)
         .reduce((acc, val) => {
-          return acc + (val.offer>0?Math.round(val.price - val.price*val.offer/100):val.price);
+          return acc + (val.offer > 0 ? Math.round(val.price - val.price * val.offer / 100) : val.price);
         }, 0)
     );
   };
 
   useEffect(() => {
-    if(getCart().length<=0){
+    if (getCart().length <= 0) {
       navigate('/')
     }
     setTotal(subTotal + discount + deliveryAmount);
@@ -146,17 +179,19 @@ const Checkout = () => {
       razorpay.open();
       razorpay.on("payment.failed", function (response) {
         razorpay.close();
-        razorpayWebhooks({"pay_id":response.error.metadata.payment_id}).then((result)=>{if(result.data.result==="failed"){
-          razorpayPaymentFailure();
-        }else{
-          setSuccess(true);
-          clearCart();
-          SuccessTimer();
-        }})
-        .catch((err)=>{
-          razorpayPaymentFailure();
+        razorpayWebhooks({ "pay_id": response.error.metadata.payment_id }).then((result) => {
+          if (result.data.result === "failed") {
+            razorpayPaymentFailure();
+          } else {
+            setSuccess(true);
+            clearCart();
+            SuccessTimer();
+          }
         })
-        
+          .catch((err) => {
+            razorpayPaymentFailure();
+          })
+
       });
     };
     document.body.appendChild(script);
@@ -175,17 +210,18 @@ const Checkout = () => {
 
   const saveOrder = () => {
     setLoader(true)
+    if(total>100){
     if (selectedAddress && selectedAddress.fullAddress) {
       const address = {
-        addressType:selectedAddress.addressType,
-        fullAddress:selectedAddress.fullAddress,
-        address:selectedAddress.fullAddress,
-        doorNo:selectedAddress.doorNo,
-        landmark:selectedAddress.landmark,
-        latitude:selectedAddress.latitude,
-        longitude:selectedAddress.longitude,
-        pincode:selectedAddress.latitude,
-        area:selectedAddress.area,
+        addressType: selectedAddress.addressType,
+        fullAddress: selectedAddress.fullAddress,
+        address: selectedAddress.fullAddress,
+        doorNo: selectedAddress.doorNo,
+        landmark: selectedAddress.landmark,
+        latitude: selectedAddress.latitude,
+        longitude: selectedAddress.longitude,
+        pincode: selectedAddress.latitude,
+        area: selectedAddress.area,
       }
       const cartData = getCart().map((element) => ({
         perRate: 0,
@@ -221,7 +257,8 @@ const Checkout = () => {
         area: selectedAddress.area,
         orderData: cartData,
         deviceType: "Web",
-        status: instantEnabled?2:1,
+        status: instantEnabled ? 2 : 1,
+        expDeliveryDateAndTime:selectedDate,
       };
 
       orderSaveService(orderDetails)
@@ -281,7 +318,13 @@ const Checkout = () => {
     } else {
       setLoader(false)
       setOpen(true)
+      setError("Select Address!")
     }
+  }else{
+    setLoader(false)
+    setOpen(true)
+    setError("Minimum order amount above 100")
+  }
   };
 
   const SuccessTimer = () => {
@@ -297,12 +340,12 @@ const Checkout = () => {
     navigate('/')
   }
 
-  const instantDelivery=()=>{
+  const instantDelivery = () => {
     setInstantEnabled(!instantEnabled)
-    if(!instantEnabled){
-      setDeliveryAmount(deliveryAmount+15)
-    }else(
-      setDeliveryAmount(deliveryAmount-15)
+    if (!instantEnabled) {
+      setDeliveryAmount(deliveryAmount + 15)
+    } else (
+      setDeliveryAmount(deliveryAmount - 15)
     )
   }
 
@@ -349,7 +392,7 @@ const Checkout = () => {
                             {val.unitValue}
                           </h6>
                         </div>
-                        <h4>₹{val.offer>0?Math.round(val.price - val.price*val.offer/100):val.price}</h4>
+                        <h4>₹{val.offer > 0 ? Math.round(val.price - val.price * val.offer / 100) : val.price}</h4>
                       </div>
                     </div>
                     <div className="cart-items-right">
@@ -395,6 +438,22 @@ const Checkout = () => {
             <BiSolidOffer size={30} color="blue" />
             <h5>Offers & Coupons Available</h5>
           </div> */}
+          <div className="dateTime">
+            <h3>Customize Date and Time of Delivery</h3>
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => handleDateChange(date)}
+              showTimeSelect
+              timeIntervals={15}
+              dateFormat="dd/MM/yyyy hh:mm aa"
+              minDate={new Date(now.setDate(now.getDate() + 1))}
+              maxDate={new Date(now.setDate(now.getDate() + 5))}
+              minTime={minTime}
+              maxTime={maxTime}
+              className="custom-datepicker"
+              customInput={<CustomInput />}
+            />
+          </div>
           <div className="cart-calculation">
             <table>
               <tr>
@@ -434,12 +493,12 @@ const Checkout = () => {
             >
               {selectedAddress && selectedAddress.fullAddress ? "Change Address" : "Select Address"}
             </button>
-            {instantVisible&&<div className="instant">
+            {instantVisible && <div className="instant">
               <div className="instant1">
-              <h4>Instant Delivery</h4>
-              <h6>Get your order within 30 mins</h6>
+                <h4>Instant Delivery</h4>
+                <h6>Get your order within 30 mins</h6>
               </div>
-              <Switch onChange={()=>instantDelivery()} color="secondary" />
+              <Switch onChange={() => instantDelivery()} color="secondary" />
             </div>}
             <hr />
             <div className="paymentButton" >
@@ -490,9 +549,9 @@ const Checkout = () => {
       <Snackbar
         open={open}
         autoHideDuration={2000}
-        onClose={()=>setOpen(false)}
-        message="Select the address"
-        anchorOrigin={{ vertical:"bottom", horizontal:"center" }}
+        onClose={() => setOpen(false)}
+        message={error}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         key={"bottom" + "center"}
       />
     </div>
