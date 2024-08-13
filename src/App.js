@@ -1,6 +1,6 @@
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import Home from "./screens/home/home";
+import Home from "./newScreens/Home/Home";
 import CategoryItem from "./screens/categoryItems/categoryItem";
 import Checkout from "./screens/checkout/checkout";
 import Billing from "./screens/billing/billing";
@@ -19,7 +19,8 @@ import CustomerSupport from "./screens/profile/customerSupport/customerSupport";
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Home/>
+      {/* <Router>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/category" element={<CategoryItem />} />
@@ -43,7 +44,7 @@ function App() {
           <Route path="/profileDetails" element={<ProfileDetails />}></Route>
           <Route path="/customer" element={<CustomerSupport />}></Route>
         </Routes>
-      </Router>
+      </Router> */}
     </div>
   );
 }

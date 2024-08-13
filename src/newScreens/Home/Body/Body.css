@@ -1,0 +1,48 @@
+.newBody {
+    margin: 0%;
+    height: auto;
+    background-color: white;
+    padding-top: 1%;
+}
+h1{
+    margin: 0 auto;
+    margin-top: 2%;
+    padding-bottom: 0% 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.newBody1{
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    overflow-x: auto;
+}
+.newDailyfresh {
+    margin: 2% 2%;
+    height: auto;
+    display: flex;
+    align-items: top;
+    justify-content: space-between;
+    overflow-x: auto;
+}
+.newDeals {
+    width: 100vw;
+    height: 50vh;
+    background-image: url('../../../assets/store_image.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.newSeasnol{
+    margin: 2% 2%;
+    height: auto;
+    display: flex;
+    align-items: top;
+    overflow-x: auto;
+    padding-bottom: 2%;
+}
