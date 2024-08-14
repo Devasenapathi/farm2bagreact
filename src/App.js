@@ -15,15 +15,19 @@ import Wallet from "./screens/profile/wallet/wallet";
 import Address from "./screens/profile/address/address";
 import ProfileDetails from "./screens/profile/profileDetails/profileDetails";
 import CustomerSupport from "./screens/profile/customerSupport/customerSupport";
+import Category from "./newScreens/Category/Category";
+import Navbar from "./newScreens/Home/Navbar/Navbar";
+import FooterScreen from "./screens/home/footer/footer";
 
 function App() {
   return (
     <div className="App">
-      <Home/>
-      {/* <Router>
+      {/* <Home/> */}
+      <Router>
+      <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/category" element={<CategoryItem />} />
+          <Route path="/category" element={<Category />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/billing" element={<Billing />}></Route>
           <Route path="/product/:id" element={<SingleProduct />}></Route>
@@ -44,7 +48,8 @@ function App() {
           <Route path="/profileDetails" element={<ProfileDetails />}></Route>
           <Route path="/customer" element={<CustomerSupport />}></Route>
         </Routes>
-      </Router> */}
+        <FooterScreen/>
+      </Router>
     </div>
   );
 }

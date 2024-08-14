@@ -9,7 +9,7 @@ export function AddCart(data) {
           ? {
               ...item,
               quantity: item.quantity + 1,
-              price: item.price + item.actualPrice,
+              totalPrice: item.price * (item.quantity+1),
             }
           : item
       );
@@ -19,7 +19,7 @@ export function AddCart(data) {
       return false;
     }
   } else {
-    setCart([...getCart(), { ...data, quantity: 1 }]);
+    setCart([...getCart(), { ...data, quantity: 1,totalPrice:data.price*1 }]);
     return true;
   }
 }
@@ -33,13 +33,13 @@ export function RemoveCart(data) {
           ? {
               ...item,
               quantity: item.quantity - 1,
-              price: item.price - item.actualPrice,
+              totalPrice: item.price * (item.quantity - 1),
             }
           : item
       );
       setCart(updatedCart);
     } else {
-      setCart([...getCart(), { ...data, quantity: 1 }]);
+      setCart([...getCart(), { ...data, quantity: 1, totalPrice:data.price* 1}]);
     }
     return true;
   } else {

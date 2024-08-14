@@ -1,22 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar/Navbar'
 import Banner from './Banner/Banner'
 import Body from './Body/Body'
-import Location from '../../screens/landing/location'
 import './Home.css'
+import { getProductList } from '../../utils/storage'
+
 const Home = () => {
-  const [location, setLocation] = useState();
-  const updateLocation = (value) => {
-    setLocation(value);
-  };
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
   return (
     <div className='newHome'>
-        <Location locations={updateLocation}
-          handleClose={() => {console.log('aaaaaaaaaaaaaa')
-          }}/>
-        <Navbar/>
+        {/* <Navbar/> */}
+        {getProductList()&&
+        <div>
         <Banner/>
         <Body/>
+        
+        </div>}
+        {/* <Category/> */}
     </div>
   )
 }

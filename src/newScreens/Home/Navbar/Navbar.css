@@ -1,11 +1,21 @@
 .newNavbar{
-    width: 92%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto;
-    padding: 1% 1%;
-    background-color: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background-color: #333;
+  color: #fff;
+  padding: 1% 0%;
+  margin-bottom: 2%;
+  color: black;
+  background-color: white;
+  z-index: 1000;
+}
+.newNavbar1{
+  margin: 0 3%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .newSearchbox {
@@ -53,12 +63,38 @@
     color: #F4C430;
   }
   .newNavbarRight3 button{
-    margin: 0 auto;
+    margin: 0 0;
     font-size: large;
   }
   .newNavbarRight4{
     display: flex;
+    justify-content: start;
   }
   .newNavbarRight4 button{
-    font-size: small;
+    font-size: x-small;
+    justify-content: start;
+  }
+  .newMobileSearchbox{
+    display: none;
+  }
+
+  @media (max-width: 480px){
+    .newNavbar{
+      width: 425px;
+    }
+    .newSearchbox{
+      display: none;
+    }
+    .newMobileSearchbox{
+      display: block;
+      border: none;
+    outline: none;
+    background-color: white;
+    color: black;
+    padding: 8px 10px;
+    border-radius: 20px;
+    }
+    .newNavbarRight2{
+      display: none;
+    }
   }

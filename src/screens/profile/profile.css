@@ -11,8 +11,9 @@
   place-items: center;
 }
 .profileScreen-main {
+  margin-top: 7%;
   height: 90%;
-  width: 85%;
+  width: 100%;
   border-radius: 10px;
   overflow: hidden;
   background-color: white;

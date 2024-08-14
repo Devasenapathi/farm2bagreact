@@ -12,11 +12,35 @@ h1{
     align-items: center;
     justify-content: center;
 }
+.newBody0{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
 .newBody1{
     align-items: center;
     justify-content: space-between;
     display: flex;
     overflow-x: auto;
+    white-space: nowrap;
+    flex: 1;
+    scroll-behavior: smooth;
+    margin: 0 0%;
+    padding: 0 1%;
+}
+.newBody0 button{
+    background-color: transparent;
+    color: #F4C430;
+    z-index: 1;
+}
+.icon {
+    display: inline-block;
+    font-size: 24px; /* Adjust size of icon */
+    transition: transform 0.3s ease; /* Smooth transition for zoom effect */
+  }
+.right:hover .icon,.left:hover .icon{
+    transform: scale(2);
 }
 .newDailyfresh {
     margin: 2% 2%;
@@ -26,6 +50,38 @@ h1{
     justify-content: space-between;
     overflow-x: auto;
 }
+.newBodyCategory{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto; /* Prevent items from shrinking or growing */
+  margin: 10px;
+  text-align: center;
+  line-height: 1px;
+}
+.newBodyCategory:hover{
+    color: #F4C430;
+}
+.scroll-button {
+    background-color: transparent;
+    border: none;
+    font-size: 24px; /* Adjust size of arrow */
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .scroll-button.left {
+    left: 0;
+  }
+  
+  .scroll-button.right {
+    right: 0;
+  }
 .newDeals {
     width: 100vw;
     height: 50vh;
@@ -39,6 +95,15 @@ h1{
     justify-content: center;
 }
 .newSeasnol{
+    margin: 2% 2%;
+    height: auto;
+    display: flex;
+    align-items: top;
+    overflow-x: auto;
+    padding-bottom: 2%;
+}
+
+.newCombobag{
     margin: 2% 2%;
     height: auto;
     display: flex;

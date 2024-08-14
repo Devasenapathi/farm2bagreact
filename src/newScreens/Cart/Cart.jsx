@@ -11,7 +11,7 @@ import { IoIosCloseCircleOutline, IoIosAddCircleOutline, IoMdArrowRoundBack } fr
 import { AddCart, RemoveCart } from "../../services/cart_service";
 import { CustomerAddressService } from "../../services/customer_service";
 import { BiBorderAll, BiSolidOffer } from "react-icons/bi";
-import "./checkout.css";
+import "./Cart.css";
 import {
   orderSaveService,
   razorpayWebhooks,
@@ -22,14 +22,13 @@ import SuccessScreen from "../paymentStatus/success";
 import FailedScreen from "../paymentStatus/failed";
 import Login from "../login/login";
 import AddAddress from "../addAddress/addAddress";
-import { Box, Button, CircularProgress, Snackbar, Switch } from "@mui/material";
+import { Box, CircularProgress, Snackbar, Switch } from "@mui/material";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalendarAlt } from 'react-icons/fa'; 
-import { MdDeleteOutline } from "react-icons/md";
 
-const Checkout = () => {
-  const navigate = useNavigate();
+const Cart = () => {
+    const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(null); // State to store selected date
   const [loginVisible, setLoginVisible] = useState(false);
   const [cartItem, setCartItem] = useState([]);
@@ -139,7 +138,7 @@ const Checkout = () => {
       getCart()
         .filter((val) => val.quantity > 0)
         .reduce((acc, val) => {
-          return acc + (val.offer > 0 ? Math.round(val.totalPrice - val.totalPrice * val.offer / 100) : val.totalPrice);
+          return acc + (val.offer > 0 ? Math.round(val.price - val.price * val.offer / 100) : val.price);
         }, 0)
     );
   };
@@ -227,8 +226,8 @@ const Checkout = () => {
       const cartData = getCart().map((element) => ({
         perRate: 0,
         quantity: element.quantity,
-        price: element.price,
-        totalAmount: element.totalPrice,
+        price: element.actualPrice,
+        totalAmount: element.price,
         productName: element.productName,
         unit: element.unit,
         unitValue: element.unitValue,
@@ -349,212 +348,9 @@ const Checkout = () => {
       setDeliveryAmount(deliveryAmount - 15)
     )
   }
-
   return (
-    <div className="cartScreen">
-      {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
-      {success && <SuccessScreen />}
-      {failed && <FailedScreen />}
-      <div className="cart-top">
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <IoMdArrowRoundBack size={30} onClick={() => navigate(-1)} />
-          <h3>Cart</h3>
-        </div>
-        <div>
-          <Button onClick={() => handleCart()}>Empty Cart</Button>
-        </div>
-      </div>
-      <div className="cart-bottom">
-        <div className="cart-left">
-          <div className="cart-left-child1">
-            {cartItem &&
-              cartItem.map((val) => {
-                return (
-                  <div className="cart-items">
-                    <div className="cart-items-left">
-                      <div className="cart-items-image">
-                        {val.image ? (
-                          <img
-                            src={val.image}
-                            alt=""
-                            className="cart-item-image"
-                          ></img>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                      <div>
-                        <div className="cart-product-name">
-                          <div>
-                            <h5>{val.productName}</h5>
-                          </div>
-                          <h6>
-                            {val.unit}
-                            {val.unitValue} - 
-                            ₹{val.offer > 0 ? Math.round(val.totalPrice - val.totalPrice * val.offer / 100) : val.totalPrice}
-                          </h6>
-                        </div>
-                        
-                      </div>
-                    </div>
-                    <div className="cart-items-right">
-                      <div className="cart-button">
-                        {cartItem.find((item) => item._id === val._id) !==
-                          undefined &&
-                          cartItem.find((item) => item._id === val._id).quantity >
-                          0 ? (
-                          <button onClick={() => Remove(val)}>-</button>
-                        ) : (
-                          ""
-                        )}
-                        {cartItem.find((item) => item._id === val._id) !==
-                          undefined &&
-                          cartItem.find((item) => item._id === val._id).quantity >
-                          0 ? (
-                          <h5>
-                            {
-                              cartItem.find((item) => item._id === val._id)
-                                .quantity
-                            }
-                          </h5>
-                        ) : (
-                          ""
-                        )}
-                        <button onClick={() => Add(val)}>+</button>
-                      </div>
-                      <Button color="error"><MdDeleteOutline size={30} color="error"/></Button>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-        <div className="cart-right">
-          <div className="dateTime">
-            <h3>Customize Date and Time of Delivery</h3>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => handleDateChange(date)}
-              showTimeSelect
-              timeIntervals={15}
-              dateFormat="dd/MM/yyyy hh:mm aa"
-              minDate={new Date(now.setDate(now.getDate() + 1))}
-              maxDate={new Date(now.setDate(now.getDate() + 5))}
-              minTime={minTime}
-              maxTime={maxTime}
-              className="custom-datepicker"
-              customInput={<CustomInput />}
-            />
-          </div>
+    <div>Cart</div>
+  )
+}
 
-          <div className="cart-coupons">
-            <BiSolidOffer size={30} color="green" />
-            <h5>Offers & Coupons Available</h5>
-          </div>
-
-          <div className="cart-calculation">
-            <table>
-              <tr>
-                <td>SubTotal</td>
-                <td>{subTotal}</td>
-              </tr>
-              <tr>
-                <td>Delivery Amount</td>
-                <td>{deliveryAmount}</td>
-              </tr>
-              <tr>
-                <td>Discount</td>
-                <td>{discount}</td>
-              </tr>
-              <hr />
-              <tr style={{ fontWeight: "bold", fontSize: "18px" }}>
-                <td>Total</td>
-                <td>{total}</td>
-              </tr>
-              <hr />
-            </table>
-          </div>
-          <div className="cartAddress">
-            {selectedAddress && selectedAddress.fullAddress && (
-              <div className="cartAddressView">
-                <p>
-                  <span style={{ fontWeight: "bold" }}>
-                    {selectedAddress.addressType}-
-                  </span>
-                  {selectedAddress.fullAddress}
-                </p>
-              </div>
-            )}
-            <Button
-              color="success"
-              className="address-button"
-              onClick={() => setAddressVisible(true)}
-            >
-              {selectedAddress && selectedAddress.fullAddress ? "Change Address" : "Select Address"}
-            </Button>
-            {instantVisible && <div className="instant">
-              <div className="instant1">
-                <h4>Instant Delivery</h4>
-                <h6>Get your order within 30 mins</h6>
-              </div>
-              <Switch onChange={() => instantDelivery()} color="secondary" />
-            </div>}
-            <hr />
-            <div className="paymentButton" >
-              {/* <RazorpayButton/> */}
-              {loader ? <CircularProgress color="inherit" size={25} /> : <Button variant="contained" color="success" onClick={saveOrder}>Continue to payment</Button>}
-            </div>
-          </div>
-        </div>
-        {addressVisible && (
-          <div className="addressSelect-overlay">
-            {addVisible && (
-              <AddAddress handleClose={() => setAddVisible(false)} />
-            )}
-            <div className="addressSelect-content">
-              <div className="address-top">
-                <h5>Select an address</h5>
-                <h5 onClick={() => setAddressVisible(false)}>
-                  <IoIosCloseCircleOutline size={20} />
-                </h5>
-              </div>
-              <hr />
-              <button
-                className="addAddress"
-                onClick={() => setAddVisible(true)}
-              >
-                <IoIosAddCircleOutline size={30} color="red" />
-                Add Address
-              </button>
-              <hr />
-              <div className="addressbox">
-                {addressList.slice().reverse().map((val, index) => {
-                  return (
-                    <div
-                      className="addressList"
-                      key={index}
-                      onClick={() => handleAddress(val)}
-                    >
-                      <h4>{val.addressType}</h4>
-                      <p>{val.fullAddress}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={() => setOpen(false)}
-        message={error}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        key={"bottom" + "center"}
-      />
-    </div>
-  );
-};
-
-export default Checkout;
+export default Cart
