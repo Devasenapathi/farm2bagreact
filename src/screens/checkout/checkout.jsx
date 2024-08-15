@@ -22,10 +22,11 @@ import SuccessScreen from "../paymentStatus/success";
 import FailedScreen from "../paymentStatus/failed";
 import Login from "../login/login";
 import AddAddress from "../addAddress/addAddress";
-import { Box, CircularProgress, Snackbar, Switch } from "@mui/material";
+import { Box, Button, CircularProgress, Snackbar, Switch } from "@mui/material";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalendarAlt } from 'react-icons/fa'; 
+import { MdDeleteOutline } from "react-icons/md";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -138,7 +139,7 @@ const Checkout = () => {
       getCart()
         .filter((val) => val.quantity > 0)
         .reduce((acc, val) => {
-          return acc + (val.offer > 0 ? Math.round(val.price - val.price * val.offer / 100) : val.price);
+          return acc + (val.offer > 0 ? Math.round(val.totalPrice - val.totalPrice * val.offer / 100) : val.totalPrice);
         }, 0)
     );
   };
@@ -226,8 +227,8 @@ const Checkout = () => {
       const cartData = getCart().map((element) => ({
         perRate: 0,
         quantity: element.quantity,
-        price: element.actualPrice,
-        totalAmount: element.price,
+        price: element.price,
+        totalAmount: element.totalPrice,
         productName: element.productName,
         unit: element.unit,
         unitValue: element.unitValue,
@@ -360,7 +361,7 @@ const Checkout = () => {
           <h3>Cart</h3>
         </div>
         <div>
-          <button onClick={() => handleCart()}>Empty Cart</button>
+          <Button onClick={() => handleCart()}>Empty Cart</Button>
         </div>
       </div>
       <div className="cart-bottom">
@@ -389,10 +390,11 @@ const Checkout = () => {
                           </div>
                           <h6>
                             {val.unit}
-                            {val.unitValue}
+                            {val.unitValue} - 
+                            ₹{val.offer > 0 ? Math.round(val.totalPrice - val.totalPrice * val.offer / 100) : val.totalPrice}
                           </h6>
                         </div>
-                        <h4>₹{val.offer > 0 ? Math.round(val.price - val.price * val.offer / 100) : val.price}</h4>
+                        
                       </div>
                     </div>
                     <div className="cart-items-right">
@@ -420,24 +422,14 @@ const Checkout = () => {
                         )}
                         <button onClick={() => Add(val)}>+</button>
                       </div>
+                      <Button color="error"><MdDeleteOutline size={30} color="error"/></Button>
                     </div>
                   </div>
                 );
               })}
           </div>
-          {/* <div className="cart-left-child2">
-            <h4>Delivery Person tip</h4>
-            <p>The amount you select is for your delivery partner</p>
-            <div>
-
-            </div>
-          </div> */}
         </div>
         <div className="cart-right">
-          {/* <div className="cart-coupons">
-            <BiSolidOffer size={30} color="blue" />
-            <h5>Offers & Coupons Available</h5>
-          </div> */}
           <div className="dateTime">
             <h3>Customize Date and Time of Delivery</h3>
             <DatePicker
@@ -454,6 +446,12 @@ const Checkout = () => {
               customInput={<CustomInput />}
             />
           </div>
+
+          <div className="cart-coupons">
+            <BiSolidOffer size={30} color="green" />
+            <h5>Offers & Coupons Available</h5>
+          </div>
+
           <div className="cart-calculation">
             <table>
               <tr>
@@ -487,12 +485,13 @@ const Checkout = () => {
                 </p>
               </div>
             )}
-            <button
+            <Button
+              color="success"
               className="address-button"
               onClick={() => setAddressVisible(true)}
             >
               {selectedAddress && selectedAddress.fullAddress ? "Change Address" : "Select Address"}
-            </button>
+            </Button>
             {instantVisible && <div className="instant">
               <div className="instant1">
                 <h4>Instant Delivery</h4>
@@ -503,7 +502,7 @@ const Checkout = () => {
             <hr />
             <div className="paymentButton" >
               {/* <RazorpayButton/> */}
-              {loader ? <CircularProgress color="inherit" size={25} /> : <button onClick={saveOrder}>Continue to payment</button>}
+              {loader ? <CircularProgress color="inherit" size={25} /> : <Button variant="contained" color="success" onClick={saveOrder}>Continue to payment</Button>}
             </div>
           </div>
         </div>

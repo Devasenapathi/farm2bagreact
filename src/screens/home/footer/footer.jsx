@@ -2,7 +2,10 @@ import React from "react";
 import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
 import googlePlay from "../../../assets/google_play.png";
 import appStore from "../../../assets/appstore.png";
-
+import { FaTruck } from "react-icons/fa";
+import { BsCashCoin } from "react-icons/bs";
+import { FaBoxOpen } from "react-icons/fa6";
+import { RiCustomerService2Fill } from "react-icons/ri";
 import "./footer.css";
 import { useNavigate } from "react-router-dom";
 import { redirectToAppStore, redirectToPlayStore } from "../../../helpers/appRedirection";
@@ -11,6 +14,24 @@ const FooterScreen = () => {
   const navigate = useNavigate();
   return (
     <div className="footer">
+      <ul className="single-service">
+        <li className="ervice-content">
+          <FaTruck size={30} />
+          <h4>Free Delivery</h4>
+        </li>
+        <li className="ervice-content">
+          <BsCashCoin size={30} />
+          <span>Cash On Delivery</span>
+        </li>
+        <li className="ervice-content">
+          <FaBoxOpen size={30} />
+          <span>1 Day Delivery</span>
+        </li>
+        <li className="ervice-content">
+          <RiCustomerService2Fill size={30} />
+          <span>Customer Support</span>
+        </li>
+      </ul>
       <hr />
       <div className="footer-main">
         <div className="footer-content">

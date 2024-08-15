@@ -4,9 +4,8 @@
   padding: 0;
   height: auto;
   padding: 20px;
-  background-color: #12AD2B;
-  color: #fff;
-  font-size: 18px;
+  background-color: white;
+  font-size: 14px;
   font-weight: bold;
 }
 .footer-main{
@@ -33,7 +32,17 @@
 .footer-p{
   cursor: pointer;
 }
-
+.footer ul{
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+.footer ul li{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
 @media (max-width: 426px){
   .footer {
     margin: 10px 0px;
