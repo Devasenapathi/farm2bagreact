@@ -60,7 +60,6 @@ export function updateAddressService(data) {
 }
 
 export function customerDeleteService(data) {
-  console.log(data)
   return axios.put(DELETEUSERAPI, data, {
     headers: {
       Authorization: BASE_AUTH,

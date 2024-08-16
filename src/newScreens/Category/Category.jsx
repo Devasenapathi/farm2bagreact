@@ -15,8 +15,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-// import { categoryService } from '../../../services/b2c_service';
-// import { getProductList } from '../../../utils/storage';
 import { FaRegHeart } from "react-icons/fa";
 
 import "./Category.css";
@@ -118,24 +116,24 @@ const Category = () => {
         <Box sx={{ flexGrow: 1, mt: 4, mr: 2, ml: 2 }}>
           <Grid
             container
-            spacing={{ xs: 1, md: 0 }}
-            columns={{ xs: 2, sm: 8, md: 16 }}
+            spacing={{ xs: 0, md: 0 }}
+            columns={{ xs: 4, sm: 8, md: 16 }}
           >
             {farmItem
               ? farmItem.map((val, index) => {
                   return (
                     <Grid item xs={2} sm={4} md={4} key={index}>
                       <Card
-                        onClick={() => handleRouting(val)} // Handle card click
+                        onClick={() => handleRouting(val)}
                         sx={{
-                          minWidth: 200,
+                          minWidth: 150,
                           minHeight: 320,
                           mb: 1,
                           mr: 1,
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",
-                          cursor: "pointer", // Add cursor pointer to indicate that the card is clickable
+                          cursor: "pointer",
                         }}
                       >
                         <CardMedia
@@ -159,41 +157,41 @@ const Category = () => {
                             display: "flex",
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            zIndex: 1000,
-                            p: 1, // Add padding to CardActions for better spacing
+                            zIndex: 1,
+                            p: 1,
                           }}
                         >
-                          <Button size="small" variant="text" color="success">
+                          {/* <Button size="small" variant="text" color="success">
                             <FaRegHeart size={20} />
-                          </Button>
+                          </Button> */}
                           {cartData.find((item) => item._id === val._id)
                             ?.quantity > 0 ? (
                             <div
                               className="cart-button"
                               style={{ display: "flex", alignItems: "center" }}
                             >
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Remove(val);
                                 }}
                               >
                                 -
-                              </Button>
+                              </button>
                               <Typography variant="h6" sx={{ mx: 1 }}>
                                 {
                                   cartData.find((item) => item._id === val._id)
                                     ?.quantity
                                 }
                               </Typography>
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Add(val);
                                 }}
                               >
                                 +
-                              </Button>
+                              </button>
                             </div>
                           ) : (
                             <Button
@@ -201,7 +199,7 @@ const Category = () => {
                               variant="contained"
                               color="success"
                               onClick={(e) => {
-                                e.stopPropagation(); // Prevent click event on button from triggering card's onClick
+                                e.stopPropagation();
                                 Add(val);
                               }}
                             >

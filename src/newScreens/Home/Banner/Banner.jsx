@@ -40,7 +40,7 @@ const Banner = () => {
       return (
         <Box
       sx={{
-        maxWidth: '100%',
+        maxWidth: '100vw',
         flexGrow: 2,
         mt: 12,
         backgroundColor:"blue"
@@ -58,7 +58,7 @@ const Banner = () => {
               <Box
                 component="img"
                 sx={{
-                  height: isMobile ? '50vh' : '75vh', // Adjust height based on device
+                  height: isMobile ? '35vh' : '75vh', // Adjust height based on device
                   margin: '0 auto',
                   display: 'block',
                   overflow: 'hidden',
@@ -69,6 +69,7 @@ const Banner = () => {
                 alt={step.label}
               />
             ) : null}
+             {/* <p>This is some text in the first slide.</p> */}
           </div>
         ))}
       </AutoPlaySwipeableViews>

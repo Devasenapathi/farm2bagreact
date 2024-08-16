@@ -48,7 +48,6 @@ const ProfileDetails = () => {
   };
 
   const handleDelete = () =>{
-    console.log(getUserDetails()._id)
     customerDeleteService({_id:getUserDetails()._id}).then((res)=>{
       if(res.status === 200){
         Logout();

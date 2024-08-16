@@ -32,7 +32,7 @@ const CartButton = ({ cart }) => {
         <div onClick={() => handleNavigate()} className="bottom-cart">
           <FaShoppingCart size={25} />
         </div>
-        {/* <div className="bottom-cart-value">{cartValue}</div> */}
+        <div className="bottom-cart-value">{cartValue}</div>
       </div>
       <Snackbar
         open={open}

@@ -87,7 +87,7 @@ const Body = () => {
        {category.map((value)=>{
             return(
             <Link to={"/category"} state={value} style={{ textDecoration: 'none', color: 'inherit' }} className='newBodyCategory' >
-            <Avatar sx={{ width: 200, height: 200 , margin:3}} src={value.image}/>
+            <Avatar sx={{ width: 150, height: 150 , margin:3}} src={value.image}/>
             <h5>{value.categoryName}</h5>
             </Link>
             )

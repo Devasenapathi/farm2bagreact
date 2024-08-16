@@ -73,3 +73,9 @@
   }
 }
 
+@media (max-width:425px) {
+  .singleProduct{
+    margin-top: 20%;
+  }
+}
+

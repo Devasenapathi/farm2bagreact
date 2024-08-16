@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { farmsService } from '../../services/b2c_service';
 import './location.css';
-import { setLocationDetails } from '../../utils/storage';
+import { getLocationDetails, setLocationDetails } from '../../utils/storage';
+import { Button } from '@mui/material';
 
 const Location = ({ locations, handleClose }) => {
     const [location, setLocation] = useState([]);
@@ -9,40 +10,41 @@ const Location = ({ locations, handleClose }) => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchFarmsAndLocation = async () => {
-            try {
-                const res = await farmsService();
-                if (res.status === 200) {
-                    const hubList = res.data.result;
-                    setLocation(hubList);
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(
-                            async (position) => {
-                                setError(null);
-                                if (position.coords) {
-                                    const locality = await fetchAddress(position.coords.latitude, position.coords.longitude);
-                                    if (hubList && locality) {
-                                        handleLocation(hubList, locality);
-                                    }
-                                }
-                            },
-                            (error) => {
-                                setError(error.message);
-                            }
-                        );
-                    } else {
-                        setError('Location is not supported by this browser.');
-                    }
-                } else {
-                    console.log('Error on farms loading');
-                }
-            } catch (err) {
-                console.log(err, 'error on farms');
-            }
-        };
-
         fetchFarmsAndLocation();
     }, []);
+
+    const fetchFarmsAndLocation = async () => {
+        try {
+            const res = await farmsService();
+            if (res.status === 200) {
+                const hubList = res.data.result;
+                setLocation(hubList);
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        async (position) => {
+                            setError(null);
+                            if (position.coords) {
+                                const locality = await fetchAddress(position.coords.latitude, position.coords.longitude);
+                                if (hubList && locality) {
+                                    handleLocation(hubList, locality);
+                                }
+                            }
+                        },
+                        (error) => {
+                            setError("User Device Denied For Location");
+                        }
+                    );
+                } else {
+                    setError('Location Service is not supported by this browser.');
+                }
+            } else {
+                console.log('Error on farms loading');
+            }
+        } catch (err) {
+            console.log(err, 'error on farms');
+        }
+    };
+
 
     const fetchAddress = async (latitude, longitude) => {
         try {
@@ -56,9 +58,9 @@ const Location = ({ locations, handleClose }) => {
                         return component.long_name;
                     }
                 }
-                setError('No locality found in address components.');
+                setError('Sorry We Cannot Fetch Your Location');
             } else {
-                setError('No address found for the coordinates.');
+                setError('Sorry We Cannot Fetch Your Location');
             }
         } catch (error) {
             setError('Error fetching address: ' + error.message);
@@ -71,11 +73,11 @@ const Location = ({ locations, handleClose }) => {
             const locationDetails = hubList.find((val) => val.farmName === locality);
             setLocationDetails(locationDetails);
             setSelectedLocation(locality);
-            locations(locality);
+            locations(locationDetails);
             handleClose();
             setError(null);
         } else {
-            setError('No Service is being provided in your location');
+            setError('Location Service is not Supported by This Device');
         }
     };
 
@@ -89,7 +91,7 @@ const Location = ({ locations, handleClose }) => {
         if (selectedLocation) {
             const locationDetails = location.find((val) => val.farmName === selectedLocation);
             setLocationDetails(locationDetails);
-            locations(selectedLocation);
+            locations(locationDetails);
             handleClose();
         } else {
             setError('Select your location');
@@ -99,15 +101,15 @@ const Location = ({ locations, handleClose }) => {
     return error ? (
         <div className='location-overlay'>
             <div className='location-content'>
-                <h4 style={{ color: 'red' }}>{error}</h4>
                 <label>Location</label>
+                <p style={{ color: 'red' }}>{error}</p>
                 <select value={selectedLocation} className='location-select' onChange={(e) => setSelectedLocation(e.target.value)}>
                     <option disabled value=''>Select your location</option>
                     {location.map((val) => (
                         <option key={val._id} value={val.farmName}>{val.farmName}</option>
                     ))}
                 </select>
-                <button onClick={handleSubmit}>Confirm</button>
+                <Button variant='contained' color='success' onClick={handleSubmit}>Confirm</Button>
             </div>
         </div>
     ) : null;

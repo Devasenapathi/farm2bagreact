@@ -14,7 +14,7 @@ const FooterScreen = () => {
   const navigate = useNavigate();
   return (
     <div className="footer">
-      <ul className="single-service">
+      {/* <ul className="single-service">
         <li className="ervice-content">
           <FaTruck size={30} />
           <h4>Free Delivery</h4>
@@ -31,7 +31,7 @@ const FooterScreen = () => {
           <RiCustomerService2Fill size={30} />
           <span>Customer Support</span>
         </li>
-      </ul>
+      </ul> */}
       <hr />
       <div className="footer-main">
         <div className="footer-content">

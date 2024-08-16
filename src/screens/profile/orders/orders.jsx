@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { orderListService } from "../../../services/order_service";
 import { getUserId } from "../../../utils/storage";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import "./orders.css";
 
 const Orders = () => {
@@ -16,15 +18,20 @@ const Orders = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleReorder=(value)=>{
+    console.log(value)
+  }
+
   return (
     <div className="orders">
-      {ordersList.map((value, index) => {
-        return (
-          <div className="ordersList" key={index}>
-            {/* <h1>{index+1}</h1> */}
+      {ordersList ? (
+        ordersList.map((value, index) => (
+          <div className="ordersList" key={value.orderId}>
             <div className="orderListSub">
               <h4>#{value.orderId}</h4>
-              {/* {value.orderStatus==='delivered'&&<button onClick={()=>handleReorder(value)}>Re-order</button>} */}
+              {value.orderStatus === 'delivered' && (
+                <button onClick={() => handleReorder(value)}>Re-order</button>
+              )}
             </div>
             <div className="orderListSub">
               <h4>Date</h4>
@@ -43,8 +50,12 @@ const Orders = () => {
               <p>{value.orderStatus}</p>
             </div>
           </div>
-        );
-      })}
+        ))
+      ) : (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <CircularProgress />
+        </Box>
+      )}
     </div>
   );
 };

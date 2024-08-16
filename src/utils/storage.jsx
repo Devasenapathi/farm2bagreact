@@ -56,3 +56,9 @@ export function Logout(){
     localStorage.clear()
     sessionStorage.clear()
 }
+
+export const LocationData = {
+    lat: getLocationDetails() ? getLocationDetails().lattitude : "",
+    lng: getLocationDetails() ? getLocationDetails().longitude : "",
+    pincode: getLocationDetails() ? getLocationDetails().pincode : "",
+  };

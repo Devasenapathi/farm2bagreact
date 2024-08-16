@@ -18,11 +18,60 @@ import CustomerSupport from "./screens/profile/customerSupport/customerSupport";
 import Category from "./newScreens/Category/Category";
 import Navbar from "./newScreens/Home/Navbar/Navbar";
 import FooterScreen from "./screens/home/footer/footer";
+import Location from "./screens/landing/location";
+import { useEffect, useState } from "react";
+import { farmItemService } from "./services/b2c_service";
+import { getLocationDetails, setProductList } from "./utils/storage";
 
 function App() {
+  const [locationVisible, setLocationVisible] = useState(false);
+  const [location, setLocation] = useState([]);
+  const [locationChanged, setLocationChanged] = useState()
+
+  const updateLocation = (value) => {
+    setLocation(value);
+  };
+
+  useEffect(()=>{
+    console.log(getLocationDetails(),'aaaaaaaaaa')
+    if(getLocationDetails().length <=0){
+      setLocationVisible(true)
+    }
+    if(location){
+      const data = {
+        lat: location?location.lattitude : "",
+        lng: location?location.longitude : "",
+        pincode: location?location.pincode : "",
+      };
+      farmItemService(data)
+    .then((res) => {
+      if (res.status === 200) {
+        setProductList(res.data.result);
+        if (locationChanged === true) {
+          setLocationChanged(false);
+        } else {
+          setLocationChanged(true);
+        }
+      } else {
+        console.log("Error on getting farmItem");
+      }
+    })
+    .catch((err) => {
+      console.log(err, "error on seasnol product fetching");
+    });
+    }
+  },[location])
+
   return (
     <div className="App">
-      {/* <Home/> */}
+      {locationVisible && (
+        <Location
+          locations={updateLocation}
+          handleClose={() => {
+            setLocationVisible(false);
+          }}
+        />
+      )}
       <Router>
       <Navbar/>
         <Routes>

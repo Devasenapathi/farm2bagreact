@@ -264,6 +264,9 @@
 }
 
 @media (max-width: 426px) {
+  .cartScreen{
+    margin-top: 16%;
+  }
   .cart-top {
     width: 90%;
     display: flex;
