@@ -36,7 +36,7 @@ const SingleProduct = () => {
       itemDetailsService({ 'id': id }).then((res) => { setProduct(res.data.result) })
     }
     setCartData(getCart());
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (product) {
@@ -67,17 +67,13 @@ const SingleProduct = () => {
     }
   };
   
-  const handleRouting = () =>{
-    if(getProductList()){
-      navigate(-1)
-    }else{
-      navigate('/')
-    }
+  const handleRouting = (data) =>{
+      navigate(`/product/${data._id}`, { state: data });
   }
   return (
     <>
       {product && <div className="singleProduct">
-        <IoMdArrowRoundBack size={30} onClick={() => handleRouting()} />
+        <IoMdArrowRoundBack size={30} onClick={() => navigate(-1)} />
         <div className="singleProduct-content">
           <div className="singleProduct-image">
             {product ? (

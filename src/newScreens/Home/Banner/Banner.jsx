@@ -6,6 +6,7 @@ import { autoPlay } from 'react-swipeable-views-utils';
 import Banner1 from '../../../assets/Banner1.webp';
 import Banner2 from '../../../assets/Banner2.webp'
 import { useMediaQuery } from '@mui/material';
+import { bannerService } from '../../../services/banner_service';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -24,6 +25,21 @@ const Banner = () => {
       const [activeStep, setActiveStep] = React.useState(0);
       const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
       const maxSteps = images.length;
+
+
+      const [banner, setBanner] = React.useState([]);
+
+      React.useEffect(() => {
+        bannerService()
+          .then((res) => {
+            if (res.status === 201) {
+              setBanner(res.data.result);
+            } else {
+              console.log("Banner loading error");
+            }
+          })
+          .catch((err) => console.log(err));
+      }, []);
     
       const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -52,7 +68,7 @@ const Banner = () => {
         onChangeIndex={handleStepChange}
         enableMouseEvents
       >
-        {images.map((step, index) => (
+        {banner.map((step, index) => (
           <div key={step.label}>
             {Math.abs(activeStep - index) <= 2 ? (
               <Box
@@ -65,7 +81,7 @@ const Banner = () => {
                   width: '100%',
                   objectFit: 'fit', // Ensures the image covers the area
                 }}
-                src={step.imgPath}
+                src={step.image}
                 alt={step.label}
               />
             ) : null}
