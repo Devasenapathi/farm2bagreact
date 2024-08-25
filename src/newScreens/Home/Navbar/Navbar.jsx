@@ -139,9 +139,8 @@ const Navbar = () => {
     )}
     </div>
 
-
-
-    {searchVisible&&<div className="navbar_searchbox">
+    {searchVisible&&
+    <div className="navbar_searchbox">
     <div className='newMobileSearchbox'>
         <input type="text" name="search" id="search" placeholder='Search' value={productName} onChange={(e)=>setProductName(e.target.value)}/>
         <button><IoSearchSharp /></button>
@@ -182,10 +181,6 @@ const Navbar = () => {
         </div>
     )}
       </div>}
-
-
-
-
 
 
 

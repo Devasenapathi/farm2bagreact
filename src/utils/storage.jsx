@@ -1,60 +1,60 @@
 export function setToken(data) {
-    sessionStorage.setItem('token', 'Bearer '+data)
+    localStorage.setItem('token', 'Bearer '+data)
 }
 
 export function getToken() {
-    return sessionStorage.getItem('token')
+    return localStorage.getItem('token')
 }
 
 export function setUserId(data) {
-    sessionStorage.setItem('userId', data)
+    localStorage.setItem('userId', data)
 }
 
 export function getUserId() {
-    return sessionStorage.getItem('userId')
+    return localStorage.getItem('userId')
 }
 
 export function setUserDetails(data) {
-    sessionStorage.setItem('userDetails', JSON.stringify(data))
+    localStorage.setItem('userDetails', JSON.stringify(data))
 }
 
 export function getUserDetails() {
-    return JSON.parse(sessionStorage.getItem('userDetails'))
+    return JSON.parse(localStorage.getItem('userDetails'))
 }
 
 export function setLocationDetails(data) {
-    sessionStorage.setItem('location', JSON.stringify(data))
+    localStorage.setItem('location', JSON.stringify(data))
 }
 
 export function getLocationDetails() {
-    const storedValue = sessionStorage.getItem('location')
+    const storedValue = localStorage.getItem('location')
     return storedValue ? JSON.parse(storedValue) : []
 }
 
 export function setProductList(data){
-    sessionStorage.setItem('productList',JSON.stringify(data))
+    localStorage.setItem('productList',JSON.stringify(data))
 }
 
 export function getProductList(){
-    return JSON.parse(sessionStorage.getItem('productList'))
+    return JSON.parse(localStorage.getItem('productList'))
 }
 
 export function setCart(data) {
-    sessionStorage.setItem('cart', JSON.stringify(data))
+    localStorage.setItem('cart', JSON.stringify(data))
 }
 
 export function getCart() {
-    const storedValue = sessionStorage.getItem('cart')
+    const storedValue = localStorage.getItem('cart')
     return storedValue ? JSON.parse(storedValue) : []
 }
 
 export function clearCart() {
-    sessionStorage.removeItem('cart')
+    localStorage.removeItem('cart')
 }
 
 export function Logout(){
     localStorage.clear()
-    sessionStorage.clear()
+    localStorage.clear()
 }
 
 export const LocationData = {

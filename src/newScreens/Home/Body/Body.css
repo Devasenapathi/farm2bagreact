@@ -47,7 +47,6 @@ h1{
     height: auto;
     display: flex;
     align-items: top;
-    justify-content: space-between;
     overflow-x: auto;
 }
 .newBodyCategory{
@@ -97,6 +96,7 @@ h1{
 .newSeasnol{
     margin: 2% 2%;
     height: auto;
+    width: auto;
     display: flex;
     align-items: top;
     overflow-x: auto;

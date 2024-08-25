@@ -105,7 +105,8 @@ const Body = () => {
                 <Card
                         onClick={() => handleRouting(val)} // Handle card click
                         sx={{
-                          minWidth: 200,
+                          maxWidth: 200,
+                          minWidth:200,
                           minHeight: 320,
                           mb: 1,
                           mr: 1,
@@ -201,6 +202,7 @@ const Body = () => {
                         onClick={() => handleRouting(val)} // Handle card click
                         sx={{
                           minWidth: 200,
+                          maxWidth:200,
                           minHeight: 320,
                           mb: 1,
                           mr: 1,

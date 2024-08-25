@@ -271,7 +271,7 @@ const Checkout = () => {
               currency: "INR",
               name: "Farm2bag",
               description: "Buy Organic products",
-              image: "https://example.com/your_logo",
+              image: "https://farm2baglive.s3.ap-south-1.amazonaws.com/banner/logo.png",
               order_id: res.data.result.order_id,
               handler: function (response) {
                 if (response) {
