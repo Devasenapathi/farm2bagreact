@@ -7,14 +7,14 @@
   background-color: white;
   font-size: 14px;
   font-weight: bold;
-  margin-top: 5%;
+  margin-top: 2%;
   /* margin-bottom: 20%; */
 }
 .footer-main{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 2%;
+    margin-top: 1%;
 }
 .footer-content {
   height: 250px;

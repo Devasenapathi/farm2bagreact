@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from './Navbar/Navbar'
+import React from 'react'
 import Banner from './Banner/Banner'
 import Body from './Body/Body'
 import './Home.css'
@@ -7,9 +6,6 @@ import { getProductList } from '../../utils/storage'
 import { Box, CircularProgress, Skeleton, Stack, Typography } from '@mui/material'
 
 const Home = () => {
-  useEffect(()=>{
-    window.scrollTo(0, 0);
-  },[])
   return (
     <div className='newHome'>
         {getProductList()?

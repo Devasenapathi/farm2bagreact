@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { categoryService } from "../../services/b2c_service";
 import { getCart, getProductList } from "../../utils/storage";
 import { AddCart, RemoveCart } from "../../services/cart_service";
@@ -15,18 +15,12 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { FaRegHeart } from "react-icons/fa";
-
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "./Category.css";
-import { Divider } from "@mui/material";
+import useScrollToTop from "../../helpers/useScrollToTop";
+import { UserContext } from "../../helpers/createContext";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 
 const Category = () => {
   const navigate = useNavigate();
@@ -35,10 +29,13 @@ const Category = () => {
   const [cartData, setCartData] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
   const [category, setCategory] = useState([]);
+  const { setState } = useContext(UserContext);
+  useScrollToTop()
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    setSelectedCategory(location.state);
+    if(!selectedCategory){
+      setSelectedCategory(location.state);
+    }
     categoryService()
       .then((res) => {
         if (res.status === 201) {
@@ -52,7 +49,6 @@ const Category = () => {
 
   useEffect(() => {
     setCartData(getCart());
-
     setFarmItem(
       selectedCategory
         ? getProductList().filter(
@@ -68,20 +64,26 @@ const Category = () => {
     const value = AddCart(data);
     if (value) {
       setCartData(getCart());
+      setState(getCart().length)
+    }else{
+      toast.error("Maximum quantity added to cart")
     }
   };
   const Remove = (data) => {
     const value = RemoveCart(data);
     if (value) {
       setCartData(getCart());
+      setState(getCart().length)
     }
   };
 
   const handleRouting = (data) => {
+    navigate('.',{replace:true, state:data.productCategoryId})
     navigate(`/product/${data._id}`, { state: data });
   };
   return (
     <div className="newCategory">
+      <ToastContainer/>
       <div className="newCategoryLeft">
         {selectedCategory && (
           <IoMdArrowRoundBack onClick={() => navigate(-1)} size={30} />
@@ -93,7 +95,7 @@ const Category = () => {
                 className="newCategoryType"
                 style={{
                   backgroundColor:
-                    selectedCategory._id === val._id ? "#408140" : "",
+                    selectedCategory._id === val._id ? "#12AD2B" : "",
                 }}
                 onClick={() => {
                   setSelectedCategory(val);

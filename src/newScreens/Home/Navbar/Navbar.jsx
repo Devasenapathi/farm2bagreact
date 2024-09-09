@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react'
-// import Location from '../../../screens/landing/location';
-import avatar from '../../../assets/icons/icons8-avatar-100.png'
-
-import {Avatar} from '@mui/material'
+import React, { useContext, useEffect, useState } from 'react'
+import {Avatar, Button} from '@mui/material'
 import { GiCharacter } from "react-icons/gi";
-import { FaRegHeart } from "react-icons/fa";
 import { BsBag } from "react-icons/bs";
 import Badge from '@mui/material/Badge';
 import { IoSearchSharp } from "react-icons/io5";
@@ -15,23 +11,24 @@ import { useNavigate } from 'react-router-dom';
 import Login from '../../../screens/login/login';
 import { farmItemService } from '../../../services/b2c_service';
 import { AddCart, RemoveCart } from '../../../services/cart_service';
+import logo from "../../../assets/logo.png"
+import { UserContext } from '../../../helpers/createContext';
 
 const Navbar = () => {
-  // const [locationVisible, setLocationVisible] = useState(false);
-  // const [location, setLocation] = useState();
-  const [cartLength, setCartLength] = useState(0)
   const navigate = useNavigate()
   const [loginVisible, setLoginVisible] = useState(false);
   const [locationChanged, setLocationChanged] = useState()
   const [open, setOpen] = useState(false)
-  const [productName, setProductName] = useState()
-  const [farmItem, setFarmItem] = useState()
+  const [productName, setProductName] = useState('')
+  const [farmItem, setFarmItem] = useState([])
   const [cartData, setCartData] = useState([]);
   const [searchVisible, setSearchVisible] = useState(false);
+  const [popup,setPopup] = useState(false)
+  const { state } = useContext(UserContext);
 
   useEffect(()=>{
-    setCartLength(getCart())
-  },[])
+    getCart()
+  },[state])
 
   useEffect(()=>{
     const data = {
@@ -57,7 +54,15 @@ const Navbar = () => {
         console.log(err, "error on seasnol product fetching");
       });
   },[])
-
+useEffect(()=>{
+  const handleWindowClick = (event) => {
+    setProductName('')
+  };
+  window.addEventListener('click', handleWindowClick);
+  return () => {
+    window.removeEventListener('click', handleWindowClick);
+  };
+},[])
   const Add = (data) => {
     const value = AddCart(data);
     if (value) {
@@ -85,6 +90,7 @@ const Navbar = () => {
   const handleLogout = () => {
     Logout();
     navigate('/')
+    setPopup(!popup)
   };
 
   const handleRouting = (data) => {
@@ -94,44 +100,63 @@ const Navbar = () => {
 
   return (
     <div className='newNavbar'>
+      {popup&&(<div className="popupScreen">
+        <div className="popupScreens">
+        <h2>!Alert</h2>
+        <p>Please Confirm to logout</p>
+        <div className="popupScreen-button">
+          <Button variant="outlined" color="error" onClick={()=>setPopup(!popup)}>No,Cancel</Button>
+          <Button variant="contained" color="success" onClick={()=>handleLogout()}>Yes,Confirm</Button>
+        </div>
+        </div>
+      </div>)}
       {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
         <div className='newNavbar1'>
-    {!searchVisible&&<h2 onClick={()=>navigate('/')}>farm2bag</h2>}
+    {!searchVisible&&
+    <div className='logo' onClick={()=>navigate('/')}>
+      <img src={logo} alt="img" />
+      <h2>farm2bag</h2>
+      </div>}
     <div className='navbar_searchbox'>
     <div className='newSearchbox'>
         <input type="text" name="search" id="search" placeholder='Search' value={productName} onChange={(e)=>setProductName(e.target.value)}/>
         <button><IoSearchSharp /></button>
     </div>
-    {productName && (
+    {productName.length>0 && (
         <div className="search-panel">
-            {farmItem&&farmItem
+            {farmItem
                 .filter((item) =>
                     item.productName.toLowerCase().includes(productName.toLowerCase())
                 )
                 .map((val, index) => (
-                    <div className="search-item" key={index}>
+                    <div className="search-item" key={index} onClick={(e) => {
+                      e.stopPropagation();
+                        handleRouting(val);
+                    }}>
                         {val.image && (
                             <img src={val.image} alt="" className="search-item-image" />
                         )}
                         <div
                             className="search-details"
-                            onClick={() => {
-                                handleRouting(val);
-                            }}
                         >
                             <h6 className="search-product-name">{val.productName}</h6>
                             <p className="search-product-price">
                                 {val.unit} {val.unitValue} - ₹ {val.price}
                             </p>
                         </div>
-                        <div className="cart-button">
+                        <div className="search-cart-button">
                             {cartData.find((item) => item._id === val._id)?.quantity > 0 && (
                                 <>
-                                    <button onClick={() => Remove(val)}>-</button>
+                                    <button onClick={(e) =>{ 
+                                      e.stopPropagation()
+                                      Remove(val)}}>-</button>
                                     <h5>{cartData.find((item) => item._id === val._id).quantity}</h5>
                                 </>
                             )}
-                            <button onClick={() => Add(val)}>+</button>
+                            <button onClick={(e) => {
+                              e.stopPropagation();
+                              Add(val)
+                              }}>+</button>
                         </div>
                     </div>
                 ))}
@@ -201,7 +226,7 @@ const Navbar = () => {
                     }
                     <div className='newNavbarRight4'>
                         {getToken() ? 
-                            <button onClick={handleLogout}>Logout</button> 
+                            <button onClick={()=>setPopup(!popup)}>Logout</button> 
                             : 
                             <div>
                                 <button onClick={() => setLoginVisible(true)}>Register</button> |

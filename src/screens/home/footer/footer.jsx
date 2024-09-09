@@ -1,14 +1,14 @@
 import React from "react";
-import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaTruck } from "react-icons/fa";
 import googlePlay from "../../../assets/google_play.png";
 import appStore from "../../../assets/appstore.png";
-import { FaTruck } from "react-icons/fa";
-import { BsCashCoin } from "react-icons/bs";
-import { FaBoxOpen } from "react-icons/fa6";
-import { RiCustomerService2Fill } from "react-icons/ri";
 import "./footer.css";
+import logo from "../../../assets/logo.png"
 import { useNavigate } from "react-router-dom";
 import { redirectToAppStore, redirectToPlayStore } from "../../../helpers/appRedirection";
+import { BsCashCoin } from "react-icons/bs";
+import { RiCustomerService2Fill } from "react-icons/ri";
+import { FaBoxOpen } from "react-icons/fa6";
 
 const FooterScreen = () => {
   const navigate = useNavigate();
@@ -36,7 +36,10 @@ const FooterScreen = () => {
       <div className="footer-main">
         <div className="footer-content">
           <div>
-            <h1>farm2bag</h1>
+            <div className='logo' onClick={() => navigate('/')}>
+              <img src={logo} alt="img" />
+              <h2>farm2bag</h2>
+            </div>
             <div className="footer-icons">
               <FaFacebook />
               <FaInstagram />

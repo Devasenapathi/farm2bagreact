@@ -1,7 +1,9 @@
 import React from "react";
 import "./terms.css";
+import useScrollToTop from "../../helpers/useScrollToTop";
 
 const Terms = () => {
+  useScrollToTop()
   return (
     <div className="terms-container">
       <div style={{ "margin-top": "50px" }}>

@@ -3,6 +3,8 @@ import { getCart, getProductList } from "../../../utils/storage";
 import { AddCart, RemoveCart } from "../../../services/cart_service";
 import { useNavigate } from "react-router-dom";
 import CartButton from "../../cart/cart_button";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const DailyFresh = ({ location }) => {
   const navigate = useNavigate();
@@ -21,6 +23,8 @@ const DailyFresh = ({ location }) => {
     const value = AddCart(data);
     if (value) {
       setCartData(getCart());
+    }else{
+      toast.error("Maximum quantity added to cart")
     }
   };
   const Remove = (data) => {
@@ -36,6 +40,7 @@ const DailyFresh = ({ location }) => {
 
   return (
     <div>
+      <ToastContainer/>
       {farmItem && (
         <div className="product-main">
           <h3>Daily Fresh</h3>

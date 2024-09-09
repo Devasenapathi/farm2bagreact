@@ -54,7 +54,6 @@ export function clearCart() {
 
 export function Logout(){
     localStorage.clear()
-    localStorage.clear()
 }
 
 export const LocationData = {

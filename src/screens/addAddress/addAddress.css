@@ -21,6 +21,10 @@
 .addAddress-content1 h3 {
   margin: 5%;
 }
+.addAddress-content1 p{
+  color: red;
+  font-size: 8px;
+}
 .addAddress-content1 label {
   align-self: self-start;
   margin-top: 1%;

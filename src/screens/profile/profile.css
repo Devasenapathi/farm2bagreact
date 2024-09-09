@@ -2,6 +2,12 @@
 .customerSupport1 {
   padding: 2%;
 }
+.active{
+  background-color: #1a8a1f;
+  border-radius: 10px;
+  width: 75%;
+  padding-left: 10px;
+}
 .profileScreen {
   margin: 0;
   padding: 0;

@@ -1,7 +1,9 @@
 import React from "react";
 import '../termsOfUse/terms.css'
+import useScrollToTop from "../../helpers/useScrollToTop";
 
 const PrivacyPolicy = () => {
+  useScrollToTop()
   return (
     <div className="terms-container">
       <div style={{ "margin-top": "0px" }}>

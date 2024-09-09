@@ -13,6 +13,7 @@ import logo from '../../assets/logo.png';
 // import { IoMdClose } from "react-icons/io";
 import { IoMdCloseCircle } from "react-icons/io";
 import { redirectToAppStore, redirectToPlayStore } from "../../helpers/appRedirection";
+import { Link } from "react-router-dom";
 
 
 const Login = ({ handleClose }) => {
@@ -239,8 +240,8 @@ const Login = ({ handleClose }) => {
               </p>
             </div>
             <p>
-              By continuing, you agree to our Terms of Service <span>&</span>{" "}
-              Privacy Policy
+              By continuing, you agree to our <Link to={"/terms"}>Terms of Service</Link> <span>&</span>{" "}
+              <Link to={"/privacy"}>Privacy Policy</Link>
             </p>
           </div>
           <div className="login-right">
@@ -256,7 +257,6 @@ const Login = ({ handleClose }) => {
             </div>
           </div>
           <div className="closebtn">
-            {/* <IoMdClose size={30} color="white" onClick={() => handleClose()} /> */}
             <IoMdCloseCircle size={30} color="black" onClick={() => handleClose()}/>
           </div>
         </div>

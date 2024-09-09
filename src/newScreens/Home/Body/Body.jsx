@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import './Body.css';
 import { Avatar } from '@mui/material';
@@ -10,9 +10,12 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { categoryService } from '../../../services/b2c_service';
 import { getCart, getProductList } from '../../../utils/storage';
-import { FaRegHeart } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { AddCart, RemoveCart } from '../../../services/cart_service';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import useScrollToTop from '../../../helpers/useScrollToTop';
+import { UserContext } from '../../../helpers/createContext';
 
 const Body = () => {
     const navigate = useNavigate();
@@ -22,7 +25,8 @@ const Body = () => {
     const [comboBag, setComboBag] = useState([]);
     const [cartData, setCartData] = useState();
     const scrollContainerRef = useRef(null);
-
+    const { setState } = useContext(UserContext);
+    useScrollToTop()
   useEffect(() => {
     setCartData(getCart());
     categoryService()
@@ -51,12 +55,16 @@ const Body = () => {
     const value = AddCart(data);
     if (value) {
       setCartData(getCart());
+      setState(getCart().length)
+    }else{
+      toast.error("Maximum quantity added to cart")
     }
   };
   const Remove = (data) => {
     const value = RemoveCart(data);
     if (value) {
       setCartData(getCart());
+      setState(getCart().length)
     }
   };
   const handleRouting = (data) => {
@@ -77,6 +85,7 @@ const Body = () => {
 
   return (
     <>
+    <ToastContainer/>
     <div className='newBody'>
         <h1>Shop by Category</h1>
        <div className='newBody0'>
@@ -150,28 +159,28 @@ const Body = () => {
                               className="cart-button"
                               style={{ display: "flex", alignItems: "center" }}
                             >
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Remove(val);
                                 }}
                               >
                                 -
-                              </Button>
+                              </button>
                               <Typography variant="h6" sx={{ mx: 1 }}>
                                 {
                                   cartData.find((item) => item._id === val._id)
                                     ?.quantity
                                 }
                               </Typography>
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Add(val);
                                 }}
                               >
                                 +
-                              </Button>
+                              </button>
                             </div>
                           ) : (
                             <Button
@@ -246,28 +255,28 @@ const Body = () => {
                               className="cart-button"
                               style={{ display: "flex", alignItems: "center" }}
                             >
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Remove(val);
                                 }}
                               >
                                 -
-                              </Button>
+                              </button>
                               <Typography variant="h6" sx={{ mx: 1 }}>
                                 {
                                   cartData.find((item) => item._id === val._id)
                                     ?.quantity
                                 }
                               </Typography>
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Add(val);
                                 }}
                               >
                                 +
-                              </Button>
+                              </button>
                             </div>
                           ) : (
                             <Button
@@ -339,28 +348,28 @@ const Body = () => {
                               className="cart-button"
                               style={{ display: "flex", alignItems: "center" }}
                             >
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Remove(val);
                                 }}
                               >
                                 -
-                              </Button>
+                              </button>
                               <Typography variant="h6" sx={{ mx: 1 }}>
                                 {
                                   cartData.find((item) => item._id === val._id)
                                     ?.quantity
                                 }
                               </Typography>
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Add(val);
                                 }}
                               >
                                 +
-                              </Button>
+                              </button>
                             </div>
                           ) : (
                             <Button

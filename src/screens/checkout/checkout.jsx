@@ -1,16 +1,15 @@
-import React, { useEffect, useState, forwardRef} from "react";
+import React, { useEffect, useState, forwardRef, useContext} from "react";
 import {
   clearCart,
   getCart,
   getLocationDetails,
-  getToken,
   getUserDetails,
   getUserId,
+  setCart,
 } from "../../utils/storage";
 import { IoIosCloseCircleOutline, IoIosAddCircleOutline, IoMdArrowRoundBack } from "react-icons/io";
 import { AddCart, RemoveCart } from "../../services/cart_service";
 import { CustomerAddressService } from "../../services/customer_service";
-import { BiBorderAll, BiSolidOffer } from "react-icons/bi";
 import "./checkout.css";
 import {
   orderSaveService,
@@ -22,22 +21,26 @@ import SuccessScreen from "../paymentStatus/success";
 import FailedScreen from "../paymentStatus/failed";
 import Login from "../login/login";
 import AddAddress from "../addAddress/addAddress";
-import { Box, Button, CircularProgress, Snackbar, Switch } from "@mui/material";
+import { Button, CircularProgress, Snackbar, Switch } from "@mui/material";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaCalendarAlt } from 'react-icons/fa'; 
 import { MdDeleteOutline } from "react-icons/md";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import useScrollToTop from "../../helpers/useScrollToTop";
+import { UserContext } from "../../helpers/createContext";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState(null); // State to store selected date
+  const { setState } = useContext(UserContext);
+  const [selectedDate, setSelectedDate] = useState(null);
   const [loginVisible, setLoginVisible] = useState(false);
   const [cartItem, setCartItem] = useState([]);
   const [addressList, setAddressList] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState();
   const [addressVisible, setAddressVisible] = useState(false);
   const [addVisible, setAddVisible] = useState(false);
-  // const [addAddressVisible, setAddAddressVisible] = useState(false);
   const [subTotal, setSubTotal] = useState();
   const [deliveryAmount, setDeliveryAmount] = useState(30);
   const [discount, setDiscount] = useState(0);
@@ -49,7 +52,9 @@ const Checkout = () => {
   const [open, setOpen] = useState(false)
   const [instantVisible, setInstantVisible] = useState(false)
   const [instantEnabled, setInstantEnabled] = useState(false)
-  const [dateVisible, setDateVisible] = useState(false)
+  const [popup,setPopup] = useState(false)
+
+  useScrollToTop()
 
   var date = new Date();
 
@@ -160,16 +165,28 @@ const Checkout = () => {
     const value = AddCart(data);
     if (value) {
       setCartItem(getCart());
+      setState(getCart().length)
       handleSubTotal();
+    }else{
+      toast.error("Maximum quantity added to cart")
     }
   };
   const Remove = (data) => {
     const value = RemoveCart(data);
     if (value) {
       setCartItem(getCart());
+      setState(getCart().length)
       handleSubTotal();
     }
   };
+
+  const Delete = (data) =>{
+    console.log(data)
+    const indexValue = getCart().filter((item) => item._id !== data._id);
+    setCart(indexValue)
+    setCartItem(indexValue);
+    setState(getCart().length)
+  }
 
   const initializeRazorpay = (option) => {
     const script = document.createElement("script");
@@ -352,6 +369,17 @@ const Checkout = () => {
 
   return (
     <div className="cartScreen">
+      {popup&&(<div className="popupScreen">
+        <div className="popupScreens">
+        <h2>Confirmation</h2>
+        <p>Are you sure to clear the cart</p>
+        <div className="popupScreen-button">
+          <Button variant="outlined" color="error" onClick={()=>setPopup(!popup)}>No,Cancel</Button>
+          <Button variant="contained" color="success" onClick={()=>handleCart()}>Yes,Confirm</Button>
+        </div>
+        </div>
+      </div>)}
+      <ToastContainer />
       {loginVisible && <Login handleClose={() => setLoginVisible(false)} />}
       {success && <SuccessScreen />}
       {failed && <FailedScreen />}
@@ -361,7 +389,7 @@ const Checkout = () => {
           <h3>Cart</h3>
         </div>
         <div>
-          <Button onClick={() => handleCart()}>Empty Cart</Button>
+          <Button onClick={() => setPopup(!popup)}>Empty Cart</Button>
         </div>
       </div>
       <div className="cart-bottom">
@@ -422,7 +450,7 @@ const Checkout = () => {
                         )}
                         <button onClick={() => Add(val)}>+</button>
                       </div>
-                      <Button color="error"><MdDeleteOutline size={30} color="error"/></Button>
+                      <Button color="error"><MdDeleteOutline size={30} color="error" onClick={()=>Delete(val)}/></Button>
                     </div>
                   </div>
                 );
@@ -447,10 +475,10 @@ const Checkout = () => {
             />
           </div>
 
-          <div className="cart-coupons">
+          {/* <div className="cart-coupons">
             <BiSolidOffer size={30} color="green" />
             <h5>Offers & Coupons Available</h5>
-          </div>
+          </div> */}
 
           <div className="cart-calculation">
             <table>

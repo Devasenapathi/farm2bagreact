@@ -1,6 +1,8 @@
 import React from "react";
+import useScrollToTop from "../../helpers/useScrollToTop";
 
 const Aboutus = () => {
+  useScrollToTop()
   return (
     <div className="terms-container">
       <div>

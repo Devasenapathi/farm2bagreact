@@ -3,6 +3,8 @@ import { getCart, getProductList } from '../../../utils/storage';
 import { AddCart, RemoveCart } from '../../../services/cart_service';
 import { useNavigate } from 'react-router-dom';
 import './combobag.css';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Combobag = ({ location }) => {
   const navigate = useNavigate();
@@ -19,6 +21,8 @@ const Combobag = ({ location }) => {
   const addProduct = useCallback((data) => {
     if (AddCart(data)) {
       setCartData(getCart());
+    }else{
+      toast.error("Maximum quantity added to cart")
     }
   }, []);
 
@@ -40,6 +44,7 @@ const Combobag = ({ location }) => {
   return (
     farmItem.length > 0 && (
       <div className="combo-container">
+        <ToastContainer/>
         <h3>ComboBag</h3>
         <div className="combo-content">
           {farmItem.map((val) => (

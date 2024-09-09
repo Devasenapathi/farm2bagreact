@@ -22,6 +22,7 @@ import Location from "./screens/landing/location";
 import { useEffect, useState } from "react";
 import { farmItemService } from "./services/b2c_service";
 import { getLocationDetails, setProductList } from "./utils/storage";
+import { UserProvider } from "./helpers/createContext";
 
 function App() {
   const [locationVisible, setLocationVisible] = useState(false);
@@ -33,7 +34,6 @@ function App() {
   };
 
   useEffect(()=>{
-    console.log(getLocationDetails(),'aaaaaaaaaa')
     if(getLocationDetails().length <=0){
       setLocationVisible(true)
     }
@@ -64,6 +64,7 @@ function App() {
 
   return (
     <div className="App">
+      <UserProvider>
       {locationVisible && (
         <Location
           locations={updateLocation}
@@ -99,6 +100,7 @@ function App() {
         </Routes>
         <FooterScreen/>
       </Router>
+      </UserProvider>
     </div>
   );
 }

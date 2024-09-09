@@ -1,30 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { getCart, getLocationDetails, getProductList } from "../../utils/storage";
+import React, { useContext, useEffect, useState } from "react";
+import { getCart, getProductList } from "../../utils/storage";
 import { AddCart, RemoveCart } from "../../services/cart_service";
 import "./singleProduct.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CartButton from "../cart/cart_button";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { farmItemService, itemDetailsService } from "../../services/b2c_service";
-import Location from "../landing/location";
+import { itemDetailsService } from "../../services/b2c_service";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-// import { categoryService } from '../../../services/b2c_service';
-// import { getCart, getProductList } from '../../../utils/storage';
-import { FaRegHeart } from 'react-icons/fa';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import useScrollToTop from "../../helpers/useScrollToTop";
+import { UserContext } from "../../helpers/createContext";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate()
-  const location = useLocation();
   const [product, setProduct] = useState()
   const [farmItem, setFarmItem] = useState([]);
   const [cartData, setCartData] = useState();
+  const { setState } = useContext(UserContext);
+  useScrollToTop()
   useEffect(() => {
     if (getProductList()) {
       setProduct(getProductList() && getProductList().filter(
@@ -58,12 +59,16 @@ const SingleProduct = () => {
     const value = AddCart(data);
     if (value) {
       setCartData(getCart());
+      setState(getCart().length)
+    }else{
+      toast.error("Maximum quantity added to cart")
     }
   };
   const Remove = (data) => {
     const value = RemoveCart(data);
     if (value) {
       setCartData(getCart());
+      setState(getCart().length)
     }
   };
   
@@ -72,6 +77,7 @@ const SingleProduct = () => {
   }
   return (
     <>
+    <ToastContainer/>
       {product && <div className="singleProduct">
         <IoMdArrowRoundBack size={30} onClick={() => navigate(-1)} />
         <div className="singleProduct-content">
@@ -195,37 +201,37 @@ const SingleProduct = () => {
                             p: 1, // Add padding to CardActions for better spacing
                           }}
                         >
-                          <Button size="small" variant="text" color="success">
+                          {/* <Button size="small" variant="text" color="success">
                             <FaRegHeart size={20} />
-                          </Button>
+                          </Button> */}
                           {cartData.find((item) => item._id === val._id)
                             ?.quantity > 0 ? (
                             <div
                               className="cart-button"
                               style={{ display: "flex", alignItems: "center" }}
                             >
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Remove(val);
                                 }}
                               >
                                 -
-                              </Button>
+                              </button>
                               <Typography variant="h6" sx={{ mx: 1 }}>
                                 {
                                   cartData.find((item) => item._id === val._id)
                                     ?.quantity
                                 }
                               </Typography>
-                              <Button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   Add(val);
                                 }}
                               >
                                 +
-                              </Button>
+                              </button>
                             </div>
                           ) : (
                             <Button
