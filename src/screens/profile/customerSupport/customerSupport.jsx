@@ -1,5 +1,5 @@
 import React from 'react'
-
+import './customerSupport.css'
 const CustomerSupport = () => {
   return (
     <div className='customerSupport'>

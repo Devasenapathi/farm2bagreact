@@ -59,7 +59,7 @@ const Banner = () => {
         maxWidth: '100vw',
         flexGrow: 2,
         mt: 12,
-        backgroundColor:"blue"
+        backgroundColor:"grey"
       }}
     >
       <AutoPlaySwipeableViews

@@ -22,6 +22,22 @@
   gap: 20px;
   margin-top: 10px;
 }
+@media (max-width: 425px) {
+  .popupScreens{
+    width: 75%;
+    height: 25%;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid grey;
+  }
+  .popupScreen-button{
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+  }
+}
 
 @keyframes scroll-left {
   0% {

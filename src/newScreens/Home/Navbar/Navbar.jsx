@@ -183,7 +183,8 @@ useEffect(()=>{
                         )}
                         <div
                             className="search-details"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                                 handleRouting(val);
                             }}
                         >
@@ -195,11 +196,17 @@ useEffect(()=>{
                         <div className="cart-button">
                             {cartData.find((item) => item._id === val._id)?.quantity > 0 && (
                                 <>
-                                    <button onClick={() => Remove(val)}>-</button>
+                                    <button onClick={(e) => {
+                                      e.stopPropagation();
+                                      Remove(val)
+                                      }}>-</button>
                                     <h5>{cartData.find((item) => item._id === val._id).quantity}</h5>
                                 </>
                             )}
-                            <button onClick={() => Add(val)}>+</button>
+                            <button onClick={(e) => {
+                              e.stopPropagation();
+                              Add(val)
+                              }}>+</button>
                         </div>
                     </div>
                 ))}
@@ -212,7 +219,7 @@ useEffect(()=>{
     <div className='newNavbarRight'>
     <button className='newMobileSearchbox' onClick={()=>setSearchVisible(!searchVisible)}><IoSearchSharp size={30}/></button>
         <div className='newNavbarRight1'>
-            <Avatar alt='img' sx={{ width: 56, height: 56 }} onClick={()=>getToken()?navigate("/profile/orders"):setLoginVisible(true)}><GiCharacter size={20}/></Avatar>
+            <Avatar alt='img' sx={{ width: 40, height: 40 }} onClick={()=>getToken()?navigate("/profile/orders"):setLoginVisible(true)}><GiCharacter size={20}/></Avatar>
             <div className='newNavbarRight2'>
                 <div className='newNavbarRight3'>
                     {getToken() ? 

@@ -61,3 +61,9 @@
     width: 100%;
     z-index: 1;   
 }
+
+@media (max-width:425px) {
+    .profileDetails{
+        margin-top: 20%;
+    }
+}

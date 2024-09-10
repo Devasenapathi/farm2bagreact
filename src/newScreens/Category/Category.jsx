@@ -115,7 +115,7 @@ const Category = () => {
       </div>
       <div className="newCategoryRight">
         <h4>{selectedCategory && selectedCategory.categoryName}</h4>
-        <Box sx={{ flexGrow: 1, mt: 4, mr: 1, ml: 2 }}>
+        <Box sx={{ flexGrow: 1, mt: 4, mr: 0, ml: 1 }}>
           <Grid
             container
             spacing={{ xs: 0, md: 0 }}
@@ -128,7 +128,7 @@ const Category = () => {
                       <Card
                         onClick={() => handleRouting(val)}
                         sx={{
-                          minWidth: 120,
+                          minWidth: 125,
                           minHeight: 330,
                           mb: 1,
                           mr: 1,
@@ -163,9 +163,6 @@ const Category = () => {
                             p: 1,
                           }}
                         >
-                          {/* <Button size="small" variant="text" color="success">
-                            <FaRegHeart size={20} />
-                          </Button> */}
                           {cartData.find((item) => item._id === val._id)
                             ?.quantity > 0 ? (
                             <div

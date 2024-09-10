@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { farmsService } from '../../services/b2c_service';
 import './location.css';
-import { getLocationDetails, setLocationDetails } from '../../utils/storage';
+import { setLocationDetails } from '../../utils/storage';
 import { Button } from '@mui/material';
 
 const Location = ({ locations, handleClose }) => {
