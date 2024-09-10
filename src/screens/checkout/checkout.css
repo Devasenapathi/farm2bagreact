@@ -316,4 +316,15 @@
     margin-top: 10px;
     height: 40%;
   }
+  .cart-item-image{
+    height: 30px;
+    width: 30px;
+  }
+  .cart-items-image{
+    display: flex;
+    align-items: center;
+  }
+  .cart-bottom{
+    margin-bottom: 45%;
+  }
 }

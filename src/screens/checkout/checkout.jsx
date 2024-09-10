@@ -186,6 +186,7 @@ const Checkout = () => {
     setCart(indexValue)
     setCartItem(indexValue);
     setState(getCart().length)
+    handleSubTotal();
   }
 
   const initializeRazorpay = (option) => {
@@ -413,9 +414,7 @@ const Checkout = () => {
                       </div>
                       <div>
                         <div className="cart-product-name">
-                          <div>
                             <h5>{val.productName}</h5>
-                          </div>
                           <h6>
                             {val.unit}
                             {val.unitValue} - 

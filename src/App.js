@@ -98,7 +98,7 @@ function App() {
           <Route path="/profileDetails" element={<ProfileDetails />}></Route>
           <Route path="/customer" element={<CustomerSupport />}></Route>
         </Routes>
-        <FooterScreen/>
+        {/* <FooterScreen/> */}
       </Router>
       </UserProvider>
     </div>

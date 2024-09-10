@@ -114,8 +114,8 @@ const Category = () => {
         </div>
       </div>
       <div className="newCategoryRight">
-        <h1>{selectedCategory && selectedCategory.categoryName}</h1>
-        <Box sx={{ flexGrow: 1, mt: 4, mr: 2, ml: 2 }}>
+        <h4>{selectedCategory && selectedCategory.categoryName}</h4>
+        <Box sx={{ flexGrow: 1, mt: 4, mr: 1, ml: 2 }}>
           <Grid
             container
             spacing={{ xs: 0, md: 0 }}
@@ -128,8 +128,8 @@ const Category = () => {
                       <Card
                         onClick={() => handleRouting(val)}
                         sx={{
-                          minWidth: 150,
-                          minHeight: 320,
+                          minWidth: 120,
+                          minHeight: 330,
                           mb: 1,
                           mr: 1,
                           display: "flex",

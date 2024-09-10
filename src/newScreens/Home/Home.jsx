@@ -4,6 +4,7 @@ import Body from './Body/Body'
 import './Home.css'
 import { getProductList } from '../../utils/storage'
 import { Box, CircularProgress, Skeleton, Stack, Typography } from '@mui/material'
+import FooterScreen from '../../screens/home/footer/footer'
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
         <div>
         <Banner/>
         <Body/>
+        <FooterScreen/>
         </div>:
         <Stack
         sx={{
