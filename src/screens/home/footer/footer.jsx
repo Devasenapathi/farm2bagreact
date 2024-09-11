@@ -56,7 +56,7 @@ const FooterScreen = () => {
         </div>
         <div className="footer-content">
           <div>
-            <p className="footer-p" onClick={() => { navigate('/profile/customer', { state: "customer" }) }}>Contact us</p>
+            <p className="footer-p" onClick={() => { navigate('/contactus', { state: "customer" }) }}>Contact us</p>
             <p className="footer-p" onClick={() => navigate('/aboutus')}>About us</p>
           </div>
         </div>
@@ -69,9 +69,7 @@ const FooterScreen = () => {
           <div>
             <p>Address</p>
             <p>
-              3rd Floor, KJ Adithya Towers, Dr.Vikram Sharabhai Instronics
-              Estate Phase II, SRP Tools, Thiruvanmiyur, Chennai,Tamilnadu -
-              600041
+            Farm2bag, 5/396 , Rajeev Gandhi Salai, OMR Thoraipakkam , Chennai 600097, Chennai, Tamil Nadu 600097
             </p>
           </div>
         </div>

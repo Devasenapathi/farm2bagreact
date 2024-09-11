@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { farmItemService } from "./services/b2c_service";
 import { getLocationDetails, setProductList } from "./utils/storage";
 import { UserProvider } from "./helpers/createContext";
+import ContactUs from "./screens/contactUs/contactUs";
 
 function App() {
   const [locationVisible, setLocationVisible] = useState(false);
@@ -92,6 +93,7 @@ function App() {
           <Route path="/terms" element={<Terms />}></Route>
           <Route path="/privacy" element={<PrivacyPolicy />}></Route>
           <Route path="/aboutus" element={<Aboutus />}></Route>
+          <Route path="/contactus" element={<ContactUs/>}></Route>
           <Route path="/previous_orders" element={<Orders />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/addresses" element={<Address />} />

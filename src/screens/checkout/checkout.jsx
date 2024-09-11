@@ -33,7 +33,7 @@ import { UserContext } from "../../helpers/createContext";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { setState } = useContext(UserContext);
+  const { setState,state } = useContext(UserContext);
   const [selectedDate, setSelectedDate] = useState(null);
   const [loginVisible, setLoginVisible] = useState(false);
   const [cartItem, setCartItem] = useState([]);
@@ -124,7 +124,8 @@ const Checkout = () => {
     }
     handleSubTotal();
     setCartItem(getCart().filter((val) => val.quantity > 0));
-  }, []);
+  }, [state]);
+
 
   useEffect(() => {
     CustomerAddressService(getUserId())
@@ -154,7 +155,7 @@ const Checkout = () => {
       navigate('/')
     }
     setTotal(subTotal + discount + deliveryAmount);
-  }, [subTotal, discount, deliveryAmount]);
+  }, [subTotal, discount, deliveryAmount,state]);
 
   const handleAddress = (data) => {
     setSelectedAddress(data);
@@ -356,6 +357,7 @@ const Checkout = () => {
   const handleCart = () => {
     clearCart()
     setCartItem([])
+    setState(getCart().length)
     navigate('/')
   }
 
@@ -526,7 +528,7 @@ const Checkout = () => {
               </div>
               <Switch onChange={() => instantDelivery()} color="secondary" />
             </div>}
-            <hr />
+            {/* <hr /> */}
             <div className="paymentButton" >
               {/* <RazorpayButton/> */}
               {loader ? <CircularProgress color="inherit" size={25} /> : <Button variant="contained" color="success" onClick={saveOrder}>Continue to payment</Button>}
