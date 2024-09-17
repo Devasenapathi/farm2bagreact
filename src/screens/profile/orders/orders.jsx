@@ -11,9 +11,6 @@ const Orders = () => {
     orderListService(getUserId())
       .then((res) => {
         setOrdersList(res.data.result);
-        // if (res.statusCode === 200) {
-        //     console.log("hello world")
-        // }
       })
       .catch((err) => console.log(err));
   }, []);
@@ -24,7 +21,7 @@ const Orders = () => {
 
   return (
     <div className="orders">
-      {ordersList ? (
+      {ordersList.length>0 ? (
         ordersList.map((value, index) => (
           <div className="ordersList" key={value.orderId}>
             <div className="orderListSub">
@@ -51,11 +48,11 @@ const Orders = () => {
             </div>
           </div>
         ))
-      ) : (
+      ) : 
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
           <CircularProgress />
         </Box>
-      )}
+      }
     </div>
   );
 };

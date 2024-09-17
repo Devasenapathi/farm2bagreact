@@ -68,14 +68,14 @@ const Navbar = () => {
     const value = AddCart(data);
     if (value) {
       setCartData(getCart());
-      setState(getCart().length)
+      setState(getCart())
     }
   };
   const Remove = (data) => {
     const value = RemoveCart(data);
     if (value) {
       setCartData(getCart());
-      setState(getCart().length)
+      setState(getCart())
     }
   };
 
@@ -123,7 +123,7 @@ const Navbar = () => {
         <div className='navbar_searchbox'>
           <div className='newSearchbox'>
             <input type="text" name="search" id="search" placeholder='Search' onClick={(e) => e.stopPropagation()} value={productName} onChange={(e) => setProductName(e.target.value)} />
-            <button><IoSearchSharp /></button>
+            <button onClick={(e)=>e.stopPropagation()}><IoSearchSharp /></button>
           </div>
           {productName.length > 0 && (
             <div className="search-panel">
@@ -174,7 +174,7 @@ const Navbar = () => {
               <input type="text" name="search" id="search" placeholder='Search' onClick={(e) => e.stopPropagation()} value={productName} onChange={(e) => setProductName(e.target.value)} />
               <button><IoSearchSharp /></button>
             </div>
-            {productName && (
+            {productName.length>0 && (
               <div className="search-panel">
                 {farmItem && farmItem
                   .filter((item) =>

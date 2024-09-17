@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { farmsService } from '../../services/b2c_service';
 import './location.css';
 import { setLocationDetails } from '../../utils/storage';
@@ -9,58 +9,60 @@ const Location = ({ locations, handleClose }) => {
     const [selectedLocation, setSelectedLocation] = useState('');
     const [error, setError] = useState('');
 
+    // Fetch farms and location data on component mount
     useEffect(() => {
         fetchFarmsAndLocation();
     }, []);
 
+    // Fetch farm and location data asynchronously
     const fetchFarmsAndLocation = async () => {
         try {
             const res = await farmsService();
             if (res.status === 200) {
                 const hubList = res.data.result;
                 setLocation(hubList);
+
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         async (position) => {
-                            setError(null);
                             if (position.coords) {
                                 const locality = await fetchAddress(position.coords.latitude, position.coords.longitude);
-                                if (hubList && locality) {
+                                if (locality) {
                                     handleLocation(hubList, locality);
                                 }
                             }
                         },
                         (error) => {
-                            setError("User Device Denied For Location");
+                            setError('User denied location access.');
                         }
                     );
                 } else {
-                    setError('Location Service is not supported by this browser.');
+                    setError('Location services not supported by this browser.');
                 }
             } else {
-                console.log('Error on farms loading');
+                console.error('Error loading farms');
             }
         } catch (err) {
-            console.log(err, 'error on farms');
+            console.error('Error fetching farms:', err);
+            setError('Failed to load farm data.');
         }
     };
 
-
+    // Fetch address from Google Maps API using latitude and longitude
     const fetchAddress = async (latitude, longitude) => {
         try {
-            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyDrxIN5pCE5TTrjdLWMq7VlMCxsj8FGD6k`);
+            const response = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+            );
             const data = await response.json();
 
-            if (data.results && data.results.length > 0) {
-                const addressComponents = data.results[0].address_components;
-                for (const component of addressComponents) {
-                    if (component.types.includes('locality')) {
-                        return component.long_name;
-                    }
-                }
-                setError('Sorry We Cannot Fetch Your Location');
+            if (data.results.length > 0) {
+                const locality = data.results[0].address_components.find(component =>
+                    component.types.includes('locality')
+                );
+                return locality?.long_name || null;
             } else {
-                setError('Sorry We Cannot Fetch Your Location');
+                setError('Unable to retrieve location details.');
             }
         } catch (error) {
             setError('Error fetching address: ' + error.message);
@@ -68,48 +70,58 @@ const Location = ({ locations, handleClose }) => {
         return null;
     };
 
+    // Handle location logic when user position is available
     const handleLocation = (hubList, locality) => {
-        if (locality === 'Chennai') {
-            const locationDetails = hubList.find((val) => val.farmName === locality);
+        const locationDetails = hubList.find((val) => val.farmName === locality);
+
+        if (locationDetails) {
             setLocationDetails(locationDetails);
             setSelectedLocation(locality);
             locations(locationDetails);
             handleClose();
             setError(null);
         } else {
-            setError('Location Service is not Supported by This Device');
+            setError('Location not supported.');
         }
     };
 
-    useEffect(() => {
-        if (selectedLocation) {
-            setError('Thanks for providing your location');
-        }
-    }, [selectedLocation]);
-
+    // Handle location submit button click
     const handleSubmit = () => {
         if (selectedLocation) {
             const locationDetails = location.find((val) => val.farmName === selectedLocation);
-            setLocationDetails(locationDetails);
-            locations(locationDetails);
-            handleClose();
+            if (locationDetails) {
+                setLocationDetails(locationDetails);
+                locations(locationDetails);
+                handleClose();
+            }
         } else {
-            setError('Select your location');
+            setError('Please select a location.');
         }
     };
 
+    // Memoize location options to prevent unnecessary re-renders
+    const locationOptions = useMemo(() => (
+        location.map((val) => (
+            <option key={val._id} value={val.farmName}>{val.farmName}</option>
+        ))
+    ), [location]);
+
     return error ? (
-        <div className='location-overlay'>
-            <div className='location-content'>
+        <div className="location-overlay">
+            <div className="location-content">
                 <label>Location</label>
                 <p style={{ color: 'red' }}>{error}</p>
-                <select value={selectedLocation} className='location-select' onChange={(e) => setSelectedLocation(e.target.value)}>
-                    <option disabled value=''>Select your location</option>
-                    {location.map((val) => (
-                        <option key={val._id} value={val.farmName}>{val.farmName}</option>
-                    ))}
+                <select
+                    value={selectedLocation}
+                    className="location-select"
+                    onChange={(e) => setSelectedLocation(e.target.value)}
+                >
+                    <option disabled value="">Select your location</option>
+                    {locationOptions}
                 </select>
-                <Button variant='contained' color='success' onClick={handleSubmit}>Confirm</Button>
+                <Button variant="contained" color="success" onClick={handleSubmit}>
+                    Confirm
+                </Button>
             </div>
         </div>
     ) : null;

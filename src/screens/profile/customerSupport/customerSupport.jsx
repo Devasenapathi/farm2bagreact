@@ -5,12 +5,12 @@ const CustomerSupport = () => {
     <div className='customerSupport'>
       <div className='customerSupport1'>
         <div>
-            <h3>Email</h3>
+            <h4>Email</h4>
             <p>sen@shinelogics.com</p>
         </div>
         <hr />
         <div>
-            <h3>Mobile</h3>
+            <h4>Mobile</h4>
             <p>+91 9500037221</p>
         </div>
       </div>

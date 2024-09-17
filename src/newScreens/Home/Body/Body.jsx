@@ -26,7 +26,7 @@ const Body = () => {
   const [comboBag, setComboBag] = useState([]);
   const [cartData, setCartData] = useState();
   const scrollContainerRef = useRef(null);
-  const { setState } = useContext(UserContext);
+  const { state,setState } = useContext(UserContext);
   useEffect(() => {
     setCartData(getCart());
     categoryService()
@@ -49,13 +49,13 @@ const Body = () => {
     setComboBag(
       getProductList()?.filter((data) => data.productType === "ComboBag") || []
     )
-  }, []);
+  }, [state]);
 
   const Add = (data) => {
     const value = AddCart(data);
     if (value) {
       setCartData(getCart());
-      setState(getCart().length)
+      setState(getCart())
     } else {
       toast.error("Maximum quantity added to cart")
     }
@@ -64,7 +64,7 @@ const Body = () => {
     const value = RemoveCart(data);
     if (value) {
       setCartData(getCart());
-      setState(getCart().length)
+      setState(getCart())
     }
   };
   const handleRouting = (data) => {

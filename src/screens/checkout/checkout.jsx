@@ -42,7 +42,7 @@ const Checkout = () => {
   const [addressVisible, setAddressVisible] = useState(false);
   const [addVisible, setAddVisible] = useState(false);
   const [subTotal, setSubTotal] = useState();
-  const [deliveryAmount, setDeliveryAmount] = useState(30);
+  const [deliveryAmount, setDeliveryAmount] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState();
   const [error, setError] = useState();
@@ -166,7 +166,7 @@ const Checkout = () => {
     const value = AddCart(data);
     if (value) {
       setCartItem(getCart());
-      setState(getCart().length)
+      setState(getCart())
       handleSubTotal();
     }else{
       toast.error("Maximum quantity added to cart")
@@ -176,7 +176,7 @@ const Checkout = () => {
     const value = RemoveCart(data);
     if (value) {
       setCartItem(getCart());
-      setState(getCart().length)
+      setState(getCart())
       handleSubTotal();
     }
   };
@@ -186,7 +186,7 @@ const Checkout = () => {
     const indexValue = getCart().filter((item) => item._id !== data._id);
     setCart(indexValue)
     setCartItem(indexValue);
-    setState(getCart().length)
+    setState(getCart())
     handleSubTotal();
   }
 
@@ -262,7 +262,7 @@ const Checkout = () => {
         farmName: getLocationDetails().farmName,
         farmCircleId: getLocationDetails().farmCircleId,
         itemQuantity: getCart().length,
-        orderAmount: total,
+        orderAmount: subTotal,
         discountType: discount,
         deliveryAddress: address,
         deliveryAmount: deliveryAmount,
@@ -357,7 +357,7 @@ const Checkout = () => {
   const handleCart = () => {
     clearCart()
     setCartItem([])
-    setState(getCart().length)
+    setState(getCart())
     navigate('/')
   }
 

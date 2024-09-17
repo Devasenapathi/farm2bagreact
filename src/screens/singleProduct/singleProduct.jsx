@@ -59,7 +59,7 @@ const SingleProduct = () => {
     const value = AddCart(data);
     if (value) {
       setCartData(getCart());
-      setState(getCart().length)
+      setState(getCart())
     }else{
       toast.error("Maximum quantity added to cart")
     }
@@ -68,7 +68,7 @@ const SingleProduct = () => {
     const value = RemoveCart(data);
     if (value) {
       setCartData(getCart());
-      setState(getCart().length)
+      setState(getCart())
     }
   };
   
