@@ -14,7 +14,7 @@ import { AddCart, RemoveCart } from '../../../services/cart_service';
 import logo from "../../../assets/logo.png"
 import { UserContext } from '../../../helpers/createContext';
 
-const Navbar = () => {
+const Navbar = ({location}) => {
   const navigate = useNavigate()
   const [loginVisible, setLoginVisible] = useState(false);
   const [locationChanged, setLocationChanged] = useState()
@@ -54,7 +54,7 @@ const Navbar = () => {
       .catch((err) => {
         console.log(err, "error on seasnol product fetching");
       });
-  }, [state])
+  }, [state,location])
   useEffect(() => {
     const handleWindowClick = (event) => {
       setProductName('')

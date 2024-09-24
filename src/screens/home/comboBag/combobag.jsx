@@ -14,7 +14,7 @@ const Combobag = ({ location }) => {
   useEffect(() => {
     setCartData(getCart());
     setFarmItem(
-      getProductList()?.filter((data) => data.productType === "ComboBag") || []
+      getProductList()?.filter((data) => data && data.productType === "ComboBag") || []
     );
   }, [location]);
 

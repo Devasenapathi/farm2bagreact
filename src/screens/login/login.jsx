@@ -16,7 +16,7 @@ import { redirectToAppStore, redirectToPlayStore } from "../../helpers/appRedire
 import { Link } from "react-router-dom";
 
 
-const Login = ({ handleClose }) => {
+const Login = ({ handleClose,visible }) => {
   const [user, setUser] = useState({
     customerName: "",
     mobile: '',

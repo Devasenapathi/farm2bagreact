@@ -94,7 +94,7 @@ const SingleProduct = () => {
           </div>
           <div className="singleProduct-cart">
             <h2>{product.productName}</h2>
-            <p>{product.productTypeMasterId.productType}</p>
+            <p>{product.productTypeMasterId && product.productTypeMasterId.productType}</p>
             <h4>
               {product.unit} {product.unitValue} - ₹
               {product.price}
@@ -186,7 +186,7 @@ const SingleProduct = () => {
                             {val.productName}
                           </Typography>
                           <Typography variant="caption" color="green">
-                            {val.productTypeMasterId.productType}
+                            {val.productTypeMasterId && val.productTypeMasterId.productType}
                           </Typography>
                           <Typography variant="body2" color="textSecondary">
                             {val.unit} {val.unitValue} - ₹{val.price}

@@ -47,7 +47,7 @@ const Body = () => {
         : []
     )
     setComboBag(
-      getProductList()?.filter((data) => data.productType === "ComboBag") || []
+      getProductList()?.filter((data) => data && data.productType === "ComboBag") || []
     )
   }, [state]);
 
@@ -135,7 +135,7 @@ const Body = () => {
                   {val.productName}
                 </Typography>
                 <Typography variant="caption" color="green">
-                  {val.productTypeMasterId.productType}
+                  {val.productTypeMasterId && val.productTypeMasterId.productType}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {val.unit} {val.unitValue} - ₹{val.price}
@@ -231,7 +231,7 @@ const Body = () => {
                   {val.productName}
                 </Typography>
                 <Typography variant="caption" color="green">
-                  {val.productTypeMasterId.productType}
+                  {val.productTypeMasterId && val.productTypeMasterId.productType}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {val.unit} {val.unitValue} - ₹{val.price}
@@ -324,7 +324,7 @@ const Body = () => {
                   {val.productName}
                 </Typography>
                 <Typography variant="caption" color="green">
-                  {val.productTypeMasterId.productType}
+                  {val.productTypeMasterId && val.productTypeMasterId.productType}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {val.unit} {val.unitValue} - ₹{val.price}

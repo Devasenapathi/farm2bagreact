@@ -75,7 +75,7 @@ function App() {
         />
       )}
       <Router>
-      <Navbar/>
+      <Navbar location={location}/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/category" element={<Category />} />
