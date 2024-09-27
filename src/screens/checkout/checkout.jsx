@@ -285,7 +285,7 @@ const Checkout = () => {
         .then((res) => {
           if (res.status === 200) {
             var options = {
-              key: "rzp_test_LnkooSJxRNiT2n",
+              key: "rzp_test_fqYMKet7ATcDgh",
               amount: res.data.result.amount,
               currency: "INR",
               name: "Farm2bag",
