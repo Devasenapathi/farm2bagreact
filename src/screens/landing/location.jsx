@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { farmsService } from '../../services/b2c_service';
 import './location.css';
-import { getLocationDetails, setLocationDetails } from '../../utils/storage';
+import { getLocationDetails, setLocationDetails, setUserLocation } from '../../utils/storage';
 import { Button } from '@mui/material';
 
 const Location = ({ locations, handleClose }) => {
@@ -24,6 +24,7 @@ const Location = ({ locations, handleClose }) => {
                         async (position) => {
                             setError(null);
                             if (position.coords) {
+                                setUserLocation({latitude:position.coords.latitude,longitude:position.coords.longitude})
                                 const locality = await fetchAddress(position.coords.latitude, position.coords.longitude);
                                 if (hubList && locality) {
                                     handleLocation(hubList, locality);

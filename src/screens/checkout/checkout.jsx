@@ -5,6 +5,7 @@ import {
   getLocationDetails,
   getUserDetails,
   getUserId,
+  getUserLocation,
   setCart,
 } from "../../utils/storage";
 import { IoIosCloseCircleOutline, IoIosAddCircleOutline, IoMdArrowRoundBack } from "react-icons/io";
@@ -79,13 +80,11 @@ const Checkout = () => {
 
   useEffect(() => {
     setSelectedDate(new Date(new Date().setDate(new Date().getDate() + 1)))
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const origin = new window.google.maps.LatLng(12.9269658, 80.2221044);
-          const destination = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-          const service = new window.google.maps.DistanceMatrixService();
-          service.getDistanceMatrix(
+    const origin = new window.google.maps.LatLng(getLocationDetails().lattitude, getLocationDetails().longitude);
+    const destination = new window.google.maps.LatLng(getUserLocation().latitude, getUserLocation().longitude);
+    const service = new window.google.maps.DistanceMatrixService();
+
+           service.getDistanceMatrix(
             {
               origins: [origin],
               destinations: [destination],
@@ -96,6 +95,7 @@ const Checkout = () => {
                 const distanceInMeters = response.rows[0].elements[0].distance.value;
                 // Convert distance from meters to kilometers or miles as needed
                 const distanceInKm = distanceInMeters / 1000;
+
                 if (distanceInKm < 3) {
                   setDeliveryAmount(0)
                   var time = date.toLocaleTimeString();
@@ -115,13 +115,53 @@ const Checkout = () => {
                 }
                 // setDistance(distanceInKm);
               } else {
-                // Handle error
                 console.error('Error:', status);
               }
             }
           );
-        })
-    }
+
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(
+    //     (position) => {
+    //       const origin = new window.google.maps.LatLng(12.9269658, 80.2221044);
+    //       const destination = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    //       const service = new window.google.maps.DistanceMatrixService();
+    //       service.getDistanceMatrix(
+    //         {
+    //           origins: [origin],
+    //           destinations: [destination],
+    //           travelMode: 'DRIVING',
+    //         },
+    //         (response, status) => {
+    //           if (status === 'OK') {
+    //             const distanceInMeters = response.rows[0].elements[0].distance.value;
+    //             // Convert distance from meters to kilometers or miles as needed
+    //             const distanceInKm = distanceInMeters / 1000;
+    //             if (distanceInKm < 3) {
+    //               setDeliveryAmount(0)
+    //               var time = date.toLocaleTimeString();
+    //               if (time > '07:00:00' && time < '08:00:00') {
+    //                 setInstantVisible(true)
+    //               } else {
+    //                 setInstantVisible(false)
+    //               }
+    //             }else if(distanceInKm >3 && distanceInKm <5){
+    //               setDeliveryAmount(10)
+    //             }else if(distanceInKm>5 && distanceInKm <10){
+    //               setDeliveryAmount(20)
+    //             }else if(distanceInKm>10 && distanceInKm <20){
+    //               setDeliveryAmount(30)
+    //             }else{
+    //               setDeliveryAmount(45)
+    //             }
+    //             // setDistance(distanceInKm);
+    //           } else {
+    //             console.error('Error:', status);
+    //           }
+    //         }
+    //       );
+    //     })
+    // }
     handleSubTotal();
     setCartItem(getCart().filter((val) => val.quantity > 0));
   }, [state]);

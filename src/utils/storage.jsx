@@ -48,6 +48,15 @@ export function getCart() {
     return storedValue ? JSON.parse(storedValue) : []
 }
 
+export function setUserLocation(data){
+    localStorage.setItem('userLocation',JSON.stringify(data))
+}
+
+export function getUserLocation(){
+    const data = localStorage.getItem('userLocation')
+    return data ? JSON.parse(data):[]
+}
+
 export function clearCart() {
     localStorage.removeItem('cart')
 }
