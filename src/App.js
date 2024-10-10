@@ -22,7 +22,7 @@ import Location from "./screens/landing/location";
 import { useEffect, useState } from "react";
 import { farmItemService } from "./services/b2c_service";
 import { getLocationDetails, setProductList } from "./utils/storage";
-import { UserProvider } from "./helpers/createContext";
+import { ProductProvider, UserProvider } from "./helpers/createContext";
 import ContactUs from "./screens/contactUs/contactUs";
 
 function App() {
@@ -34,74 +34,76 @@ function App() {
     setLocation(value);
   };
 
-  useEffect(()=>{
-    if(getLocationDetails().length <=0){
+  useEffect(() => {
+    if (getLocationDetails().length <= 0) {
       setLocationVisible(true)
     }
-    if(location){
+    if (location) {
       const data = {
-        lat: location?location.lattitude : "",
-        lng: location?location.longitude : "",
-        pincode: location?location.pincode : "",
+        lat: location ? location.lattitude : "",
+        lng: location ? location.longitude : "",
+        pincode: location ? location.pincode : "",
       };
       farmItemService(data)
-    .then((res) => {
-      if (res.status === 200) {
-        setProductList(res.data.result);
-        if (locationChanged === true) {
-          setLocationChanged(false);
-        } else {
-          setLocationChanged(true);
-        }
-      } else {
-        console.log("Error on getting farmItem");
-      }
-    })
-    .catch((err) => {
-      console.log(err, "error on seasnol product fetching");
-    });
+        .then((res) => {
+          if (res.status === 200) {
+            setProductList(res.data.result);
+            if (locationChanged === true) {
+              setLocationChanged(false);
+            } else {
+              setLocationChanged(true);
+            }
+          } else {
+            console.log("Error on getting farmItem");
+          }
+        })
+        .catch((err) => {
+          console.log(err, "error on seasnol product fetching");
+        });
     }
-  },[location])
+  }, [location])
 
   return (
     <div className="App">
       <UserProvider>
-      {locationVisible && (
-        <Location
-          locations={updateLocation}
-          handleClose={() => {
-            setLocationVisible(false);
-          }}
-        />
-      )}
-      <Router>
-      <Navbar location={location}/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/category" element={<Category />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/billing" element={<Billing />}></Route>
-          <Route path="/product/:id" element={<SingleProduct />}></Route>
-          <Route path="/profile" element={<Profile />}>
-            <Route path="orders" element={<Orders />}></Route>
-            <Route path="wallet" element={<Wallet />}></Route>
-            <Route path="address" element={<Address />}></Route>
-            <Route path="profile" element={<ProfileDetails />}></Route>
-            <Route path="customer" element={<CustomerSupport />}></Route>
-          </Route>
-          <Route path="/orders" element={<LastOrders />}></Route>
-          <Route path="/terms" element={<Terms />}></Route>
-          <Route path="/privacy" element={<PrivacyPolicy />}></Route>
-          <Route path="/aboutus" element={<Aboutus />}></Route>
-          <Route path="/contactus" element={<ContactUs/>}></Route>
-          <Route path="/previous_orders" element={<Orders />} />
-          <Route path="/wallet" element={<Wallet />} />
-          <Route path="/addresses" element={<Address />} />
-          <Route path="/profileDetails" element={<ProfileDetails />}></Route>
-          <Route path="/customer" element={<CustomerSupport />}></Route>
-        </Routes>
-        {/* <FooterScreen/> */}
-      </Router>
+        <ProductProvider>
+          {locationVisible && (
+            <Location
+              locations={updateLocation}
+              handleClose={() => {
+                setLocationVisible(false);
+              }}
+            />
+          )}
+          <Router>
+            <Navbar location={location} />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/category" element={<Category />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/billing" element={<Billing />}></Route>
+              <Route path="/product/:id" element={<SingleProduct />}></Route>
+              <Route path="/profile" element={<Profile />}>
+                <Route path="orders" element={<Orders />}></Route>
+                <Route path="wallet" element={<Wallet />}></Route>
+                <Route path="address" element={<Address />}></Route>
+                <Route path="profile" element={<ProfileDetails />}></Route>
+                <Route path="customer" element={<CustomerSupport />}></Route>
+              </Route>
+              <Route path="/orders" element={<LastOrders />}></Route>
+              <Route path="/terms" element={<Terms />}></Route>
+              <Route path="/privacy" element={<PrivacyPolicy />}></Route>
+              <Route path="/aboutus" element={<Aboutus />}></Route>
+              <Route path="/contactus" element={<ContactUs />}></Route>
+              <Route path="/previous_orders" element={<Orders />} />
+              <Route path="/wallet" element={<Wallet />} />
+              <Route path="/addresses" element={<Address />} />
+              <Route path="/profileDetails" element={<ProfileDetails />}></Route>
+              <Route path="/customer" element={<CustomerSupport />}></Route>
+            </Routes>
+            {/* <FooterScreen/> */}
+          </Router>
+        </ProductProvider>
       </UserProvider>
     </div>
   );

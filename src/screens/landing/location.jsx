@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { farmsService } from '../../services/b2c_service';
+import React, { useContext, useEffect, useState } from 'react';
+import { farmItemService, farmsService } from '../../services/b2c_service';
 import './location.css';
-import { getLocationDetails, setLocationDetails, setUserLocation } from '../../utils/storage';
+import { getLocationDetails, setLocationDetails, setProductList, setUserLocation } from '../../utils/storage';
 import { Button } from '@mui/material';
+import { ProductContext } from '../../helpers/createContext';
 
-const Location = ({ locations, handleClose }) => {
+const Location = () => {
+    const { setProductLists } = useContext(ProductContext)
     const [location, setLocation] = useState([]);
+    const [locations, setLocations] = useState([])
     const [selectedLocation, setSelectedLocation] = useState('');
     const [error, setError] = useState('');
+    const [locationVisible, setLocationVisible] = useState(false);
+    const [locationChanged, setLocationChanged] = useState()
+
 
     useEffect(() => {
         fetchFarmsAndLocation();
@@ -24,7 +30,7 @@ const Location = ({ locations, handleClose }) => {
                         async (position) => {
                             setError(null);
                             if (position.coords) {
-                                setUserLocation({latitude:position.coords.latitude,longitude:position.coords.longitude})
+                                setUserLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude })
                                 const locality = await fetchAddress(position.coords.latitude, position.coords.longitude);
                                 if (hubList && locality) {
                                     handleLocation(hubList, locality);
@@ -33,10 +39,13 @@ const Location = ({ locations, handleClose }) => {
                         },
                         (error) => {
                             setError("User Device Denied For Location");
+                            setLocationVisible(true)
+
                         }
                     );
                 } else {
                     setError('Location Service is not supported by this browser.');
+                    setLocationVisible(true)
                 }
             } else {
                 console.log('Error on farms loading');
@@ -60,11 +69,17 @@ const Location = ({ locations, handleClose }) => {
                     }
                 }
                 setError('Sorry We Cannot Fetch Your Location');
+                setLocationVisible(true)
+
             } else {
                 setError('Sorry We Cannot Fetch Your Location');
+                setLocationVisible(true)
+
             }
         } catch (error) {
             setError('Error fetching address: ' + error.message);
+            setLocationVisible(true)
+
         }
         return null;
     };
@@ -74,11 +89,12 @@ const Location = ({ locations, handleClose }) => {
             const locationDetails = hubList.find((val) => val.farmName === locality);
             setLocationDetails(locationDetails);
             setSelectedLocation(locality);
-            locations(locationDetails);
-            handleClose();
+            setLocations(locationDetails);
+            setLocationVisible(false);
             setError(null);
         } else {
             setError('Location Service is not Supported by This Device');
+            setLocationVisible(true)
         }
     };
 
@@ -92,14 +108,43 @@ const Location = ({ locations, handleClose }) => {
         if (selectedLocation) {
             const locationDetails = location.find((val) => val.farmName === selectedLocation);
             setLocationDetails(locationDetails);
-            locations(locationDetails);
-            handleClose();
+            setLocations(locationDetails);
+            setLocationVisible(false);
         } else {
             setError('Select your location');
+            setLocationVisible(true)
+
         }
     };
 
-    return error ? (
+    useEffect(() => {
+        if (location) {
+            const data = {
+                lat: locations ? locations.lattitude : "",
+                lng: locations ? locations.longitude : "",
+                pincode: locations ? locations.pincode : "",
+            };
+            farmItemService(data)
+                .then((res) => {
+                    if (res.status === 200) {
+                        setProductList(res.data.result);
+                        setProductLists(res.data.result)
+                        if (locationChanged === true) {
+                            setLocationChanged(false);
+                        } else {
+                            setLocationChanged(true);
+                        }
+                    } else {
+                        console.log("Error on getting farmItem");
+                    }
+                })
+                .catch((err) => {
+                    console.log(err, "error on seasnol product fetching");
+                });
+        }
+    }, [locations])
+
+    return locationVisible ? (
         <div className='location-overlay'>
             <div className='location-content'>
                 <label>Location</label>
